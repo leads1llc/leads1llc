@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "common_anchor_sections",
+  "info": {
+    "singularName": "common-anchor-section",
+    "pluralName": "common-anchor-sections",
+    "displayName": "CommonAnchorSection",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "title": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "string"
+    },
+    "section": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "string"
+    },
+    "slug": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "string",
+      "required": true,
+      "unique": false
+    }
+  }
+}
