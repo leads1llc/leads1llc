@@ -1,9 +1,10 @@
-import { Text, View } from "react-native";
+import { ScrollView } from "react-native";
+import { NavBar } from "./components/NavBar";
 
 export function App() {
   return (
-    <View>
-      <Text>Leads1LLC</Text>
-    </View>
+    <ScrollView>
+      <NavBar />
+    </ScrollView>
   );
 }
