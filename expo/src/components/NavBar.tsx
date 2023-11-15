@@ -33,9 +33,9 @@ export function NavBar() {
     <View style={style.navBarParent}>
       <Pressable><Leads1LLCIcon width={60} height={60} /></Pressable>
       <View style={style.navBarItems}>
-        {pages.map((page) => {
+        {pages.map((page, index) => {
           return (
-            <Pressable>
+            <Pressable key={index}>
               <Text style={page.attributes.commonLink === "home" ? style.navBarActiveItem : style.navBarItem}>
                 {page.attributes.title}
               </Text>
