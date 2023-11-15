@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { StrapiAPIEndpointResponse } from "./NavBar";
 import { apiGet } from "../services/api";
 import { primaryColor, secondaryColor } from "../static/colors";
+import { useSelector } from "react-redux";
 
 
 export type CommonAnchorSectionType = {
@@ -11,10 +12,11 @@ export type CommonAnchorSectionType = {
 };
 
 export function TrainButton() {
+  const locale = useSelector((state) => state.settingsSliceReducer.locale);
   const [train, setTrain] = useState<StrapiAPIEndpointResponse<CommonAnchorSectionType>>();
   useEffect(() => {
     (async () => {
-      const train = await (await apiGet('/common-anchor-section/train-with-us', {locale:"es"})).json();
+      const train = await (await apiGet('/common-anchor-section/train-with-us', {locale: locale})).json();
       setTrain(train);
     })();
   }, []);

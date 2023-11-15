@@ -4,6 +4,7 @@ import { apiGet } from "../services/api";
 import Leads1LLCIcon from "../static/Leads1LLCIcon";
 import { TrainButton } from "./TrainButton";
 import { grayColor, primaryColor, secondaryColor } from "../static/colors";
+import { useSelector } from "react-redux";
 
 export type StrapiAPIDataResponse<T> = {
   attributes: T
@@ -20,10 +21,11 @@ export type PagesType = {
 };
 
 export function NavBar() {
+  const locale = useSelector((state) => state.settingsSliceReducer.locale);
   const [pages, setPages] = useState<Array<StrapiAPIDataResponse<PagesType>>>([]);
   useEffect(() => {
     (async () => {
-      const pages = await (await apiGet('/pages', {locale: "es"})).json();
+      const pages = await (await apiGet('/pages', { locale: locale })).json();
       setPages(pages.data ?? []);
     })();
   }, []);
@@ -40,7 +42,7 @@ export function NavBar() {
             </Pressable>
           );
         })}
-        <TrainButton/>
+        <TrainButton />
       </View>
     </View>
   );

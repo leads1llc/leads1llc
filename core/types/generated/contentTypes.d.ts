@@ -677,6 +677,65 @@ export interface PluginI18NLocale extends Schema.CollectionType {
   };
 }
 
+export interface ApiButtonButton extends Schema.CollectionType {
+  collectionName: 'buttons';
+  info: {
+    singularName: 'button';
+    pluralName: 'buttons';
+    displayName: 'Hyperlink';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    link: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    title: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    commonLink: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::button.button',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::button.button',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::button.button',
+      'oneToMany',
+      'api::button.button'
+    >;
+    locale: Attribute.String;
+  };
+}
+
 export interface ApiCommonAnchorSectionCommonAnchorSection
   extends Schema.CollectionType {
   collectionName: 'common_anchor_sections';
@@ -755,30 +814,23 @@ export interface ApiHeroSectionHeroSection extends Schema.CollectionType {
     };
   };
   attributes: {
-    Title: Attribute.String &
+    image: Attribute.Media &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
         };
       }>;
-    ButtonTitle: Attribute.String &
+    title: Attribute.RichText &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
         };
       }>;
-    ButtonLink: Attribute.String &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    Image: Attribute.Media &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
+    hyperlink: Attribute.Relation<
+      'api::hero-section.hero-section',
+      'oneToOne',
+      'api::button.button'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -826,16 +878,15 @@ export interface ApiPagePage extends Schema.CollectionType {
           localized: true;
         };
       }>;
-    link: Attribute.String &
+    hyperlink: Attribute.Relation<
+      'api::page.page',
+      'oneToOne',
+      'api::button.button'
+    >;
+    description: Attribute.String &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
-        };
-      }>;
-    commonLink: Attribute.String &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
         };
       }>;
     createdAt: Attribute.DateTime;
@@ -870,6 +921,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'plugin::i18n.locale': PluginI18NLocale;
+      'api::button.button': ApiButtonButton;
       'api::common-anchor-section.common-anchor-section': ApiCommonAnchorSectionCommonAnchorSection;
       'api::hero-section.hero-section': ApiHeroSectionHeroSection;
       'api::page.page': ApiPagePage;
