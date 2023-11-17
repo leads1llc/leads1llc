@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "trusted_bies",
+  "info": {
+    "singularName": "trusted-by",
+    "pluralName": "trusted-bies",
+    "displayName": "TrustedBy",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "companyName": {
+      "type": "string"
+    },
+    "companyLogo": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    }
+  }
+}

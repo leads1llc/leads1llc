@@ -916,6 +916,38 @@ export interface ApiPagePage extends Schema.CollectionType {
   };
 }
 
+export interface ApiTrustedByTrustedBy extends Schema.CollectionType {
+  collectionName: 'trusted_bies';
+  info: {
+    singularName: 'trusted-by';
+    pluralName: 'trusted-bies';
+    displayName: 'TrustedBy';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    companyName: Attribute.String;
+    companyLogo: Attribute.Media;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::trusted-by.trusted-by',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::trusted-by.trusted-by',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -936,6 +968,7 @@ declare module '@strapi/types' {
       'api::common-anchor-section.common-anchor-section': ApiCommonAnchorSectionCommonAnchorSection;
       'api::hero-section.hero-section': ApiHeroSectionHeroSection;
       'api::page.page': ApiPagePage;
+      'api::trusted-by.trusted-by': ApiTrustedByTrustedBy;
     }
   }
 }
