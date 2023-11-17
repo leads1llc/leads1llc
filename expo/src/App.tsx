@@ -3,6 +3,7 @@ import { NavBar } from "./components/NavBar";
 import { Provider } from "react-redux";
 import appStore from "./store";
 import { HeroSection } from "./components/HeroSection";
+import { TrustedBySection } from "./components/TrustedBySection";
 
 export function App() {
   return (
@@ -10,6 +11,7 @@ export function App() {
       <ScrollView>
         <NavBar />
         <HeroSection />
+        <TrustedBySection />
       </ScrollView>
     </Provider>
   );
