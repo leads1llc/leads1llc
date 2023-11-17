@@ -26,6 +26,7 @@ export function NavBar() {
   useEffect(() => {
     (async () => {
       const pages = await (await apiGet('/pages', { locale: locale })).json();
+      console.log(pages.data);
       setPages(pages.data ?? []);
     })();
   }, []);
@@ -36,7 +37,7 @@ export function NavBar() {
         {pages.map((page, index) => {
           return (
             <Pressable key={index}>
-              <Text style={page.attributes.commonLink === "home" ? style.navBarActiveItem : style.navBarItem}>
+              <Text style={page.attributes.commonLink === "/home" ? style.navBarActiveItem : style.navBarItem}>
                 {page.attributes.title}
               </Text>
             </Pressable>
@@ -57,7 +58,7 @@ const style = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 50,
     backgroundColor: secondaryColor,
-    borderBottomWidth: 5,
+    borderBottomWidth: 1,
     borderBottomColor: primaryColor
   },
   navBarIcon: {},
