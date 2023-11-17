@@ -44,6 +44,11 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::button.button"
+    },
+    "buttonLink": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::button.button"
     }
   }
 }

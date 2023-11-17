@@ -831,6 +831,11 @@ export interface ApiHeroSectionHeroSection extends Schema.CollectionType {
       'oneToOne',
       'api::button.button'
     >;
+    buttonLink: Attribute.Relation<
+      'api::hero-section.hero-section',
+      'oneToOne',
+      'api::button.button'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -887,6 +892,12 @@ export interface ApiPagePage extends Schema.CollectionType {
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
+        };
+      }>;
+    commonLink: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
         };
       }>;
     createdAt: Attribute.DateTime;
