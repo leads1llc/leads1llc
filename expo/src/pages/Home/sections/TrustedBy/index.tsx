@@ -34,7 +34,6 @@ export function TrustedBySection() {
       <View style={{ flex: 1 }}></View>
       <View style={{ flex: 1, flexDirection: "row", justifyContent: "flex-end", gap: 20 }}>
         {trustedBies && trustedBies.map((trustedBy) => {
-          console.log(trustedBy);
           return <Image style={{ width: 80, height: 40, resizeMode: "contain" }} source={{ uri: apiResource(trustedBy.attributes.companyLogo.data.attributes.url) }} />
         })}
       </View>

@@ -26,7 +26,6 @@ export function NavBar() {
   useEffect(() => {
     (async () => {
       const pages = await (await apiGet('/pages', { locale: locale })).json();
-      console.log(pages.data);
       setPages(pages.data ?? []);
     })();
   }, []);

@@ -17,13 +17,11 @@ export function HeroSection() {
   useEffect(() => {
     (async () => {
       const sections = await (await apiGet('/hero-sections', { locale: locale, populate: '*' })).json();
-      console.log(sections.data[0].attributes);
       setSection(sections.data[0] ?? []);
     })();
   }, []);
 
   const headerWordsTitle = section?.attributes.title.split(' ')!;
-  console.log(headerWordsTitle);
 
 
   return (
