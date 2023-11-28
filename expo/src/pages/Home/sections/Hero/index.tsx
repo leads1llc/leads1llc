@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Image, Pressable, Text, View } from "react-native";
-import { StrapiAPIDataResponse } from "./NavBar";
-import { apiGet, apiResource } from "../services/api";
 import { useSelector } from "react-redux";
-import { grayColor, primaryColor, secondaryColor } from "../static/colors";
+import { grayColor, primaryColor, secondaryColor } from "../../../../static/colors";
+import { Image, Pressable, Text, View } from "react-native";
+import { apiGet, apiResource } from "../../../../services/api";
+import { StrapiAPIDataResponse } from "../../../../components/NavBar";
 
 export type HeroSectionType = {
   title: string;

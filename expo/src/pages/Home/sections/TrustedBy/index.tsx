@@ -1,9 +1,9 @@
+import { useSelector } from "react-redux";
+import { StrapiAPIDataResponse } from "../../../../components/NavBar";
 import { useEffect, useState } from "react";
 import { Image, Text, View } from "react-native";
-import { apiGet, apiResource } from "../services/api";
-import { useSelector } from "react-redux";
-import { StrapiAPIDataResponse } from "./NavBar";
-import { secondaryColor } from "../static/colors";
+import { secondaryColor } from "../../../../static/colors";
+import { apiGet, apiResource } from "../../../../services/api";
 
 export type TrustedBySectionType = {
   companyName: string;
@@ -27,7 +27,7 @@ export function TrustedBySection() {
 
 
   return (
-    <View style={{ flex: 1, minHeight: 80, justifyContent: "space-between", alignItems: "center", flexDirection: "row", paddingHorizontal: 80, borderBottomColor: secondaryColor, borderBottomWidth: 1}}>
+    <View style={{ flex: 1, minHeight: 80, justifyContent: "space-between", alignItems: "center", flexDirection: "row", paddingHorizontal: 80, borderBottomColor: secondaryColor, borderBottomWidth: 1 }}>
       <View style={{ flex: 1 }}>
         <Text>Trusted by our clients and partners</Text>
       </View>
@@ -40,4 +40,5 @@ export function TrustedBySection() {
       </View>
     </View>
   );
+
 }
