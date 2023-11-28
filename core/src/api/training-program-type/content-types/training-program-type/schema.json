@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "training_program_types",
+  "info": {
+    "singularName": "training-program-type",
+    "pluralName": "training-program-types",
+    "displayName": "TrainingProgramType"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "title": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "string"
+    },
+    "description": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "string"
+    }
+  }
+}

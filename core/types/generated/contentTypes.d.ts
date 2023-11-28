@@ -916,6 +916,124 @@ export interface ApiPagePage extends Schema.CollectionType {
   };
 }
 
+export interface ApiTrainingProgramTrainingProgram
+  extends Schema.CollectionType {
+  collectionName: 'training_programs';
+  info: {
+    singularName: 'training-program';
+    pluralName: 'training-programs';
+    displayName: 'TrainingProgram';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    title: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    description: Attribute.Text &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    cover: Attribute.Media &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    type: Attribute.Relation<
+      'api::training-program.training-program',
+      'oneToOne',
+      'api::training-program-type.training-program-type'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::training-program.training-program',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::training-program.training-program',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::training-program.training-program',
+      'oneToMany',
+      'api::training-program.training-program'
+    >;
+    locale: Attribute.String;
+  };
+}
+
+export interface ApiTrainingProgramTypeTrainingProgramType
+  extends Schema.CollectionType {
+  collectionName: 'training_program_types';
+  info: {
+    singularName: 'training-program-type';
+    pluralName: 'training-program-types';
+    displayName: 'TrainingProgramType';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    title: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    description: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::training-program-type.training-program-type',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::training-program-type.training-program-type',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::training-program-type.training-program-type',
+      'oneToMany',
+      'api::training-program-type.training-program-type'
+    >;
+    locale: Attribute.String;
+  };
+}
+
 export interface ApiTrustedByTrustedBy extends Schema.CollectionType {
   collectionName: 'trusted_bies';
   info: {
@@ -968,6 +1086,8 @@ declare module '@strapi/types' {
       'api::common-anchor-section.common-anchor-section': ApiCommonAnchorSectionCommonAnchorSection;
       'api::hero-section.hero-section': ApiHeroSectionHeroSection;
       'api::page.page': ApiPagePage;
+      'api::training-program.training-program': ApiTrainingProgramTrainingProgram;
+      'api::training-program-type.training-program-type': ApiTrainingProgramTypeTrainingProgramType;
       'api::trusted-by.trusted-by': ApiTrustedByTrustedBy;
     }
   }
