@@ -27,9 +27,10 @@ export function HeroSection() {
   return (
     <View style={{ flex: 1, backgroundColor: secondaryColor, flexDirection: "row", minHeight: 600 }}>
 
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center", borderRightWidth: 1, borderColor: primaryColor }}>
-        <View style={{ width: 380, paddingVertical: 50, paddingHorizontal: 20, gap: 50 }}>
-          <View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap", columnGap: 20 }}>
+      <View style={{ width: 80 }}></View>
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "flex-start", borderRightWidth: 1, borderColor: primaryColor }}>
+        <View style={{ flex: 1, maxWidth: 380, gap: 50, alignItems: "flex-start", justifyContent: "center" }}>
+          <View style={{ flexDirection: "row", flexWrap: "wrap", columnGap: 10 }}>
             {
               headerWordsTitle && headerWordsTitle.map((headerWordTitle) => {
                 if (headerWordTitle.startsWith("**")) {
@@ -40,8 +41,9 @@ export function HeroSection() {
             }
           </View>
 
-          <Pressable>
-            <Text style={{ color: primaryColor, borderWidth: 1, borderColor: primaryColor, fontSize: 12, padding: 20, position: "absolute" }}>
+          <Pressable
+            style={{ padding: 10, borderColor: primaryColor, borderWidth: 1, justifyContent: "center", alignItems: "center" }}>
+            <Text style={{ color: primaryColor, fontSize: 12 }}>
               {section?.attributes.buttonLink.data.attributes.title}
             </Text>
           </Pressable>
