@@ -75,15 +75,18 @@ export function TrainingProgramSection() {
 
   return (
     <View style={{ flex: 1, paddingHorizontal: 80, paddingVertical: 50, gap: 100 }}>
-      {Object.values(trainingPrograms).map((programType) => {
+      {Object.values(trainingPrograms).map((programType, index) => {
+        const isEven = (index / 2) === 0;
         return (
           <View style={{ flex: 1, gap: 50 }}>
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, alignItems: isEven ? "flex-start" : "flex-end" }}>
               <Text style={{ fontSize: 48, fontWeight: "bold" }}>{programType.title}</Text>
               <Text style={{ fontSize: 14, fontWeight: "300" }}>{programType.description}</Text>
             </View>
 
-            {programType.programs && <TrainingProgramItems programs={programType.programs} />}
+            <View style={{ flex: 1, flexDirection: isEven ? "row" : "row-reverse", gap: 10 }}>
+              {programType.programs && <TrainingProgramItems programs={programType.programs} />}
+            </View >
           </View>
         );
       })}

@@ -11,42 +11,42 @@ export type TrainingProgramItemProps = {
 export function TrainingProgramItems({ programs }: TrainingProgramItemProps) {
   const [indexSelected, setIndexSeleted] = useState<number>(0);
 
+  if (!programs) {
+    // TODO: Add error component
+    <>Error...</>
+  }
+
   return (
-    <View style={{ flex: 1, flexDirection: "row", gap: 10 }}>
-      {
-        programs &&
-        <>
-          <View style={{ flex: 1 }}>
-            {programs?.length > indexSelected &&
+    <>
+      <View style={{ flex: 1 }}>
+        {programs?.length > indexSelected &&
 
-              <Image style={{ width: "100%", height: "100%" }} source={{ uri: apiResource(programs[indexSelected].attributes.cover.data.attributes.url) }} />
-            }
-          </View>
+          <Image style={{ width: "100%", height: "100%" }} source={{ uri: apiResource(programs[indexSelected].attributes.cover.data.attributes.url) }} />
+        }
+      </View>
 
-          <View style={{ flex: 1 }}>
-            {programs.map((program, index) => {
-              const isSelected = indexSelected === index;
+      <View style={{ flex: 1 }}>
+        {programs.map((program, index) => {
+          const isSelected = indexSelected === index;
 
-              return (
-                <Pressable style={{ padding: 20, borderWidth: 1, gap: 20, backgroundColor: isSelected ? primaryColor : "none" }}
-                  onPress={() => {
-                    setIndexSeleted(index);
-                  }}
-                >
-                  <Text style={{ fontSize: 24, fontWeight: "bold" }}>{program.attributes.title}</Text>
-                  {
-                    isSelected ?
-                      <Text>{program.attributes.description}</Text>
-                      :
-                      <Text>See more</Text>
-                  }
-                </Pressable>
-              );
-            })}
-          </View>
+          return (
+            <Pressable style={{ padding: 20, borderWidth: 1, gap: 20, backgroundColor: isSelected ? primaryColor : "none" }}
+              onPress={() => {
+                setIndexSeleted(index);
+              }}
+            >
+              <Text style={{ fontSize: 24, fontWeight: "bold" }}>{program.attributes.title}</Text>
+              {
+                isSelected ?
+                  <Text>{program.attributes.description}</Text>
+                  :
+                  <Text>See more</Text>
+              }
+            </Pressable>
+          );
+        })}
+      </View>
 
-        </>
-      }
-    </View >
+    </>
   )
 }
