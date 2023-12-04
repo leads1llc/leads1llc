@@ -27,24 +27,32 @@ export function TrainingProgram() {
     })();
   }, []);
 
-  console.log(trainingPrograms);
-
   return (
     <View style={{ flex: 1, flexDirection: "row", gap: 10 }}>
       {
         trainingPrograms &&
         <>
-          {trainingPrograms?.length > indexSelected &&
+          <View style={{ flex: 1 }}>
+            {trainingPrograms?.length > indexSelected &&
 
-            <Image style={{ width: 600, height: 350 }} source={{ uri: apiResource(trainingPrograms[indexSelected].attributes.cover.data.attributes.url) }} />
-          }
+              <Image style={{ width: "100%", height: "100%" }} source={{ uri: apiResource(trainingPrograms[indexSelected].attributes.cover.data.attributes.url) }} />
+            }
+          </View>
 
-          <View style={{flex: 1}}>
-            {trainingPrograms.map((trainingProgram) => {
+          <View style={{ flex: 1 }}>
+            {trainingPrograms.map((trainingProgram, index) => {
               return (
-                <Pressable style={{ flex: 1, padding: 20, borderWidth: 1, gap: 20 }}>
+                <Pressable style={{ padding: 20, borderWidth: 1, gap: 20 }}
+                  onPress={() => {
+                    setIndexSeleted(index);
+                  }}
+                >
                   <Text style={{ fontSize: 24, fontWeight: "bold" }}>{trainingProgram.attributes.title}</Text>
-                  <Text>{trainingProgram.attributes.description}</Text>
+                  {
+                    indexSelected === index &&
+                    <Text>{trainingProgram.attributes.description}</Text>
+                  }
+                  <Text style={{ fontSize: 18, fontWeight: "bold" }}>See more</Text>
                 </Pressable>
               );
             })}

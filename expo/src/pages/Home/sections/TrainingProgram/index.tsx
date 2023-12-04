@@ -31,10 +31,10 @@ export function TrainingProgramSection() {
     <View style={{ flex: 1, paddingHorizontal: 80, paddingVertical: 50, gap: 50 }}>
       {trainingPrograms && trainingPrograms.map((trainingProgram) => {
         return (
-          <View style={{flex: 1, gap: 50}}>
+          <View style={{ flex: 1, gap: 50 }}>
             <View>
-            <Text style={{ fontSize: 48, fontWeight: "bold" }}>{trainingProgram.attributes.title}</Text>
-            <Text style={{ fontSize: 14, fontWeight: "300" }}>{trainingProgram.attributes.description}</Text>
+              <Text style={{ fontSize: 48, fontWeight: "bold" }}>{trainingProgram.attributes.title}</Text>
+              <Text style={{ fontSize: 14, fontWeight: "300" }}>{trainingProgram.attributes.description}</Text>
             </View>
             <TrainingProgram />
           </View>
