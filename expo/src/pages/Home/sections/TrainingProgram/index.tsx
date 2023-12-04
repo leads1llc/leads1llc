@@ -76,7 +76,7 @@ export function TrainingProgramSection() {
   return (
     <View style={{ flex: 1, paddingHorizontal: 80, paddingVertical: 50, gap: 100 }}>
       {Object.values(trainingPrograms).map((programType, index) => {
-        const isEven = (index / 2) === 0;
+        const isEven = (index % 2) === 0;
         return (
           <View style={{ flex: 1, gap: 50 }}>
             <View style={{ flex: 1, alignItems: isEven ? "flex-start" : "flex-end" }}>
