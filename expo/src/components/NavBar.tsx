@@ -11,7 +11,7 @@ export type StrapiAPIDataResponse<T> = {
 };
 
 export type StrapiAPIEndpointResponse<T> = {
-  data: StrapiAPIDataResponse<T>
+  data: T
 };
 
 export type PagesType = {
