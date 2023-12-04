@@ -988,6 +988,7 @@ export interface ApiTrainingProgramTypeTrainingProgramType
     singularName: 'training-program-type';
     pluralName: 'training-program-types';
     displayName: 'TrainingProgramType';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -1008,6 +1009,12 @@ export interface ApiTrainingProgramTypeTrainingProgramType
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
+        };
+      }>;
+    slug: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
         };
       }>;
     createdAt: Attribute.DateTime;
