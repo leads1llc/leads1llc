@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+  nginx:
+    image: "nginx"
+    ports:
+      - "1338:80"
+    volumes:
+      - ./expo/web-build:/usr/share/nginx/html
+  core:
+    build: .
+    ports:
+      - "1337:1337"
+    volumes:
+      - ./:/app
+    env_file:
+      - .env
