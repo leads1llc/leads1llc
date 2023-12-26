@@ -1,6 +1,19 @@
+# Exclude css files
+*.css
+
+# global
 node_modules
 
+# remix
 /.cache
 /build
 /public/build
 .env
+
+# sass
+.sass-cache/
+*.css.map
+*.sass.map
+*.scss.map
+
+
