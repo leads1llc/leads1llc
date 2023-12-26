@@ -1,5 +1,5 @@
 {
-  "name": "leads1llc",
+  "name": "@leads1llc/remix",
   "private": true,
   "sideEffects": false,
   "type": "module",
