@@ -9,6 +9,7 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 import { Nav } from "./layout/Nav";
+import { Body } from "./layout/Body";
 
 export const links: LinksFunction = () => [
   ...(rootStylesHref ? [{ rel: "stylesheet", href: rootStylesHref }] : []),
@@ -25,7 +26,9 @@ export default function App() {
       </head>
       <body>
         <Nav />
-        <Outlet />
+        <Body>
+          <Outlet />
+        </Body>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />

@@ -1,1 +1,12 @@
+// local modules
+@import 'layout/Nav/index';
+@import 'layout/Body/index';
+
+// global imports
 @import 'normalize.css/normalize.css';
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@100;400;900&display=swap');
+
+// global styles
+* {
+  font-family: 'Archivo', sans-serif;
+}
