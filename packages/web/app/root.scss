@@ -1,6 +1,6 @@
 // local modules
-@import 'layout/Nav/index';
-@import 'layout/Body/index';
+@import 'routes/$lang/components/Nav/index';
+@import 'routes/$lang/components/Body/index';
 
 // global imports
 @import 'normalize.css/normalize.css';
