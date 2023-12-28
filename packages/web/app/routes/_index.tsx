@@ -7,7 +7,7 @@ export const loader = ({ }: LoaderFunctionArgs) => {
   const  lang = 'en';
   const supportedLanguages = ['en', 'es'];
   if(supportedLanguages.includes(lang)){
-    return redirect(`${lang}`);
+    return redirect(`${lang}/home`);
   }
 
   return redirect('/404');
