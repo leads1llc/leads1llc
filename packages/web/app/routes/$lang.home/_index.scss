@@ -64,5 +64,39 @@
       height: 100%;
     }
   }
+}
 
+.trusted-by {
+  display: flex;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  justify-content: space-between;
+  align-items: center;
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+
+    li a img {
+      width: 100px;
+    }
+
+   li a img:hover {
+      width: 120px;
+    }
+
+
+  }
+
+  @include adapt(phone){
+    flex-direction: column;
+    gap: 20px;
+
+    ul {
+      justify-content: center;
+    }
+
+  }
 }
