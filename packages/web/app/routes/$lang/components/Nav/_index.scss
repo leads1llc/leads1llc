@@ -1,30 +1,121 @@
 @use '../../../../styles/variables' as *;
-.layout-nav {
-  background: $dark-color-500;
+
+$nav-size: 110px;
+$nav-border: 2px;
+$menu-icon-height: 5px;
+$menu-icon-width: 30px;
+
+.nav {
+  //shared styles
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 110px;
+  height: $nav-size;
   padding: 0 20px;
+  z-index: -1;
+  border-bottom: solid $nav-border $primary-color-300;
+
+  .menu-icon:hover{
+    cursor: pointer;
+  }
+
+  .menu-icon {
+    display: none;
+    position: absolute;
+    right: 20px;
+    color: red;
+    background: $primary-color-300;
+    height: $menu-icon-height * 5;
+    width: $menu-icon-width;
+  }
+
+  .menu-icon:before {
+    position: absolute;
+    top: $menu-icon-height;
+    height: $menu-icon-height;
+    width: $menu-icon-width;
+    background: $primary-color-300;
+    border-top: solid $menu-icon-height $dark-color-500;
+    content: "";
+  }
+
+  .menu-icon:after {
+    position: absolute;
+    bottom: $menu-icon-height;
+    border-bottom: solid $menu-icon-height $dark-color-500;
+    height: $menu-icon-height;
+    width: $menu-icon-width;
+    background: $primary-color-300;
+    content: "";
+  }
+
+  .checkbox {
+    display: none;
+  }
+
 
   ul {
     display: flex;
-    gap: 20px;
-    li {
-      a {
-        color: #BDBDBD;
-        text-decoration: none;
-        font-weight: 100;
-      } 
-
-      .active {
-        color: $primary-color-500;
-        font-weight: 900;
-      }
-
-      a:hover {
-        color: $primary-color-500;
-      }
-    }
   }
-}
+
+  ul li select {
+    padding: 10px;
+  }
+
+  ul li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #BDBDBD;
+      text-decoration: none;
+      font-weight: 100;
+      padding: 10px 10px;
+    } 
+
+    .active {
+      color: $primary-color-500;
+      font-weight: 900;
+    }
+
+    a:hover {
+      color: $primary-color-500;
+    }
+
+  }
+
+  background: $dark-color-500;
+
+  @include adapt(phone){
+    .menu-icon {
+      display: block;
+    }
+    ul {
+      width: 100%;
+      //height: calc(100% - $nav-size);
+      overflow: hidden;
+      height: 0px;
+      flex-direction: column;
+      position: absolute;
+      top: $nav-size + $nav-border;
+      left: 0;
+      background: $dark-color-500;
+      transition: all 0.1s 0.1s ease-out;
+    }
+
+    .checkbox:checked ~ ul {
+      height: calc(100% - $nav-size - $nav-border - 1px); 
+    }
+
+  }
+
+  @include adapt(tablet){}
+  @include adapt(tablet-landscape){}
+  @include adapt(desktop){}
+  @include adapt(tv){}
+
+} 
+

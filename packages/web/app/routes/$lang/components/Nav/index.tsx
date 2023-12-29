@@ -41,8 +41,10 @@ export function Nav() {
   ];
 
   return (
-    <nav className="layout-nav">
+    <nav className="nav">
       <Leads1LLCLogoMark size={70} foregroundColor="#BDBDBD" backgroundColor="#1F1F1F" />
+      <input className="checkbox" type="checkbox" id="menu-trigger"/>
+      <label className="menu-icon" htmlFor="menu-trigger"/>
       <ul>
         {links.map((link, index) => {
           const linkTo = `/${lang}${link.to}`;
@@ -50,6 +52,7 @@ export function Nav() {
             <NavLink key={index} to={linkTo}>{link.title}</NavLink>
           </li>);
         })}
+
 
         <li>
           <select name="page-language" id="">
