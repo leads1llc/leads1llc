@@ -8,9 +8,10 @@
 @import 'routes/$lang/components/Nav/index';
 @import 'routes/$lang/components/Body/index';
 @import 'routes/$lang/components/Footer/index';
+@import 'routes/$lang.home/index';
 
 
 // global styles
 * {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Archivo', sans-serif !important;
 }
