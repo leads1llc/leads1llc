@@ -9,7 +9,7 @@
     flex-direction: column;
     padding: 20px;
     align-items: flex-start;
-    justify-content: space-between;
+    justify-content: center;
 
     h1 {
       font-size: 2rem;
@@ -47,20 +47,28 @@
   
   @include adapt(phone){
     flex-direction: column-reverse;
+    .hero-headline {
+      gap: 20px;
+    }
+    .hero-image {
+      border-left: solid 2px $primary-color-300;
+    }
   }
 
   @include adapt(tablet){
     .hero-headline {
-      padding: 10vw;
+      flex: 1;
+      padding: 0 5vw;
+      gap: 20px;
     }
   
     .hero-image {
       height: 550px;
+      flex: 2;
     }
 
     .hero-image img {
       object-fit: cover;
-      width: 60vw;
       height: 100%;
     }
   }
