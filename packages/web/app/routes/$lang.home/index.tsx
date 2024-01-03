@@ -1,6 +1,7 @@
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import { useState } from "react";
+import { Progams } from "./components/Programs";
 
 export const loader = ({ }: LoaderFunctionArgs) => {
   return {
@@ -80,7 +81,6 @@ export const loader = ({ }: LoaderFunctionArgs) => {
 export default function Route() {
   const { hero, trustedBy, trainingPrograms } = useLoaderData<typeof loader>();
 
-  const [programIdSelected, setProgramIdSelected] = useState<number>(1);
 
   return (
     <>
@@ -116,34 +116,18 @@ export default function Route() {
         <ul className="categories">
           {trainingPrograms.categories.map((category, index) => {
             const isOdd = index % 2 !== 0;
+            console.log(category.programs);
             return <li className="category"  >
               <div
-                style={{textAlign: isOdd ? "right" : "left" }}
+                style={{ textAlign: isOdd ? "right" : "left" }}
               >
                 <h3>{category.title}</h3>
                 <p>{category.description}</p>
-              </div>
+              </div> 
 
-              <div className="programs"
-                style={{flexDirection: isOdd ? "row-reverse": "row"}}
-              >
-                <img src={trainingPrograms.categories[0].programs[0].image.url} />
-                <ul>
-                  {category.programs.map((program) => {
-                    const isActive = programIdSelected === program.id;
 
-                    return <div className={`program ${isActive ? 'active' : ''}`} onClick={() => {
-                      setProgramIdSelected(program.id);
-                    }}>
-                      <h4>{program.title}</h4>
-                      {isActive ? <li>
-                        <p>{program.description}</p>
-                        <Link to="/home"><span>See more</span></Link>
-                      </li> : <></>}
-                    </div>
-                  })}
-                </ul>
-              </div>
+              <Progams programs={category.programs} isOdd={isOdd} />
+
             </li>;
           })}
         </ul>
