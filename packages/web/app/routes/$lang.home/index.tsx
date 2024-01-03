@@ -1,5 +1,6 @@
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
+import { useState } from "react";
 
 export const loader = ({ }: LoaderFunctionArgs) => {
   return {
@@ -16,15 +17,70 @@ export const loader = ({ }: LoaderFunctionArgs) => {
     trustedBy: {
       title: "Trusted by our clients and partners",
       companies: [
-        { title: "Armada de Colombia", site: "https://www.armada.mil.co/",logo: { url: "https://www.reservanavalcolombia.co/wp-content/uploads/2023/02/escudo-horizontal.png" } },
+        { title: "Armada de Colombia", site: "https://www.armada.mil.co/", logo: { url: "https://www.reservanavalcolombia.co/wp-content/uploads/2023/02/escudo-horizontal.png" } },
       ]
 
+    },
+    trainingPrograms: {
+      title: "Training Programs",
+      description: "You should choose one of the following",
+      categories: [
+        {
+          title: "Training for Managerial Staff Teams",
+          description: "Strengthen the skills, abilities, and attitudes of your organization's managers and staff members with the aim of enhancing business performance and profitability.",
+          programs: [
+            {
+              id: 1,
+              title: "Staff Functions Training for Decision Making",
+              image: {
+                url: "https://df6f8e1b9b.clvaw-cdnwnd.com/c733a0c8b7e4b610c4296892ad379276/200000084-c2850c2851/WhatsApp%20Image%202022-05-17%20at%209.36.53%20PM.webp?ph=df6f8e1b9b"
+              },
+              description: "Identify the key functions and responsibilities of your Staff, using the methodology of the planning process and contributing to effective decision-making and the conduct of successful operations.",
+            },
+            { id: 2, title: "Risk Management Training", image: { url: "" }, description: "" },
+          ]
+        },
+        {
+          title: "Training for Managerial Staff Teams",
+          description: "Strengthen the skills, abilities, and attitudes of your organization's managers and staff members with the aim of enhancing business performance and profitability.",
+          programs: [
+            {
+              id: 1,
+              title: "Staff Functions Training for Decision Making",
+              image: {
+                url: "https://df6f8e1b9b.clvaw-cdnwnd.com/c733a0c8b7e4b610c4296892ad379276/200000084-c2850c2851/WhatsApp%20Image%202022-05-17%20at%209.36.53%20PM.webp?ph=df6f8e1b9b"
+              },
+              description: "Identify the key functions and responsibilities of your Staff, using the methodology of the planning process and contributing to effective decision-making and the conduct of successful operations.",
+            },
+            { id: 2, title: "Risk Management Training", image: { url: "" }, description: "" },
+          ]
+        },
+        {
+          title: "Training for Managerial Staff Teams",
+          description: "Strengthen the skills, abilities, and attitudes of your organization's managers and staff members with the aim of enhancing business performance and profitability.",
+          programs: [
+            {
+              id: 1,
+              title: "Staff Functions Training for Decision Making",
+              image: {
+                url: "https://df6f8e1b9b.clvaw-cdnwnd.com/c733a0c8b7e4b610c4296892ad379276/200000084-c2850c2851/WhatsApp%20Image%202022-05-17%20at%209.36.53%20PM.webp?ph=df6f8e1b9b"
+              },
+              description: "Identify the key functions and responsibilities of your Staff, using the methodology of the planning process and contributing to effective decision-making and the conduct of successful operations.",
+            },
+            { id: 2, title: "Risk Management Training", image: { url: "" }, description: "" },
+          ]
+        }
+
+
+      ],
     }
   };
 };
 
 export default function Route() {
-  const { hero, trustedBy } = useLoaderData<typeof loader>();
+  const { hero, trustedBy, trainingPrograms } = useLoaderData<typeof loader>();
+
+  const [programIdSelected, setProgramIdSelected] = useState<number>(1);
 
   return (
     <>
@@ -44,9 +100,51 @@ export default function Route() {
           {trustedBy.companies.map((company) => {
             return (
               <li><Link to={company.site} target="_blank">
-                <img src={company.logo.url}/>
+                <img src={company.logo.url} />
               </Link></li>
             );
+          })}
+        </ul>
+      </section>
+
+      <section className="training-programs">
+        <div>
+          <h2>{trainingPrograms.title}</h2>
+          <span>{trainingPrograms.description}</span>
+        </div>
+
+        <ul className="categories">
+          {trainingPrograms.categories.map((category, index) => {
+            const isOdd = index % 2 !== 0;
+            return <li className="category"  >
+              <div
+                style={{textAlign: isOdd ? "right" : "left" }}
+              >
+                <h3>{category.title}</h3>
+                <p>{category.description}</p>
+              </div>
+
+              <div className="programs"
+                style={{flexDirection: isOdd ? "row-reverse": "row"}}
+              >
+                <img src={trainingPrograms.categories[0].programs[0].image.url} />
+                <ul>
+                  {category.programs.map((program) => {
+                    const isActive = programIdSelected === program.id;
+
+                    return <div className={`program ${isActive ? 'active' : ''}`} onClick={() => {
+                      setProgramIdSelected(program.id);
+                    }}>
+                      <h4>{program.title}</h4>
+                      {isActive ? <li>
+                        <p>{program.description}</p>
+                        <Link to="/home"><span>See more</span></Link>
+                      </li> : <></>}
+                    </div>
+                  })}
+                </ul>
+              </div>
+            </li>;
           })}
         </ul>
       </section>
