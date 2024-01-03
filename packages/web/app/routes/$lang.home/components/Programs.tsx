@@ -15,10 +15,10 @@ export function Progams({ programs, isOdd }: ProgramsProps) {
     >
       <img src={program.image.url} />
       <ul>
-        {programs.map((program) => {
+        {programs.map((program, programKey) => {
           const isActive = programIdSelected === program.id;
 
-          return <div className={`program ${isActive ? 'active' : ''}`} onClick={() => {
+          return <div key={programKey} className={`program ${isActive ? 'active' : ''}`} onClick={() => {
             setProgramIdSelected(program.id);
           }}>
             <h4>{program.title}</h4>

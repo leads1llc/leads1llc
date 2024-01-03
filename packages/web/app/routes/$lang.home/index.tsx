@@ -114,17 +114,15 @@ export default function Route() {
         </div>
 
         <ul className="categories">
-          {trainingPrograms.categories.map((category, index) => {
-            const isOdd = index % 2 !== 0;
-            console.log(category.programs);
-            return <li className="category"  >
+          {trainingPrograms.categories.map((category, categoryIndex) => {
+            const isOdd = categoryIndex % 2 !== 0;
+            return <li key={categoryIndex} className="category"  >
               <div
                 style={{ textAlign: isOdd ? "right" : "left" }}
               >
                 <h3>{category.title}</h3>
                 <p>{category.description}</p>
-              </div> 
-
+              </div>
 
               <Progams programs={category.programs} isOdd={isOdd} />
 
