@@ -1,9 +1,23 @@
-import { LoaderFunctionArgs } from "@remix-run/node";
+import { LoaderFunctionArgs, json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
-import { useState } from "react";
 import { Progams } from "./components/Programs";
 
-export const loader = ({ }: LoaderFunctionArgs) => {
+export const loader = async ({ }: LoaderFunctionArgs) => {
+
+  const API_URL = `http://localhost:1337`;
+  const trustedBiesRes = await fetch(`${API_URL}/api/trusted-bies?populate=*`);
+  const trustedBies = await trustedBiesRes.json();
+
+  const companies = trustedBies.data.map((trustedBy) => {
+    return {
+      id: trustedBy.id,
+      title: trustedBy.attributes.companyName,
+      logo: {
+        url: `${API_URL}${trustedBy.attributes.companyLogo.data.attributes.url}`
+      }
+    }
+  });
+
   return {
     hero: {
       title: "BE BETTER EVERY DAY, TRAIN LIKE A WARRIOR AND LEAD THE WAY TO EXCELLENCE.",
@@ -17,10 +31,7 @@ export const loader = ({ }: LoaderFunctionArgs) => {
     },
     trustedBy: {
       title: "Trusted by our clients and partners",
-      companies: [
-        { title: "Armada de Colombia", site: "https://www.armada.mil.co/", logo: { url: "https://www.reservanavalcolombia.co/wp-content/uploads/2023/02/escudo-horizontal.png" } },
-      ]
-
+      companies
     },
     trainingPrograms: {
       title: "Training Programs",
