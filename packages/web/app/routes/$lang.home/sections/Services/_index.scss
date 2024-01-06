@@ -1,5 +1,9 @@
 @use '../../../../styles/variables' as *;
 
+.section-services {
+  background: #F5F5F5;
+}
+
 .services {
   display: flex;
   flex-wrap: wrap;

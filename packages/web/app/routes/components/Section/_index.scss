@@ -6,7 +6,12 @@
   gap: 20px;
   width: 100%;
   box-sizing: border-box;
-  padding: 50px 20px;
+  padding: 50px 80px;
+
+  @include adapt(phone){
+    padding: 50px 20px;
+  }
+
   text-align: left;
   .headline {
     padding-bottom: 10px;

@@ -3,6 +3,7 @@ import { Link, useLoaderData } from "@remix-run/react";
 import { Progams } from "./components/Programs";
 import { Section } from "../components/Section";
 import { Services } from "./sections/Services";
+import { CeoBackground } from "./sections/CeoBackground";
 
 export const loader = async ({ }: LoaderFunctionArgs) => {
 
@@ -170,9 +171,7 @@ export default function Route() {
       <Services services={services} />
 
 
-      <Section headline={{ title: ceoBackground.title, description: ceoBackground.description }}>
-        <span>Not implemented yet!</span>
-      </Section>
+      <CeoBackground ceoBackground={ceoBackground}/>
 
       <Section headline={{ title: testimonies.title, description: testimonies.description }}>
         <span>Not implemented yet!</span>

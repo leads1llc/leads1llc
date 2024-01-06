@@ -1,0 +1,43 @@
+@use '../../../../styles/variables' as *;
+
+.section-ceo-background {
+  background: $primary-color-300;
+}
+
+.ceo-background {
+  display: flex;
+  gap: 20px;
+  .photo {
+    display: flex;
+    flex: 1;
+    border: solid 1px $dark-color-500;
+    img {
+      width: 100%;
+      height: 100%
+    }
+  }
+
+  .data {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 50px;
+  }
+
+  .data-item{ 
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    h3 {
+    font-weight: bold;
+    font-size: 1.5rem;
+    }
+  }
+
+  @include adapt(phone){
+    flex-direction: column;
+  }
+
+
+}

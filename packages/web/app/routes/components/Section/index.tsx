@@ -11,15 +11,17 @@ export type SectionProps = {
 
 export function Section({ children, headline, className }: SectionProps) {
   return (
-    <section className="section">
+    <div className={`section-${className}`}>
+      <section className="section">
         <div className="headline">
           <h2>{headline.title}</h2>
           <p>{headline.description}</p>
         </div>
 
-      <div className={className}>
-        {children}
-      </div>
-    </section>
+        <div className={className}>
+          {children}
+        </div>
+      </section>
+    </div>
   );
 }
