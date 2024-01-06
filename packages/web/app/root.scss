@@ -3,12 +3,12 @@
 //@import 'normalize.css/normalize.css';
 @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@100;400;900&display=swap');
 
-
 // local modules
 @import 'routes/$lang/components/Nav/index';
 @import 'routes/$lang/components/Body/index';
 @import 'routes/$lang/components/Footer/index';
 @import 'routes/$lang.home/index';
+@import 'routes/components/Section/index';
 
 
 // global styles

@@ -1,0 +1,22 @@
+@use '../../../styles/variables' as *;
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 50px 20px;
+  text-align: left;
+  .headline {
+    padding-bottom: 10px;
+    border-bottom: solid 1px $dark-color-500;
+    h2 {
+      font-size: 2rem;
+    }
+
+    p {
+      font-size: 1.1rem;
+    }
+  }
+}

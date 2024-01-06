@@ -1,6 +1,7 @@
 import { LoaderFunctionArgs, json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import { Progams } from "./components/Programs";
+import { Section } from "../components/Section";
 
 export const loader = async ({ }: LoaderFunctionArgs) => {
 
@@ -82,15 +83,33 @@ export const loader = async ({ }: LoaderFunctionArgs) => {
             { id: 2, title: "Risk Management Training", image: { url: "" }, description: "" },
           ]
         }
-
-
       ],
+    },
+    services: {
+      title: "Services",
+      description: "We also provide specific services"
+    },
+    ceoBackground: {
+      title: "Ceo Background",
+      description: "Train with the best"
+    },
+    testimonies: {
+      title: "Here’s what people have to say about us",
+      description: "Our clients and partners help us to grow"
+    },
+    form: {
+      title: "You will be a better leadership",
+      description: "Improve your skill today",
+    },
+    faq: {
+      title: "Frequently Asked Questions",
+      description: "Common community questions"
     }
   };
 };
 
 export default function Route() {
-  const { hero, trustedBy, trainingPrograms } = useLoaderData<typeof loader>();
+  const { hero, trustedBy, trainingPrograms, services, ceoBackground, testimonies, form, faq} = useLoaderData<typeof loader>();
 
 
   return (
@@ -118,11 +137,7 @@ export default function Route() {
         </ul>
       </section>
 
-      <section className="training-programs">
-        <div>
-          <h2>{trainingPrograms.title}</h2>
-          <span>{trainingPrograms.description}</span>
-        </div>
+      <Section headline={{ title: "Training Programs", description: "You should choose one of the following" }}>
 
         <ul className="categories">
           {trainingPrograms.categories.map((category, categoryIndex) => {
@@ -140,7 +155,27 @@ export default function Route() {
             </li>;
           })}
         </ul>
-      </section>
+      </Section>
+
+      <Section headline={{ title: services.title, description: services.description }}>
+        <span>Not implemented yet!</span>
+      </Section>
+
+      <Section headline={{ title: ceoBackground.title, description: ceoBackground.description }}>
+        <span>Not implemented yet!</span>
+      </Section>
+
+      <Section headline={{ title: testimonies.title, description: testimonies.description }}>
+        <span>Not implemented yet!</span>
+      </Section>
+
+      <Section headline={{ title: form.title, description: form.description }}>
+        <span>Not implemented yet!</span>
+      </Section>
+
+      <Section headline={{ title: faq.title, description: faq.description }}>
+        <span>Not implemented yet!</span>
+      </Section>
 
     </>
   );
