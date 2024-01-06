@@ -6,16 +6,20 @@ export type SectionProps = {
     description: string;
   }
   children?: ReactNode;
+  className?: string;
 }
 
-export function Section({ children, headline }: SectionProps) {
+export function Section({ children, headline, className }: SectionProps) {
   return (
     <section className="section">
-      <div className="headline">
-        <h2>{headline.title}</h2>
-        <p>{headline.description}</p>
+        <div className="headline">
+          <h2>{headline.title}</h2>
+          <p>{headline.description}</p>
+        </div>
+
+      <div className={className}>
+        {children}
       </div>
-      {children}
     </section>
   );
 }

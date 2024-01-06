@@ -2,6 +2,7 @@ import { LoaderFunctionArgs, json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import { Progams } from "./components/Programs";
 import { Section } from "../components/Section";
+import { Services } from "./sections/Services";
 
 export const loader = async ({ }: LoaderFunctionArgs) => {
 
@@ -87,7 +88,16 @@ export const loader = async ({ }: LoaderFunctionArgs) => {
     },
     services: {
       title: "Services",
-      description: "We also provide specific services"
+      description: "We also provide specific services",
+      services: [...[...Array(10).keys()].map(() => {
+          return {
+            title: "Situational assessment of operational teams and staffs",
+            link: {
+              to: ""
+            },
+            image: { url: "https://df6f8e1b9b.clvaw-cdnwnd.com/c733a0c8b7e4b610c4296892ad379276/200000107-9347693478/WhatsApp%20Image%202022-05-24%20at%208.31.55%20AM.webp?ph=df6f8e1b9b" }
+          };
+        })]
     },
     ceoBackground: {
       title: "Ceo Background",
@@ -109,7 +119,7 @@ export const loader = async ({ }: LoaderFunctionArgs) => {
 };
 
 export default function Route() {
-  const { hero, trustedBy, trainingPrograms, services, ceoBackground, testimonies, form, faq} = useLoaderData<typeof loader>();
+  const { hero, trustedBy, trainingPrograms, services, ceoBackground, testimonies, form, faq } = useLoaderData<typeof loader>();
 
 
   return (
@@ -157,9 +167,8 @@ export default function Route() {
         </ul>
       </Section>
 
-      <Section headline={{ title: services.title, description: services.description }}>
-        <span>Not implemented yet!</span>
-      </Section>
+      <Services services={services} />
+
 
       <Section headline={{ title: ceoBackground.title, description: ceoBackground.description }}>
         <span>Not implemented yet!</span>
