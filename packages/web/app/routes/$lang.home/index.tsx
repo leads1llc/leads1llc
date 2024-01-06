@@ -5,6 +5,7 @@ import { Section } from "../components/Section";
 import { Services } from "./sections/Services";
 import { CeoBackground } from "./sections/CeoBackground";
 import { Testimonies } from "./sections/Testimonies";
+import { Contact } from "./sections/Contact";
 
 export const loader = async ({ }: LoaderFunctionArgs) => {
 
@@ -186,11 +187,9 @@ export default function Route() {
 
       <CeoBackground ceoBackground={ceoBackground} />
 
-      <Testimonies testimonies={testimonies} />
+      <Contact contact={form}/>
 
-      <Section headline={{ title: form.title, description: form.description }}>
-        <span>Not implemented yet!</span>
-      </Section>
+      <Testimonies testimonies={testimonies} />
 
       <Section headline={{ title: faq.title, description: faq.description }}>
         <span>Not implemented yet!</span>
