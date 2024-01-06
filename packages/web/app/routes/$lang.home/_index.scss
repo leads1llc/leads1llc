@@ -142,14 +142,22 @@
     img {
       flex: 1;
       width: 100%; 
-      min-height: 100%;
-      object-fit: cover;
       border: solid 1px $dark-color-500;
+    }
+    .program > img {
+      display: none;
     }
 
     @include adapt(phone) {
+      > img {display: none}
       flex-direction: column;
+
+      .program > img {
+        display: block;
+      }
     }
+
+
 
     ul {
       display: flex;
@@ -157,7 +165,7 @@
       flex-direction: column;
     }
 
-    .program {
+    .program-info {
       display: flex;
       flex-direction: column;
       padding: 10px;
@@ -173,7 +181,7 @@
       background: $primary-color-300;
     }
 
-    .program:hover {
+    .program-info:hover {
       background: $primary-color-300;
     }
   }

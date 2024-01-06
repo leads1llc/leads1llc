@@ -18,15 +18,22 @@ export function Progams({ programs, isOdd }: ProgramsProps) {
         {programs.map((program, programKey) => {
           const isActive = programIdSelected === program.id;
 
-          return <div key={programKey} className={`program ${isActive ? 'active' : ''}`} onClick={() => {
-            setProgramIdSelected(program.id);
-          }}>
-            <h4>{program.title}</h4>
-            {isActive ? <li>
-              <p>{program.description}</p>
-              <Link to="/home"><span>See more</span></Link>
-            </li> : <></>}
-          </div>
+          return <li className="program">
+
+            {isActive ?
+              <img src={program.image.url} /> : <></>
+            }
+            <div key={programKey} className={`program-info ${isActive ? 'active' : ''}`} onClick={() => {
+              setProgramIdSelected(program.id);
+            }}>
+              <h4>{program.title}</h4>
+              {isActive ? <>
+                <p>{program.description}</p>
+                <Link to="/home"><span>See more</span></Link>
+              </>
+                : <></>}
+            </div>
+          </li>
         })}
       </ul>
     </div>
