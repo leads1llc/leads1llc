@@ -92,14 +92,14 @@ export const loader = async ({ }: LoaderFunctionArgs) => {
       title: "Services",
       description: "We also provide specific services",
       services: [...[...Array(10).keys()].map(() => {
-          return {
-            title: "Situational assessment of operational teams and staffs",
-            link: {
-              to: ""
-            },
-            image: { url: "https://df6f8e1b9b.clvaw-cdnwnd.com/c733a0c8b7e4b610c4296892ad379276/200000107-9347693478/WhatsApp%20Image%202022-05-24%20at%208.31.55%20AM.webp?ph=df6f8e1b9b" }
-          };
-        })]
+        return {
+          title: "Situational assessment of operational teams and staffs",
+          link: {
+            to: ""
+          },
+          image: { url: "https://df6f8e1b9b.clvaw-cdnwnd.com/c733a0c8b7e4b610c4296892ad379276/200000107-9347693478/WhatsApp%20Image%202022-05-24%20at%208.31.55%20AM.webp?ph=df6f8e1b9b" }
+        };
+      })]
     },
     ceoBackground: {
       title: "Ceo Background",
@@ -108,21 +108,19 @@ export const loader = async ({ }: LoaderFunctionArgs) => {
     testimonies: {
       title: "Here’s what people have to say about us",
       description: "Our clients and partners help us to grow",
-      testimonies: [
-        {
-          company: {
-            site: "",
-            name: "Armada de colombia",
-            logo: {url: "http://localhost:1337/uploads/armada_colombia_b7f756733f.png"}
-          },
-          quote: "The best company in the world",
-          author: {
-            photo: {url: "https://www.georgetown.edu/wp-content/uploads/2022/02/Jkramerheadshot-scaled-e1645036825432-1050x1050-c-default.jpg"},
-            name: "Mark Antony",
-            socialMedia: "Facebook"
-          }
+      testimonies: [...Array(3).keys()].map(() => ({
+        company: {
+          site: "",
+          name: "Armada de colombia",
+          logo: { url: "http://localhost:1337/uploads/armada_colombia_b7f756733f.png" }
+        },
+        quote: "The best company in the world",
+        author: {
+          photo: { url: "https://www.georgetown.edu/wp-content/uploads/2022/02/Jkramerheadshot-scaled-e1645036825432-1050x1050-c-default.jpg" },
+          name: "Mark Antony",
+          socialMedia: "Facebook"
         }
-      ]
+      }))
     },
     form: {
       title: "You will be a better leadership",
@@ -186,9 +184,9 @@ export default function Route() {
 
       <Services services={services} />
 
-      <CeoBackground ceoBackground={ceoBackground}/>
+      <CeoBackground ceoBackground={ceoBackground} />
 
-      <Testimonies testimonies={testimonies}/>
+      <Testimonies testimonies={testimonies} />
 
       <Section headline={{ title: form.title, description: form.description }}>
         <span>Not implemented yet!</span>

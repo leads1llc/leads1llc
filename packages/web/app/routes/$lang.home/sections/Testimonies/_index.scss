@@ -1,8 +1,21 @@
 @use '../../../../styles/variables' as *;
 
+.section-testimonies {
+  width: 100%;
+}
+
 .testimonies {
   display: flex;
   flex-direction: column;
+  width: 100%;
+
+  ul {
+    display: flex;
+    flex-direction: row;
+    justify-items: flex-start;
+    overflow: hidden;
+    gap: 20px;
+  }
   
   .testimony { 
     display: flex;

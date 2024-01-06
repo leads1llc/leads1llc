@@ -30,15 +30,30 @@
     flex-direction: column;
     gap: 20px;
 
+    ul { 
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
     h3 {
-    font-weight: bold;
+    font-weight: 300;
     font-size: 1.5rem;
     }
   }
 
   @include adapt(phone){
     flex-direction: column;
+  } 
+
+  .pair-text {
+    .left {
+      font-weight: 400;
+    } 
+
+    .right {
+      font-weight: bold;
+    }
   }
-
-
 }
+

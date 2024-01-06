@@ -13,8 +13,8 @@ export type PairTextProps = {
 export function PairText({ leftText, rightText }: PairTextProps) {
   return (
     <div className="pair-text">
-      <span>{leftText}</span>
-      <span>{rightText}</span>
+      <span className="left">{leftText}</span>
+      <span className="right">{rightText}</span>
     </div>
   );
 }
@@ -28,9 +28,9 @@ export function CeoBackground({ ceoBackground }: CeoBackgroundProps) {
   ];
 
   const personalData = [
-    { leftText: "Fullname", rightText: "Eduar Michaels" },
-    { leftText: "Range", rightText: "Official" },
-    { leftText: "Deparment", rightText: "Marine" }
+    { leftText: "Fullname: ", rightText: "Eduar Michaels" },
+    { leftText: "Range: ", rightText: "Official" },
+    { leftText: "Deparment: ", rightText: "Marine" }
   ];
 
   return (
