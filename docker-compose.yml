@@ -1,16 +1,65 @@
 version: "3.8"
 services:
   nginx:
-    image: "nginx"
+    image: nginx
     ports:
       - "1338:80"
-    volumes:
-      - ./expo/web-build:/usr/share/nginx/html
-  core:
-    build: .
+    networks:
+      app:
+        ipv4_address: 10.6.0.2
+
+  mysql:
+    image: "mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: '${DATABASE_PASSWORD}'
+      MYSQL_HOST: '${DATABASE_HOST}'
+      MYSQL_TCP_PORT: '${DATABASE_PORT}'
+      MYSQL_DATABASE: '${DATABASE_NAME}'
+      MYSQL_USER: '${DATABASE_USERNAME}'
+      MYSQL_PASSWORD: '${DATABASE_PASSWORD}'
+      MYSQL_ALLOW_EMPY_PASSWORD: "1"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "-u${DATABASE_USERNAME}", "-p${DATABASE_PASSWORD}", "-h${DATABASE_HOST}", "-P${DATABASE_PORT}", "ping"]
+      retries: 3
+      timeout: 5s
+    networks:
+      app:
+        ipv4_address: 10.6.0.3
+
+  web:
+    build: ./packages/web
     ports:
-      - "1337:1337"
+      - "3000:3000"
     volumes:
-      - ./:/app
+      - ./packages/web:/app
     env_file:
       - .env
+    networks:
+      app:
+        ipv4_address: 10.6.0.4
+
+  core:
+    build: ./packages/core
+    ports:
+      - "1337:1337"
+
+    depends_on:
+      mysql:
+        condition: service_healthy
+        restart: true
+    volumes:
+      - ./packages/core:/app
+    env_file:
+      - .env
+
+    networks:
+      app:
+        ipv4_address: 10.6.0.5
+
+networks:
+  app:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.6.0.0/16
+          gateway: 10.6.0.1
