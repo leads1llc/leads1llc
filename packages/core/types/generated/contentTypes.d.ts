@@ -736,6 +736,63 @@ export interface ApiButtonButton extends Schema.CollectionType {
   };
 }
 
+export interface ApiClientChallengeClientChallenge
+  extends Schema.CollectionType {
+  collectionName: 'client_challenges';
+  info: {
+    singularName: 'client-challenge';
+    pluralName: 'client-challenges';
+    displayName: 'ClientChallenge';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    title: Attribute.String &
+      Attribute.Required &
+      Attribute.Unique &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    icon: Attribute.Media &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::client-challenge.client-challenge',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::client-challenge.client-challenge',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::client-challenge.client-challenge',
+      'oneToMany',
+      'api::client-challenge.client-challenge'
+    >;
+    locale: Attribute.String;
+  };
+}
+
 export interface ApiCommonAnchorSectionCommonAnchorSection
   extends Schema.CollectionType {
   collectionName: 'common_anchor_sections';
@@ -1090,6 +1147,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::button.button': ApiButtonButton;
+      'api::client-challenge.client-challenge': ApiClientChallengeClientChallenge;
       'api::common-anchor-section.common-anchor-section': ApiCommonAnchorSectionCommonAnchorSection;
       'api::hero-section.hero-section': ApiHeroSectionHeroSection;
       'api::page.page': ApiPagePage;
