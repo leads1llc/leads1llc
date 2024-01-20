@@ -854,6 +854,61 @@ export interface ApiCommonAnchorSectionCommonAnchorSection
   };
 }
 
+export interface ApiCoreValueCoreValue extends Schema.CollectionType {
+  collectionName: 'core_values';
+  info: {
+    singularName: 'core-value';
+    pluralName: 'core-values';
+    displayName: 'CoreValue';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    title: Attribute.String &
+      Attribute.Required &
+      Attribute.Unique &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    icon: Attribute.Media &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::core-value.core-value',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::core-value.core-value',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::core-value.core-value',
+      'oneToMany',
+      'api::core-value.core-value'
+    >;
+    locale: Attribute.String;
+  };
+}
+
 export interface ApiHeroSectionHeroSection extends Schema.CollectionType {
   collectionName: 'hero_sections';
   info: {
@@ -1149,6 +1204,7 @@ declare module '@strapi/types' {
       'api::button.button': ApiButtonButton;
       'api::client-challenge.client-challenge': ApiClientChallengeClientChallenge;
       'api::common-anchor-section.common-anchor-section': ApiCommonAnchorSectionCommonAnchorSection;
+      'api::core-value.core-value': ApiCoreValueCoreValue;
       'api::hero-section.hero-section': ApiHeroSectionHeroSection;
       'api::page.page': ApiPagePage;
       'api::training-program.training-program': ApiTrainingProgramTrainingProgram;
