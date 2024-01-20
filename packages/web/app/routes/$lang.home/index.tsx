@@ -9,7 +9,7 @@ import { Contact } from "./sections/Contact";
 
 export const loader = async ({ }: LoaderFunctionArgs) => {
 
-  const API_URL = `http://localhost:1337`;
+  const API_URL = `http://10.6.0.5:1337`;
   const trustedBiesRes = await fetch(`${API_URL}/api/trusted-bies?populate=*`);
   const trustedBies = await trustedBiesRes.json();
 
