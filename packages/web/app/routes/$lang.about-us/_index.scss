@@ -1,0 +1,13 @@
+@use '../../styles/variables' as *;
+
+
+.client-challenge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  
+  img {
+    width: 39px;
+    height: 39px;
+  }
+}
