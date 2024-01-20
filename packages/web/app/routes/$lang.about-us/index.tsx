@@ -1,6 +1,7 @@
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { HeroSection } from "../components/HeroSection";
 import { useLoaderData } from "@remix-run/react";
+import { TextIcon } from "./components/TextIcon";
 
 export const loader = async ({ }: LoaderFunctionArgs) => {
   // TODO: Create a api service point to the same url
@@ -18,6 +19,20 @@ export const loader = async ({ }: LoaderFunctionArgs) => {
     }
   });
 
+
+  const CoreValuesRes = await fetch(`${API_URL}/api/core-values?populate=*`);
+  const CoreValues = await CoreValuesRes.json();
+
+  const coreValues = !CoreValues.data ? [] : CoreValues.data.map((coreValue) => {
+    return {
+      id: coreValue.id,
+      title: coreValue.attributes.title,
+      icon: {
+        url: `${API_URL}${coreValue.attributes.icon.data.attributes.url}`
+      }
+    }
+  });
+
   return {
     hero: {
       title: "Who we are?",
@@ -30,25 +45,32 @@ export const loader = async ({ }: LoaderFunctionArgs) => {
         url: "https://df6f8e1b9b.clvaw-cdnwnd.com/c733a0c8b7e4b610c4296892ad379276/200000084-c2850c2851/WhatsApp%20Image%202022-05-17%20at%209.36.53%20PM.webp?ph=df6f8e1b9b"
       }
     },
-    clientChallenges
+    clientChallenges,
+    coreValues
   };
 }
 
 export default function Route() {
-  const { hero, clientChallenges } = useLoaderData<typeof loader>();
+  const { hero, clientChallenges, coreValues } = useLoaderData<typeof loader>();
 
   return (
-    <>
+    <div className="about-us">
       <HeroSection title={hero.title} description={hero.description} imageUrl={hero.image.url}>
         {clientChallenges.map((challenge) => {
           return (
-            <div className="client-challenge">
-              <img src={challenge.icon.url}/>
-              <h3>{challenge.title}</h3>
-            </div>
+            <TextIcon title={challenge.title} iconUrl={challenge.icon.url} />
           );
         })}
       </HeroSection>
-    </>
+
+      <div className="core-values">
+        {coreValues.map((coreValue) => {
+          return (
+            <TextIcon title={coreValue.title} iconUrl={coreValue.icon.url} />
+          );
+        })}
+      </div>
+
+    </div>
   );
 }

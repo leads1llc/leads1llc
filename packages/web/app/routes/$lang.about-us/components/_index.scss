@@ -1,0 +1,17 @@
+@use '../../../styles/variables' as *;
+
+.text-icon {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  
+  img {
+    width: 39px;
+    height: 39px;
+  }
+
+  h3 {
+    color: $primary-color-300;
+  }
+
+}

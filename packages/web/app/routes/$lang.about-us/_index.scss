@@ -1,13 +1,29 @@
 @use '../../styles/variables' as *;
 
+.about-us {
+  width: 100%; 
 
-.client-challenge {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  
-  img {
-    width: 39px;
-    height: 39px;
+  .core-values {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    background: $dark-color-500;
+    width: 100%;
+    padding: 0px 80px;
+    box-sizing: border-box;
+
+    border-top: solid 1px $primary-color-300;
+    border-bottom: solid 1px $primary-color-300;
+
+    .text-icon {
+      flex: 1;
+      padding: 20px;
+    }
+
+    @include adapt(phone) {
+      padding: 0px 20px;
+    }
+
   }
+
 }
