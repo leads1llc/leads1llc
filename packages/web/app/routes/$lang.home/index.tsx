@@ -6,6 +6,7 @@ import { Services } from "./sections/Services";
 import { CeoBackground } from "./sections/CeoBackground";
 import { Testimonies } from "./sections/Testimonies";
 import { Contact } from "./sections/Contact";
+import { HeroSection } from "../components/HeroSection";
 
 export const loader = async ({ }: LoaderFunctionArgs) => {
 
@@ -13,7 +14,7 @@ export const loader = async ({ }: LoaderFunctionArgs) => {
   const trustedBiesRes = await fetch(`${API_URL}/api/trusted-bies?populate=*`);
   const trustedBies = await trustedBiesRes.json();
 
-  const companies = trustedBies.data.map((trustedBy) => {
+  const companies = !trustedBies.data ? [] : trustedBies.data.map((trustedBy) => {
     return {
       id: trustedBy.id,
       title: trustedBy.attributes.companyName,
@@ -140,15 +141,8 @@ export default function Route() {
 
   return (
     <>
-      <section className="hero">
-        <div className="hero-headline">
-          <h1>{hero.title}</h1>
-          <button>{hero.button.title}</button>
-        </div>
-        <div className="hero-image">
-          <img src={hero.image.url} />
-        </div>
-      </section>
+
+      <HeroSection title={hero.title} buttonTitle={hero.button.title} imageUrl={hero.image.url} />
 
       <section className="trusted-by">
         <h2>{trustedBy.title}</h2>
@@ -187,7 +181,7 @@ export default function Route() {
 
       <CeoBackground ceoBackground={ceoBackground} />
 
-      <Contact contact={form}/>
+      <Contact contact={form} />
 
       <Testimonies testimonies={testimonies} />
 
