@@ -2,6 +2,7 @@ import { LoaderFunctionArgs } from "@remix-run/node";
 import { HeroSection } from "../components/HeroSection";
 import { useLoaderData } from "@remix-run/react";
 import { TextIcon } from "./components/TextIcon";
+import { VisualDetails } from "../components/VisualDetails";
 
 export const loader = async ({ }: LoaderFunctionArgs) => {
   // TODO: Create a api service point to the same url
@@ -33,6 +34,33 @@ export const loader = async ({ }: LoaderFunctionArgs) => {
     }
   });
 
+
+  const VisionRes = await fetch(`${API_URL}/api/vision?populate=*`);
+  const Vision = await VisionRes.json();
+
+  const vision = !Vision.data ? null :
+    {
+      title: Vision.data.attributes.title,
+      description: Vision.data.attributes.description,
+      image: {
+        url: `${API_URL}${Vision.data.attributes.image.data.attributes.url}`
+      }
+    };
+
+  const MissionRes = await fetch(`${API_URL}/api/mission?populate=*`);
+  const Mission = await MissionRes.json();
+
+  const mission = !Mission.data ? null :
+    {
+      title: Mission.data.attributes.title,
+      description: Mission.data.attributes.description,
+      image: {
+        url: `${API_URL}${Mission.data.attributes.image.data.attributes.url}`
+      }
+    };
+
+
+
   return {
     hero: {
       title: "Who we are?",
@@ -46,12 +74,14 @@ export const loader = async ({ }: LoaderFunctionArgs) => {
       }
     },
     clientChallenges,
-    coreValues
+    coreValues,
+    vision,
+    mission
   };
 }
 
 export default function Route() {
-  const { hero, clientChallenges, coreValues } = useLoaderData<typeof loader>();
+  const { hero, clientChallenges, coreValues, vision, mission} = useLoaderData<typeof loader>();
 
   return (
     <div className="about-us">
@@ -63,13 +93,18 @@ export default function Route() {
         })}
       </HeroSection>
 
-      <div className="core-values">
+      <section className="core-values">
         {coreValues.map((coreValue) => {
           return (
             <TextIcon title={coreValue.title} iconUrl={coreValue.icon.url} />
           );
         })}
-      </div>
+      </section>
+
+
+      <VisualDetails title={mission?.title} description={mission?.description} imageUrl={mission?.image.url!}/>
+
+      <VisualDetails title={vision?.title} description={vision?.description} imageUrl={vision?.image.url!} style={{flexDirection: "row-reverse"}}/>
 
     </div>
   );
