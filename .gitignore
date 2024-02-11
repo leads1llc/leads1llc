@@ -1,3 +1,6 @@
+# certboot keys
+config/ssl/*
+
 # Logs
 .yarn
 logs

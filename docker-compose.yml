@@ -3,7 +3,12 @@ services:
   nginx:
     image: nginx
     ports:
-      - "1338:80"
+      - "80:80"
+    volumes:
+      - ./config/nginx/docker/:/config
+      - ./config/nginx/conf.d:/etc/nginx/conf.d/
+      - ./config/ssl/:/etc/letsencrypt/live/leads1llc.com/
+    command: [sh, '/config/startup.sh']
     networks:
       app:
         ipv4_address: 10.6.0.2
@@ -28,8 +33,6 @@ services:
 
   web:
     build: ./packages/web
-    ports:
-      - "3000:3000"
     volumes:
       - ./packages/web:/app
     env_file:
@@ -40,9 +43,6 @@ services:
 
   core:
     build: ./packages/core
-    ports:
-      - "1337:1337"
-
     depends_on:
       mysql:
         condition: service_healthy
