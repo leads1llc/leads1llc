@@ -144,6 +144,10 @@ export default function Route() {
 
       <HeroSection title={hero.title} buttonTitle={hero.button.title} imageUrl={hero.image.url} />
 
+      <section>
+        <h1 className="bold text-2xl">Hello</h1>
+      </section>
+
       <section className="trusted-by">
         <h2>{trustedBy.title}</h2>
         <ul className="companies">
