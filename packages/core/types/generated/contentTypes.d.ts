@@ -909,6 +909,74 @@ export interface ApiCoreValueCoreValue extends Schema.CollectionType {
   };
 }
 
+export interface ApiGlobalGlobal extends Schema.SingleType {
+  collectionName: 'globals';
+  info: {
+    singularName: 'global';
+    pluralName: 'globals';
+    displayName: 'Global';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    title: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    description: Attribute.Text &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    logo: Attribute.Media &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    favicon: Attribute.Media &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::global.global',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::global.global',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::global.global',
+      'oneToMany',
+      'api::global.global'
+    >;
+    locale: Attribute.String;
+  };
+}
+
 export interface ApiHeroSectionHeroSection extends Schema.CollectionType {
   collectionName: 'hero_sections';
   info: {
@@ -1322,6 +1390,7 @@ declare module '@strapi/types' {
       'api::client-challenge.client-challenge': ApiClientChallengeClientChallenge;
       'api::common-anchor-section.common-anchor-section': ApiCommonAnchorSectionCommonAnchorSection;
       'api::core-value.core-value': ApiCoreValueCoreValue;
+      'api::global.global': ApiGlobalGlobal;
       'api::hero-section.hero-section': ApiHeroSectionHeroSection;
       'api::mission.mission': ApiMissionMission;
       'api::page.page': ApiPagePage;
