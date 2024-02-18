@@ -1,13 +1,20 @@
 import { LoaderFunctionArgs } from "@remix-run/node";
-import { Link, NavLink, useLoaderData } from "@remix-run/react";
+import { Form, Link, NavLink, useFetcher, useLoaderData, useLocation, useNavigate, useSubmit } from "@remix-run/react";
+import { useEffect, useState } from "react";
 import { Leads1LLCLogoMark } from "~/components/Leads1LLCLogoMark";
 
-export const loader = ({ params }: LoaderFunctionArgs) => {
-  return { lang: params.lang };
+export type NavProps = {
+  lang: string;
+  supportedLanguages: {
+    code: string;
+    name: string;
+    flag: string;
+  }[];
 };
 
-export function Nav() {
-  const { lang } = useLoaderData<typeof loader>();
+export function Nav({ lang, supportedLanguages }: NavProps) {
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const links = [{
     title: "Home",
@@ -35,16 +42,16 @@ export function Nav() {
     to: "#train-with-us"
   };
 
-  const languages = [
-    { code: "en", name: "English", flag: "🇺🇸" },
-    { code: "es", name: "Español", flag: "🇪🇸" }
-  ];
+  const handleLangSelect = (langSelected: string) => {
+    const path = location.pathname.replace(lang, langSelected) + location.hash;
+    navigate(path);
+  };
 
   return (
     <nav className="nav">
       <Leads1LLCLogoMark size={70} foregroundColor="#BDBDBD" backgroundColor="#1F1F1F" />
-      <input className="checkbox" type="checkbox" id="menu-trigger"/>
-      <label className="menu-icon" htmlFor="menu-trigger"/>
+      <input className="checkbox" type="checkbox" id="menu-trigger" />
+      <label className="menu-icon" htmlFor="menu-trigger" />
       <ul>
         {links.map((link, index) => {
           const linkTo = `/${lang}${link.to}`;
@@ -55,8 +62,10 @@ export function Nav() {
 
 
         <li>
-          <select name="page-language" id="">
-            {languages.map((language) => (<option selected={language.code === lang} value={language.code}>{language.flag} {language.code}</option>))}
+          <select
+            onChange={(e) => handleLangSelect(e.target.value)}
+            name="lang" id="">
+            {supportedLanguages.map((language) => (<option selected={language.code === lang} value={language.code}>{language.flag} {language.code}</option>))}
           </select>
         </li>
 
