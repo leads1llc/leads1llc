@@ -1,8 +1,8 @@
 import { LoaderFunctionArgs } from "@remix-run/node";
-import { HeroSection } from "../components/HeroSection";
+import { HeroSection } from "../../components/HeroSection";
 import { useLoaderData } from "@remix-run/react";
 import { TextIcon } from "./components/TextIcon";
-import { VisualDetails } from "../components/VisualDetails";
+import { VisualDetails } from "../../components/VisualDetails";
 
 export const loader = async ({ }: LoaderFunctionArgs) => {
   // TODO: Create a api service point to the same url

@@ -1,4 +1,4 @@
-import { Section } from "~/routes/components/Section";
+import { Section } from "~/components/Section";
 
 export type CeoBackgroundProps = {
   ceoBackground: any;

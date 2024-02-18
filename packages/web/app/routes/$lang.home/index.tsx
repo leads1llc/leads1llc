@@ -1,12 +1,12 @@
 import { LoaderFunctionArgs, json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import { Progams } from "./components/Programs";
-import { Section } from "../components/Section";
+import { Section } from "../../components/Section";
 import { Services } from "./sections/Services";
 import { CeoBackground } from "./sections/CeoBackground";
 import { Testimonies } from "./sections/Testimonies";
 import { Contact } from "./sections/Contact";
-import { HeroSection } from "../components/HeroSection";
+import { HeroSection } from "../../components/HeroSection";
 
 export const loader = async ({ }: LoaderFunctionArgs) => {
 
