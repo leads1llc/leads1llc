@@ -44,7 +44,7 @@ const NavLinks = forwardRef<HTMLUListElement, NavLinksProps>((props, ref) => {
   };
 
 
-  const commonClassName = "w-full h-full flex items-center justify-center";
+  const commonClassName = "w-full flex items-center justify-center";
   const commonHoverClassName = "hover:bg-primary-500 hover:text-dark-500";
 
   return (
@@ -94,11 +94,11 @@ export function Nav({ lang, supportedLanguages, links, contact }: NavProps) {
   useEffect(() => {
     console.log(toggle, menuBarRef);
     if (toggle) {
-      menuBarRef.current?.classList.toggle('-top-64');
-      menuBarRef.current?.classList.toggle('top-24');
+      menuBarRef.current?.classList.toggle('scale-y-0');
+      menuBarRef.current?.classList.toggle('scale-y-100');
     } else {
-      menuBarRef.current?.classList.toggle('top-24');
-      menuBarRef.current?.classList.toggle('-top-64');
+      menuBarRef.current?.classList.toggle('scale-y-100');
+      menuBarRef.current?.classList.toggle('scale-y-0');
     }
   }, [toggle]);
 
@@ -117,12 +117,15 @@ export function Nav({ lang, supportedLanguages, links, contact }: NavProps) {
         <div className="hidden duration-200 ease-in md:flex">
           <NavLinks className="flex items-center text-primary-100 gap-2" lang={lang} links={links} supportedLanguages={supportedLanguages} contact={contact} />
         </div>
-
       </div>
 
+      <Link className="md:hidden flex items-center justify-center p-4 bg-primary-500 text-dark-500" to={contact.to}>{contact.title}</Link>
+      
       <NavLinks onClick={() => {
         setToggle(false);
-      }} ref={menuBarRef} className="absolute -top-64 py-4 flex flex-col items-center bg-dark-500 left-0 w-full text-primary-100 duration-200 delay-100 ease-in" lang={lang} contact={contact} links={links} supportedLanguages={supportedLanguages}></NavLinks>
+      }} ref={menuBarRef} className="absolute scale-y-0 origin-top overflow-hidden flex flex-col items-center bg-dark-500 left-0 w-full text-primary-100 duration-200 delay-100 ease-in" lang={lang} contact={contact} links={links} supportedLanguages={supportedLanguages}></NavLinks>
+
     </nav>
+
   );
 }
