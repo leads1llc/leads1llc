@@ -12,6 +12,33 @@ export const loader = ({ context, request, params }: LoaderFunctionArgs) => {
     { code: "es", name: "Español", flag: "🇪🇸" }
   ];
 
+  const links = [{
+    title: "Home",
+    to: "/home"
+  },
+  {
+    title: "Traning Programs",
+    to: "/training-programs"
+  },
+  {
+    title: "Services",
+    to: "/services"
+  },
+  {
+    title: "Experience",
+    to: "/experience"
+  }, {
+    title: "About us",
+    to: "/about-us"
+  }
+  ];
+
+  const contact = {
+    title: "Train with us",
+    to: "#train-with-us"
+  };
+
+
   const languagesCodes = supportedLanguages.map((supportedLanguage) => supportedLanguage.code);
 
   const lang: string = params.lang as string;
@@ -19,7 +46,7 @@ export const loader = ({ context, request, params }: LoaderFunctionArgs) => {
     return redirect('/404');
   }
 ''
-  return { lang, supportedLanguages};
+  return { lang, supportedLanguages, contact, links};
 };
 
 export default function Route() {
@@ -27,18 +54,11 @@ export default function Route() {
 
   return (
     <>
-      <Nav lang={data.lang} supportedLanguages={data.supportedLanguages}/>
+      <Nav lang={data.lang} supportedLanguages={data.supportedLanguages} contact={data.contact} links={data.links}/>
       <Body>
-        <Outlet />
+        <Outlet/>
       </Body>
       <Footer />
     </>
   );
 }
-
-
-export const action = async ({request}: ActionFunctionArgs) => {
-  const formData: FormData = await request.formData();
-  const path = formData.get('path');
-  return redirect(path);
-};

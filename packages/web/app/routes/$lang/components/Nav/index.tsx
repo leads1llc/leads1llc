@@ -1,78 +1,128 @@
-import { LoaderFunctionArgs } from "@remix-run/node";
-import { Form, Link, NavLink, useFetcher, useLoaderData, useLocation, useNavigate, useSubmit } from "@remix-run/react";
-import { useEffect, useState } from "react";
+import { Link, NavLink, useNavigate } from "@remix-run/react";
+import { LegacyRef, forwardRef, useEffect, useRef, useState } from "react";
 import { Leads1LLCLogoMark } from "~/components/Leads1LLCLogoMark";
+import { FiAlignJustify } from 'react-icons/fi'
+import { AiFillCloseCircle } from "react-icons/ai";
+import { concatClassNames } from "~/utils/utils";
+
+export type ISupportedLanguages = {
+  code: string;
+  name: string;
+  flag: string;
+};
+
+export type ILink = {
+  title: string;
+  to: string;
+}
 
 export type NavProps = {
   lang: string;
-  supportedLanguages: {
-    code: string;
-    name: string;
-    flag: string;
-  }[];
+  supportedLanguages: ISupportedLanguages[];
+  links: ILink[];
+  contact: ILink;
 };
 
-export function Nav({ lang, supportedLanguages }: NavProps) {
+export type NavLinksProps = {
+  supportedLanguages: ISupportedLanguages[];
+  lang: string;
+  links: ILink[];
+  contact: ILink;
+  className?: string;
+  ref?: LegacyRef<HTMLUListElement>;
+  onClick?: () => void;
+};
+
+
+const NavLinks = forwardRef<HTMLUListElement, NavLinksProps>((props, ref) => {
+  const { links, lang, supportedLanguages, contact, className, onClick } = props;
   const navigate = useNavigate();
-  const location = useLocation();
-
-  const links = [{
-    title: "Home",
-    to: "/home"
-  },
-  {
-    title: "Traning Programs",
-    to: "/training-programs"
-  },
-  {
-    title: "Services",
-    to: "/services"
-  },
-  {
-    title: "Experience",
-    to: "/experience"
-  }, {
-    title: "About us",
-    to: "/about-us"
-  }
-  ];
-
-  const contact = {
-    title: "Train with us",
-    to: "#train-with-us"
-  };
 
   const handleLangSelect = (langSelected: string) => {
     const path = location.pathname.replace(lang, langSelected) + location.hash;
     navigate(path);
   };
 
+
+  const commonClassName = "w-full h-full flex items-center justify-center";
+  const commonHoverClassName = "hover:bg-primary-500 hover:text-dark-500";
+
   return (
-    <nav className="nav">
-      <Leads1LLCLogoMark size={70} foregroundColor="#BDBDBD" backgroundColor="#1F1F1F" />
-      <input className="checkbox" type="checkbox" id="menu-trigger" />
-      <label className="menu-icon" htmlFor="menu-trigger" />
-      <ul>
-        {links.map((link, index) => {
-          const linkTo = `/${lang}${link.to}`;
-          return (<li>
-            <NavLink key={index} to={linkTo}>{link.title}</NavLink>
-          </li>);
-        })}
+    <ul ref={ref} className={className}>
+      {links.map((link, index) => {
+        const linkTo = `/${lang}${link.to}`;
+        return (
+          <NavLink onClick={onClick} className={concatClassNames("p-2 w-full text-center", commonClassName, commonHoverClassName)} key={index} to={linkTo}>
+            <li> {link.title}</li>
+          </NavLink>
+        );
+      })}
 
+      <li
+        className={commonClassName}>
+        <select
+          className="p-2 bg-transparent border"
+          onChange={(e) => {
+            handleLangSelect(e.target.value);
+            if (onClick) onClick();
+          }}
+          name="lang" id="">
+          {supportedLanguages.map((language) => (<option selected={language.code === lang} value={language.code}>{language.flag} {language.code}</option>))}
+        </select>
+      </li>
 
-        <li>
-          <select
-            onChange={(e) => handleLangSelect(e.target.value)}
-            name="lang" id="">
-            {supportedLanguages.map((language) => (<option selected={language.code === lang} value={language.code}>{language.flag} {language.code}</option>))}
-          </select>
-        </li>
+      <li
+        onClick={onClick}
+        className={
+          concatClassNames(
+            "hidden sm:flex p-2 w-full text-center bg-primary-100 text-dark-500",
+            commonClassName,
+            commonHoverClassName
+          )
 
-        <li className="train-with-us">
-          <Link to={contact.to}>{contact.title}</Link>
-        </li>
-      </ul>
+        }>
+        <Link to={contact.to}>{contact.title}</Link>
+      </li>
+    </ul>
+  );
+});
+
+export function Nav({ lang, supportedLanguages, links, contact }: NavProps) {
+  const [toggle, setToggle] = useState<boolean>(false);
+  const menuBarRef = useRef<HTMLUListElement>(null);
+
+  useEffect(() => {
+    console.log(toggle, menuBarRef);
+    if (toggle) {
+      menuBarRef.current?.classList.toggle('-top-64');
+      menuBarRef.current?.classList.toggle('top-24');
+    } else {
+      menuBarRef.current?.classList.toggle('top-24');
+      menuBarRef.current?.classList.toggle('-top-64');
+    }
+  }, [toggle]);
+
+  return (
+    <nav>
+      <div className="relative border-4 p-4 flex w-screen justify-between items-center bg-dark-500 z-50">
+        <NavLink to={`/${lang}/home`}>
+          <Leads1LLCLogoMark size={70} foregroundColor="#BDBDBD" backgroundColor="#1F1F1F" />
+        </NavLink>
+
+        {!toggle ?
+          <FiAlignJustify onClick={() => setToggle(true)} size={24} className="text-primary-100 md:hidden" /> :
+          <AiFillCloseCircle onClick={() => setToggle(false)} size={24} className="text-primary-100 md:hidden" />
+        }
+
+        <div className="hidden duration-200 ease-in md:flex">
+          <NavLinks className="flex items-center text-primary-100 gap-2" lang={lang} links={links} supportedLanguages={supportedLanguages} contact={contact} />
+        </div>
+
+      </div>
+
+      <NavLinks onClick={() => {
+        setToggle(false);
+      }} ref={menuBarRef} className="absolute -top-64 py-4 flex flex-col items-center bg-dark-500 left-0 w-full text-primary-100 duration-200 delay-100 ease-in" lang={lang} contact={contact} links={links} supportedLanguages={supportedLanguages}></NavLinks>
     </nav>
   );
 }

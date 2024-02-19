@@ -3,11 +3,11 @@ import { HeroSection } from "../../components/HeroSection";
 import { useLoaderData } from "@remix-run/react";
 import { TextIcon } from "./components/TextIcon";
 import { VisualDetails } from "../../components/VisualDetails";
+import { strapiGet, strapiResourceUrl } from "~/services/strapi";
 
-export const loader = async ({ }: LoaderFunctionArgs) => {
-  // TODO: Create a api service point to the same url
-  const API_URL = `http://10.6.0.5:1337`;
-  const ClientChallengesRes = await fetch(`${API_URL}/api/client-challenges?populate=*`);
+export const loader = async ({ params }: LoaderFunctionArgs) => {
+  const locale = params.lang;
+  const ClientChallengesRes = await strapiGet(`/api/client-challenges`, {populate: "*"});
   const ClientChallenges = await ClientChallengesRes.json();
 
   const clientChallenges = !ClientChallenges.data ? [] : ClientChallenges.data.map((clientChallenge) => {
@@ -15,13 +15,13 @@ export const loader = async ({ }: LoaderFunctionArgs) => {
       id: clientChallenge.id,
       title: clientChallenge.attributes.title,
       icon: {
-        url: `${API_URL}${clientChallenge.attributes.icon.data.attributes.url}`
+        url: strapiResourceUrl(clientChallenge.attributes.icon.data.attributes.url)
       }
     }
   });
 
 
-  const CoreValuesRes = await fetch(`${API_URL}/api/core-values?populate=*`);
+  const CoreValuesRes = await strapiGet(`/api/core-values`, {populate: "*", locale});
   const CoreValues = await CoreValuesRes.json();
 
   const coreValues = !CoreValues.data ? [] : CoreValues.data.map((coreValue) => {
@@ -29,13 +29,13 @@ export const loader = async ({ }: LoaderFunctionArgs) => {
       id: coreValue.id,
       title: coreValue.attributes.title,
       icon: {
-        url: `${API_URL}${coreValue.attributes.icon.data.attributes.url}`
+        url: strapiResourceUrl(coreValue.attributes.icon.data.attributes.url)
       }
     }
   });
 
 
-  const VisionRes = await fetch(`${API_URL}/api/vision?populate=*`);
+  const VisionRes = await strapiGet(`/api/vision`, {populate: '*', locale});
   const Vision = await VisionRes.json();
 
   const vision = !Vision.data ? null :
@@ -43,19 +43,21 @@ export const loader = async ({ }: LoaderFunctionArgs) => {
       title: Vision.data.attributes.title,
       description: Vision.data.attributes.description,
       image: {
-        url: `${API_URL}${Vision.data.attributes.image.data.attributes.url}`
+        url: strapiResourceUrl(Vision.data.attributes.image.data.attributes.url)
       }
     };
 
-  const MissionRes = await fetch(`${API_URL}/api/mission?populate=*`);
+  const MissionRes = await strapiGet(`/api/mission`, {populate: '*', locale});
   const Mission = await MissionRes.json();
+
+  console.log(Mission);
 
   const mission = !Mission.data ? null :
     {
       title: Mission.data.attributes.title,
       description: Mission.data.attributes.description,
       image: {
-        url: `${API_URL}${Mission.data.attributes.image.data.attributes.url}`
+        url: strapiResourceUrl(Mission.data.attributes.image.data.attributes.url)
       }
     };
 
