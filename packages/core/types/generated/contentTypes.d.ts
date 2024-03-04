@@ -677,12 +677,12 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
-export interface ApiButtonButton extends Schema.CollectionType {
-  collectionName: 'buttons';
+export interface ApiAboutUsPageAboutUsPage extends Schema.SingleType {
+  collectionName: 'about_us_pages';
   info: {
-    singularName: 'button';
-    pluralName: 'buttons';
-    displayName: 'Hyperlink';
+    singularName: 'about-us-page';
+    pluralName: 'about-us-pages';
+    displayName: 'AboutUsPage';
     description: '';
   };
   options: {
@@ -694,43 +694,53 @@ export interface ApiButtonButton extends Schema.CollectionType {
     };
   };
   attributes: {
-    link: Attribute.String &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
     title: Attribute.String &
+      Attribute.Required &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
         };
       }>;
-    commonLink: Attribute.String &
+    heroSection: Attribute.Component<'page.hero-section'> &
+      Attribute.Required &
       Attribute.SetPluginOptions<{
         i18n: {
-          localized: false;
+          localized: true;
+        };
+      }>;
+    mission: Attribute.Component<'section.side-image'> &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    vision: Attribute.Component<'section.side-image'> &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
         };
       }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'api::button.button',
+      'api::about-us-page.about-us-page',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'api::button.button',
+      'api::about-us-page.about-us-page',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     localizations: Attribute.Relation<
-      'api::button.button',
+      'api::about-us-page.about-us-page',
       'oneToMany',
-      'api::button.button'
+      'api::about-us-page.about-us-page'
     >;
     locale: Attribute.String;
   };
@@ -743,7 +753,6 @@ export interface ApiClientChallengeClientChallenge
     singularName: 'client-challenge';
     pluralName: 'client-challenges';
     displayName: 'ClientChallenge';
-    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -756,7 +765,6 @@ export interface ApiClientChallengeClientChallenge
   attributes: {
     title: Attribute.String &
       Attribute.Required &
-      Attribute.Unique &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
@@ -766,7 +774,7 @@ export interface ApiClientChallengeClientChallenge
       Attribute.Required &
       Attribute.SetPluginOptions<{
         i18n: {
-          localized: false;
+          localized: true;
         };
       }>;
     createdAt: Attribute.DateTime;
@@ -793,13 +801,173 @@ export interface ApiClientChallengeClientChallenge
   };
 }
 
-export interface ApiCommonAnchorSectionCommonAnchorSection
-  extends Schema.CollectionType {
-  collectionName: 'common_anchor_sections';
+export interface ApiContactFormContactForm extends Schema.SingleType {
+  collectionName: 'contact_forms';
   info: {
-    singularName: 'common-anchor-section';
-    pluralName: 'common-anchor-sections';
-    displayName: 'CommonAnchorSection';
+    singularName: 'contact-form';
+    pluralName: 'contact-forms';
+    displayName: 'ContactForm';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    title: Attribute.Component<'section.title'> &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    fields: Attribute.DynamicZone<['input.checkbox', 'input.text-input']> &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    submit: Attribute.Component<'page.button'> &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::contact-form.contact-form',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::contact-form.contact-form',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::contact-form.contact-form',
+      'oneToMany',
+      'api::contact-form.contact-form'
+    >;
+    locale: Attribute.String;
+  };
+}
+
+export interface ApiFaqFaq extends Schema.CollectionType {
+  collectionName: 'faqs';
+  info: {
+    singularName: 'faq';
+    pluralName: 'faqs';
+    displayName: 'FAQ';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    question: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    answer: Attribute.RichText &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    type: Attribute.Relation<
+      'api::faq.faq',
+      'oneToOne',
+      'api::faq-type.faq-type'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::faq.faq', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::faq.faq', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::faq.faq',
+      'oneToMany',
+      'api::faq.faq'
+    >;
+    locale: Attribute.String;
+  };
+}
+
+export interface ApiFaqTypeFaqType extends Schema.CollectionType {
+  collectionName: 'faq_types';
+  info: {
+    singularName: 'faq-type';
+    pluralName: 'faq-types';
+    displayName: 'FAQType';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    title: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::faq-type.faq-type',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::faq-type.faq-type',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::faq-type.faq-type',
+      'oneToMany',
+      'api::faq-type.faq-type'
+    >;
+    locale: Attribute.String;
+  };
+}
+
+export interface ApiGlobalGlobal extends Schema.SingleType {
+  collectionName: 'globals';
+  info: {
+    singularName: 'global';
+    pluralName: 'globals';
+    displayName: 'Global';
     description: '';
   };
   options: {
@@ -812,124 +980,10 @@ export interface ApiCommonAnchorSectionCommonAnchorSection
   };
   attributes: {
     title: Attribute.String &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    section: Attribute.String &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    slug: Attribute.String &
       Attribute.Required &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: false;
-        };
-      }>;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::common-anchor-section.common-anchor-section',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::common-anchor-section.common-anchor-section',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    localizations: Attribute.Relation<
-      'api::common-anchor-section.common-anchor-section',
-      'oneToMany',
-      'api::common-anchor-section.common-anchor-section'
-    >;
-    locale: Attribute.String;
-  };
-}
-
-export interface ApiCoreValueCoreValue extends Schema.CollectionType {
-  collectionName: 'core_values';
-  info: {
-    singularName: 'core-value';
-    pluralName: 'core-values';
-    displayName: 'CoreValue';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  pluginOptions: {
-    i18n: {
-      localized: true;
-    };
-  };
-  attributes: {
-    title: Attribute.String &
-      Attribute.Required &
-      Attribute.Unique &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    icon: Attribute.Media &
-      Attribute.Required &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }>;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::core-value.core-value',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::core-value.core-value',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    localizations: Attribute.Relation<
-      'api::core-value.core-value',
-      'oneToMany',
-      'api::core-value.core-value'
-    >;
-    locale: Attribute.String;
-  };
-}
-
-export interface ApiGlobalGlobal extends Schema.SingleType {
-  collectionName: 'globals';
-  info: {
-    singularName: 'global';
-    pluralName: 'globals';
-    displayName: 'Global';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  pluginOptions: {
-    i18n: {
-      localized: true;
-    };
-  };
-  attributes: {
-    title: Attribute.String &
-      Attribute.Required &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
         };
       }>;
     description: Attribute.Text &
@@ -951,6 +1005,24 @@ export interface ApiGlobalGlobal extends Schema.SingleType {
       Attribute.SetPluginOptions<{
         i18n: {
           localized: false;
+        };
+      }>;
+    nav: Attribute.DynamicZone<['page.link', 'page.button']> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    socialMedia: Attribute.DynamicZone<['page.icon-link']> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    footer: Attribute.DynamicZone<['page.link-category']> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
         };
       }>;
     createdAt: Attribute.DateTime;
@@ -977,12 +1049,12 @@ export interface ApiGlobalGlobal extends Schema.SingleType {
   };
 }
 
-export interface ApiHeroSectionHeroSection extends Schema.CollectionType {
-  collectionName: 'hero_sections';
+export interface ApiHomePageHomePage extends Schema.SingleType {
+  collectionName: 'home_pages';
   info: {
-    singularName: 'hero-section';
-    pluralName: 'hero-sections';
-    displayName: 'HeroSection';
+    singularName: 'home-page';
+    pluralName: 'home-pages';
+    displayName: 'HomePage';
     description: '';
   };
   options: {
@@ -994,58 +1066,92 @@ export interface ApiHeroSectionHeroSection extends Schema.CollectionType {
     };
   };
   attributes: {
-    image: Attribute.Media &
+    heroSection: Attribute.Component<'page.hero-section'> &
+      Attribute.Required &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
         };
       }>;
-    title: Attribute.RichText &
+    trustedBy: Attribute.String &
+      Attribute.Required &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
         };
       }>;
-    hyperlink: Attribute.Relation<
-      'api::hero-section.hero-section',
-      'oneToOne',
-      'api::button.button'
-    >;
-    buttonLink: Attribute.Relation<
-      'api::hero-section.hero-section',
-      'oneToOne',
-      'api::button.button'
-    >;
+    trainingPrograms: Attribute.Component<'section.title'> &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    services: Attribute.Component<'section.title'> &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    title: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    ceoBackground: Attribute.Component<'section.person-background'> &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    testimonialTitle: Attribute.Component<'section.title'> &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    FAQTitle: Attribute.Component<'section.title'> &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'api::hero-section.hero-section',
+      'api::home-page.home-page',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'api::hero-section.hero-section',
+      'api::home-page.home-page',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     localizations: Attribute.Relation<
-      'api::hero-section.hero-section',
+      'api::home-page.home-page',
       'oneToMany',
-      'api::hero-section.hero-section'
+      'api::home-page.home-page'
     >;
     locale: Attribute.String;
   };
 }
 
-export interface ApiMissionMission extends Schema.SingleType {
-  collectionName: 'missions';
+export interface ApiOurValueOurValue extends Schema.CollectionType {
+  collectionName: 'our_values';
   info: {
-    singularName: 'mission';
-    pluralName: 'missions';
-    displayName: 'Mission';
+    singularName: 'our-value';
+    pluralName: 'our-values';
+    displayName: 'OurValue';
   };
   options: {
     draftAndPublish: true;
@@ -1057,53 +1163,49 @@ export interface ApiMissionMission extends Schema.SingleType {
   };
   attributes: {
     title: Attribute.String &
+      Attribute.Required &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
         };
       }>;
-    description: Attribute.String &
+    icon: Attribute.Media &
+      Attribute.Required &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
-        };
-      }>;
-    image: Attribute.Media &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
         };
       }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'api::mission.mission',
+      'api::our-value.our-value',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'api::mission.mission',
+      'api::our-value.our-value',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     localizations: Attribute.Relation<
-      'api::mission.mission',
+      'api::our-value.our-value',
       'oneToMany',
-      'api::mission.mission'
+      'api::our-value.our-value'
     >;
     locale: Attribute.String;
   };
 }
 
-export interface ApiPagePage extends Schema.CollectionType {
-  collectionName: 'pages';
+export interface ApiServiceService extends Schema.CollectionType {
+  collectionName: 'services';
   info: {
-    singularName: 'page';
-    pluralName: 'pages';
-    displayName: 'Page';
+    singularName: 'service';
+    pluralName: 'services';
+    displayName: 'Service';
     description: '';
   };
   options: {
@@ -1116,39 +1218,163 @@ export interface ApiPagePage extends Schema.CollectionType {
   };
   attributes: {
     title: Attribute.String &
+      Attribute.Required &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
         };
       }>;
-    hyperlink: Attribute.Relation<
-      'api::page.page',
-      'oneToOne',
-      'api::button.button'
-    >;
-    description: Attribute.String &
+    description: Attribute.RichText &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
         };
       }>;
-    commonLink: Attribute.String &
+    cover: Attribute.Media &
+      Attribute.Required &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: false;
         };
       }>;
+    type: Attribute.Relation<
+      'api::service.service',
+      'oneToOne',
+      'api::service-type.service-type'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<'api::page.page', 'oneToOne', 'admin::user'> &
+    createdBy: Attribute.Relation<
+      'api::service.service',
+      'oneToOne',
+      'admin::user'
+    > &
       Attribute.Private;
-    updatedBy: Attribute.Relation<'api::page.page', 'oneToOne', 'admin::user'> &
+    updatedBy: Attribute.Relation<
+      'api::service.service',
+      'oneToOne',
+      'admin::user'
+    > &
       Attribute.Private;
     localizations: Attribute.Relation<
-      'api::page.page',
+      'api::service.service',
       'oneToMany',
-      'api::page.page'
+      'api::service.service'
+    >;
+    locale: Attribute.String;
+  };
+}
+
+export interface ApiServiceTypeServiceType extends Schema.CollectionType {
+  collectionName: 'service_types';
+  info: {
+    singularName: 'service-type';
+    pluralName: 'service-types';
+    displayName: 'ServiceType';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    title: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::service-type.service-type',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::service-type.service-type',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::service-type.service-type',
+      'oneToMany',
+      'api::service-type.service-type'
+    >;
+    locale: Attribute.String;
+  };
+}
+
+export interface ApiTrainingGuideTrainingGuide extends Schema.CollectionType {
+  collectionName: 'training_guides';
+  info: {
+    singularName: 'training-guide';
+    pluralName: 'training-guides';
+    displayName: 'TrainingGuide';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    title: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    description: Attribute.RichText &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    position: Attribute.BigInteger &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    trainingProgram: Attribute.Relation<
+      'api::training-guide.training-guide',
+      'oneToOne',
+      'api::training-program.training-program'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::training-guide.training-guide',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::training-guide.training-guide',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::training-guide.training-guide',
+      'oneToMany',
+      'api::training-guide.training-guide'
     >;
     locale: Attribute.String;
   };
@@ -1173,12 +1399,7 @@ export interface ApiTrainingProgramTrainingProgram
   };
   attributes: {
     title: Attribute.String &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    description: Attribute.Text &
+      Attribute.Required &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
@@ -1187,7 +1408,7 @@ export interface ApiTrainingProgramTrainingProgram
     cover: Attribute.Media &
       Attribute.SetPluginOptions<{
         i18n: {
-          localized: true;
+          localized: false;
         };
       }>;
     type: Attribute.Relation<
@@ -1195,6 +1416,30 @@ export interface ApiTrainingProgramTrainingProgram
       'oneToOne',
       'api::training-program-type.training-program-type'
     >;
+    trainers: Attribute.Relation<
+      'api::training-program.training-program',
+      'oneToMany',
+      'plugin::users-permissions.user'
+    >;
+    materials: Attribute.Relation<
+      'api::training-program.training-program',
+      'oneToMany',
+      'api::training-program-material.training-program-material'
+    >;
+    description: Attribute.RichText &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    scope: Attribute.Enumeration<['civil', 'militar']> &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1219,6 +1464,62 @@ export interface ApiTrainingProgramTrainingProgram
   };
 }
 
+export interface ApiTrainingProgramMaterialTrainingProgramMaterial
+  extends Schema.CollectionType {
+  collectionName: 'training_program_materials';
+  info: {
+    singularName: 'training-program-material';
+    pluralName: 'training-program-materials';
+    displayName: 'TrainingProgramMaterial';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    title: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    description: Attribute.RichText &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::training-program-material.training-program-material',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::training-program-material.training-program-material',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::training-program-material.training-program-material',
+      'oneToMany',
+      'api::training-program-material.training-program-material'
+    >;
+    locale: Attribute.String;
+  };
+}
+
 export interface ApiTrainingProgramTypeTrainingProgramType
   extends Schema.CollectionType {
   collectionName: 'training_program_types';
@@ -1238,21 +1539,17 @@ export interface ApiTrainingProgramTypeTrainingProgramType
   };
   attributes: {
     title: Attribute.String &
+      Attribute.Required &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
         };
       }>;
-    description: Attribute.String &
+    description: Attribute.RichText &
+      Attribute.Required &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
-        };
-      }>;
-    slug: Attribute.String &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
         };
       }>;
     createdAt: Attribute.DateTime;
@@ -1279,44 +1576,12 @@ export interface ApiTrainingProgramTypeTrainingProgramType
   };
 }
 
-export interface ApiTrustedByTrustedBy extends Schema.CollectionType {
-  collectionName: 'trusted_bies';
+export interface ApiTrustedCompanyTrustedCompany extends Schema.CollectionType {
+  collectionName: 'trusted_companies';
   info: {
-    singularName: 'trusted-by';
-    pluralName: 'trusted-bies';
-    displayName: 'TrustedBy';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    companyName: Attribute.String;
-    companyLogo: Attribute.Media;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::trusted-by.trusted-by',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::trusted-by.trusted-by',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiVisionVision extends Schema.SingleType {
-  collectionName: 'visions';
-  info: {
-    singularName: 'vision';
-    pluralName: 'visions';
-    displayName: 'Vision';
+    singularName: 'trusted-company';
+    pluralName: 'trusted-companies';
+    displayName: 'TrustedCompany';
     description: '';
   };
   options: {
@@ -1329,18 +1594,28 @@ export interface ApiVisionVision extends Schema.SingleType {
   };
   attributes: {
     title: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    description: Attribute.RichText &
+      Attribute.Required &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
         };
       }>;
-    description: Attribute.Text &
+    logo: Attribute.Media &
+      Attribute.Required &
       Attribute.SetPluginOptions<{
         i18n: {
-          localized: true;
+          localized: false;
         };
       }>;
-    image: Attribute.Media &
+    pageUrl: Attribute.String &
+      Attribute.Required &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: false;
@@ -1350,21 +1625,21 @@ export interface ApiVisionVision extends Schema.SingleType {
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'api::vision.vision',
+      'api::trusted-company.trusted-company',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'api::vision.vision',
+      'api::trusted-company.trusted-company',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     localizations: Attribute.Relation<
-      'api::vision.vision',
+      'api::trusted-company.trusted-company',
       'oneToMany',
-      'api::vision.vision'
+      'api::trusted-company.trusted-company'
     >;
     locale: Attribute.String;
   };
@@ -1386,18 +1661,21 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'api::button.button': ApiButtonButton;
+      'api::about-us-page.about-us-page': ApiAboutUsPageAboutUsPage;
       'api::client-challenge.client-challenge': ApiClientChallengeClientChallenge;
-      'api::common-anchor-section.common-anchor-section': ApiCommonAnchorSectionCommonAnchorSection;
-      'api::core-value.core-value': ApiCoreValueCoreValue;
+      'api::contact-form.contact-form': ApiContactFormContactForm;
+      'api::faq.faq': ApiFaqFaq;
+      'api::faq-type.faq-type': ApiFaqTypeFaqType;
       'api::global.global': ApiGlobalGlobal;
-      'api::hero-section.hero-section': ApiHeroSectionHeroSection;
-      'api::mission.mission': ApiMissionMission;
-      'api::page.page': ApiPagePage;
+      'api::home-page.home-page': ApiHomePageHomePage;
+      'api::our-value.our-value': ApiOurValueOurValue;
+      'api::service.service': ApiServiceService;
+      'api::service-type.service-type': ApiServiceTypeServiceType;
+      'api::training-guide.training-guide': ApiTrainingGuideTrainingGuide;
       'api::training-program.training-program': ApiTrainingProgramTrainingProgram;
+      'api::training-program-material.training-program-material': ApiTrainingProgramMaterialTrainingProgramMaterial;
       'api::training-program-type.training-program-type': ApiTrainingProgramTypeTrainingProgramType;
-      'api::trusted-by.trusted-by': ApiTrustedByTrustedBy;
-      'api::vision.vision': ApiVisionVision;
+      'api::trusted-company.trusted-company': ApiTrustedCompanyTrustedCompany;
     }
   }
 }

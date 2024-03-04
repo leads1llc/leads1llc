@@ -37,6 +37,8 @@ services:
       - ./packages/web:/app
     env_file:
       - .env
+    ports:
+      - 3000:3000
     networks:
       app:
         ipv4_address: 10.6.0.4
@@ -47,6 +49,8 @@ services:
       mysql:
         condition: service_healthy
         restart: true
+    ports:
+      - 1337:1337
     volumes:
       - ./packages/core:/app
     env_file:

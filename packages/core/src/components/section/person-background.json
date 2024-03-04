@@ -1,0 +1,30 @@
+{
+  "collectionName": "components_section_person_backgrounds",
+  "info": {
+    "displayName": "PersonBackground",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "component",
+      "repeatable": false,
+      "component": "section.title",
+      "required": true
+    },
+    "profesionalDataTitle": {
+      "type": "string",
+      "required": true
+    },
+    "experienceTitle": {
+      "type": "string",
+      "required": true
+    },
+    "experience": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.icon-text",
+      "required": true
+    }
+  }
+}

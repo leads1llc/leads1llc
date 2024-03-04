@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_input_text_inputs",
+  "info": {
+    "displayName": "TextInput"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "placeholder": {
+      "type": "string"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "text",
+        "phone",
+        "number"
+      ],
+      "required": true
+    },
+    "required": {
+      "type": "boolean",
+      "required": true
+    }
+  }
+}

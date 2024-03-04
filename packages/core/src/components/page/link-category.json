@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_page_link_categories",
+  "info": {
+    "displayName": "LinkCategory"
+  },
+  "options": {},
+  "attributes": {
+    "category": {
+      "type": "string",
+      "required": true
+    },
+    "links": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.link"
+    }
+  }
+}

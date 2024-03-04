@@ -22,7 +22,8 @@
           "localized": true
         }
       },
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "description": {
       "pluginOptions": {
@@ -30,15 +31,8 @@
           "localized": true
         }
       },
-      "type": "string"
-    },
-    "slug": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      },
-      "type": "string"
+      "type": "richtext",
+      "required": true
     }
   }
 }

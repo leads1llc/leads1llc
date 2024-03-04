@@ -4,8 +4,7 @@
   "info": {
     "singularName": "client-challenge",
     "pluralName": "client-challenges",
-    "displayName": "ClientChallenge",
-    "description": ""
+    "displayName": "ClientChallenge"
   },
   "options": {
     "draftAndPublish": true
@@ -17,30 +16,26 @@
   },
   "attributes": {
     "title": {
-      "type": "string",
       "pluginOptions": {
         "i18n": {
           "localized": true
         }
       },
-      "required": true,
-      "unique": true
+      "type": "string",
+      "required": true
     },
     "icon": {
+      "allowedTypes": [
+        "images"
+      ],
       "type": "media",
       "multiple": false,
-      "required": true,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ],
       "pluginOptions": {
         "i18n": {
-          "localized": false
+          "localized": true
         }
-      }
+      },
+      "required": true
     }
   }
 }
