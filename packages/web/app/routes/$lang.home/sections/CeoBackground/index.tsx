@@ -33,15 +33,18 @@ export function CeoBackground({ ceoBackground }: CeoBackgroundProps) {
     { leftText: "Deparment: ", rightText: "Marine" }
   ];
 
+  const dataItemClass = "flex flex-col gap-4";
+  const dataItemListClass = "flex flex-col gap-2"
+
   return (
-    <Section className="ceo-background" headline={{ title: ceoBackground.title, description: ceoBackground.description }}>
-      <div className="photo">
-        <img src="https://df6f8e1b9b.clvaw-cdnwnd.com/c733a0c8b7e4b610c4296892ad379276/200000125-70cab70cad/_NPB0764.webp?ph=df6f8e1b9b" />
+    <Section className="flex flex-col sm:flex-row gap-8" headline={{ title: ceoBackground.title, subtitle: ceoBackground.subtitle }}>
+      <div className="flex w-full h-full border-solid border border-dark-500">
+        <img className="w-full h-full" src="https://df6f8e1b9b.clvaw-cdnwnd.com/c733a0c8b7e4b610c4296892ad379276/200000125-70cab70cad/_NPB0764.webp?ph=df6f8e1b9b" />
       </div>
-      <div className="data">
-        <div className="data-item">
-          <h3>Personal Data</h3>
-          <ul>
+      <div className="flex w-full flex-col gap-12">
+        <div className={dataItemClass}>
+          <h3 className="font-bold text-xl">Personal Data</h3>
+          <ul className={dataItemListClass}>
             {personalData.map((personalData) => <li>
               <PairText
                 leftText={personalData.leftText}
@@ -49,9 +52,9 @@ export function CeoBackground({ ceoBackground }: CeoBackgroundProps) {
             </li>)}
           </ul>
         </div>
-        <div className="data-item">
-          <h3>Honor medals</h3>
-          <ul>
+        <div className={dataItemClass}>
+          <h3 className="font-bold text-xl ">Honor medals</h3>
+          <ul className={dataItemListClass}>
             {honorMedals.map((honorMedal) => {
               return <li>
                 <span>{honorMedal}</span>

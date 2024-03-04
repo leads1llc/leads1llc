@@ -1,5 +1,5 @@
 import { LoaderFunctionArgs, json } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData, useNavigate } from "@remix-run/react";
 import { Progams } from "./components/Programs";
 import { Section } from "../../components/Section";
 import { Services } from "./sections/Services";
@@ -7,109 +7,165 @@ import { CeoBackground } from "./sections/CeoBackground";
 import { Testimonies } from "./sections/Testimonies";
 import { Contact } from "./sections/Contact";
 import { HeroSection } from "../../components/HeroSection";
+import { strapiGet, strapiResourceUrl } from "~/services/strapi";
 
-export const loader = async ({ }: LoaderFunctionArgs) => {
+export const loader = async ({ params }: LoaderFunctionArgs) => {
+  const locale = params.lang;
 
-  const API_URL = `http://10.6.0.5:1337`;
-  const trustedBiesRes = await fetch(`${API_URL}/api/trusted-bies?populate=*`);
-  const trustedBies = await trustedBiesRes.json();
+  const homePageRes = await strapiGet('/api/home-page', {
+    populate: {
+      trainingPrograms: '*',
+      heroSection: {
+        populate: {
+          button: '*',
+          image: {
+            fields: ['url']
+          }
+        }
+      },
+      ceoBackground: {
+        populate: {
+          title: '*',
+          experience: {
+            populate: {
+              icon: {
+                fields: ['url']
+              }
+            }
+          }
+        }
+      },
+      trustedBy: '*',
+      services: '*',
+      testimonialTitle: '*',
+      FAQTitle: '*'
+    }, locale: locale
+  });
+  const homePageJson = await homePageRes.json();
+  const homePageData = homePageJson.data;
+  const homePage = homePageData.attributes;
 
-  const companies = !trustedBies.data ? [] : trustedBies.data.map((trustedBy) => {
+  const trustedCompaniesRes = await strapiGet(`/api/trusted-companies`, {
+    populate: {
+      fields: ['title', 'pageUrl'],
+      logo: {
+        fields: ['url']
+      }
+    }, locale: locale
+  });
+  const trustedCompanies = await trustedCompaniesRes.json();
+
+  const companies = !trustedCompanies.data ? [] : trustedCompanies.data.map((trustedBy) => {
     return {
       id: trustedBy.id,
-      title: trustedBy.attributes.companyName,
+      title: trustedBy.attributes.title,
       logo: {
-        url: `${API_URL}${trustedBy.attributes.companyLogo.data.attributes.url}`
+        url: strapiResourceUrl(trustedBy.attributes.logo.data.attributes.url)
       }
     }
   });
 
+  const trainingProgramsRes = await strapiGet('/api/training-programs', {
+    populate: {
+      fields: ['title', 'description'],
+      type: {
+        populate: {
+          fields: ['title', 'description']
+        }
+      },
+      cover: {
+        fields: ['url']
+      }
+    },
+    locale
+  });
+
+  const trainingPrograms = await trainingProgramsRes.json();
+
+  const trainingProgramsCategory: any = {};
+
+  for (const trainingProgram of trainingPrograms.data) {
+    const programType = trainingProgram.attributes.type;
+    const programTitle = programType.data.attributes.title;
+    const programId = programType.data.id;
+
+    if (!trainingProgramsCategory[programId]) {
+      trainingProgramsCategory[programId] = {
+        id: programId,
+        title: programTitle,
+        description: programType.data.attributes.description,
+        programs: [],
+      };
+    }
+
+    trainingProgramsCategory[programId].programs.push({
+      id: trainingProgram.id,
+      title: trainingProgram.attributes.title,
+      description: trainingProgram.attributes.description,
+      image: { url: strapiResourceUrl(trainingProgram.attributes.cover.data.attributes.url) }
+    });
+
+
+  }
+
+
+  const servicesRes = await strapiGet('/api/services', {
+    populate: {
+      cover: {
+        fields: ['url']
+      }
+    },
+    locale: locale
+  });
+
+  const servicesJson = await servicesRes.json();
+
+  const services = !servicesJson.data ? [] : servicesJson.data.map((service) => {
+    return {
+      id: service.id,
+      title: service.attributes.title,
+      description: service.attributes.description,
+      image: { url: strapiResourceUrl(service.attributes.cover.data.attributes.url) }
+    }
+  });
+
+  const contactFormRes = await strapiGet('/api/contact-form', { populate: '*', locale });
+  const contactFormJson = await contactFormRes.json();
+  const contactForm = contactFormJson.data.attributes;
+
   return {
+    locale: locale,
     hero: {
-      title: "BE BETTER EVERY DAY, TRAIN LIKE A WARRIOR AND LEAD THE WAY TO EXCELLENCE.",
+      title: homePage.heroSection.description,
       button: {
-        title: "EXPLORE OUR TRAINING PROGRAMS",
-        link: "",
+        title: homePage.heroSection.button[0].title,
+        link: homePage.heroSection.button[0].url,
       },
       image: {
-        url: "https://df6f8e1b9b.clvaw-cdnwnd.com/c733a0c8b7e4b610c4296892ad379276/200000084-c2850c2851/WhatsApp%20Image%202022-05-17%20at%209.36.53%20PM.webp?ph=df6f8e1b9b"
+        url: strapiResourceUrl(homePage.heroSection.image.data.attributes.url)
       }
     },
     trustedBy: {
-      title: "Trusted by our clients and partners",
+      title: homePage.trustedBy,
       companies
     },
     trainingPrograms: {
-      title: "Training Programs",
-      description: "You should choose one of the following",
-      categories: [
-        {
-          title: "Training for Managerial Staff Teams",
-          description: "Strengthen the skills, abilities, and attitudes of your organization's managers and staff members with the aim of enhancing business performance and profitability.",
-          programs: [
-            {
-              id: 1,
-              title: "Staff Functions Training for Decision Making",
-              image: {
-                url: "https://df6f8e1b9b.clvaw-cdnwnd.com/c733a0c8b7e4b610c4296892ad379276/200000084-c2850c2851/WhatsApp%20Image%202022-05-17%20at%209.36.53%20PM.webp?ph=df6f8e1b9b"
-              },
-              description: "Identify the key functions and responsibilities of your Staff, using the methodology of the planning process and contributing to effective decision-making and the conduct of successful operations.",
-            },
-            { id: 2, title: "Risk Management Training", image: { url: "" }, description: "" },
-          ]
-        },
-        {
-          title: "Training for Managerial Staff Teams",
-          description: "Strengthen the skills, abilities, and attitudes of your organization's managers and staff members with the aim of enhancing business performance and profitability.",
-          programs: [
-            {
-              id: 1,
-              title: "Staff Functions Training for Decision Making",
-              image: {
-                url: "https://df6f8e1b9b.clvaw-cdnwnd.com/c733a0c8b7e4b610c4296892ad379276/200000084-c2850c2851/WhatsApp%20Image%202022-05-17%20at%209.36.53%20PM.webp?ph=df6f8e1b9b"
-              },
-              description: "Identify the key functions and responsibilities of your Staff, using the methodology of the planning process and contributing to effective decision-making and the conduct of successful operations.",
-            },
-            { id: 2, title: "Risk Management Training", image: { url: "" }, description: "" },
-          ]
-        },
-        {
-          title: "Training for Managerial Staff Teams",
-          description: "Strengthen the skills, abilities, and attitudes of your organization's managers and staff members with the aim of enhancing business performance and profitability.",
-          programs: [
-            {
-              id: 1,
-              title: "Staff Functions Training for Decision Making",
-              image: {
-                url: "https://df6f8e1b9b.clvaw-cdnwnd.com/c733a0c8b7e4b610c4296892ad379276/200000084-c2850c2851/WhatsApp%20Image%202022-05-17%20at%209.36.53%20PM.webp?ph=df6f8e1b9b"
-              },
-              description: "Identify the key functions and responsibilities of your Staff, using the methodology of the planning process and contributing to effective decision-making and the conduct of successful operations.",
-            },
-            { id: 2, title: "Risk Management Training", image: { url: "" }, description: "" },
-          ]
-        }
-      ],
+      title: homePage.trainingPrograms.title,
+      subtitle: homePage.trainingPrograms.subtitle,
+      categories: Object.values(trainingProgramsCategory)
     },
     services: {
-      title: "Services",
-      description: "We also provide specific services",
-      services: [...[...Array(10).keys()].map(() => {
-        return {
-          title: "Situational assessment of operational teams and staffs",
-          link: {
-            to: ""
-          },
-          image: { url: "https://df6f8e1b9b.clvaw-cdnwnd.com/c733a0c8b7e4b610c4296892ad379276/200000107-9347693478/WhatsApp%20Image%202022-05-24%20at%208.31.55%20AM.webp?ph=df6f8e1b9b" }
-        };
-      })]
+      title: homePage.services.title,
+      subtitle: homePage.services.subtitle,
+      services: services
     },
     ceoBackground: {
-      title: "Ceo Background",
-      description: "Train with the best"
+      title: homePage.ceoBackground.title.title,
+      subtitle: homePage.ceoBackground.title.subtitle,
     },
     testimonies: {
-      title: "Here’s what people have to say about us",
-      description: "Our clients and partners help us to grow",
+      title: homePage.testimonialTitle.title,
+      subtitle: homePage.testimonialTitle.subtitle,
       testimonies: [...Array(3).keys()].map(() => ({
         company: {
           site: "",
@@ -124,57 +180,63 @@ export const loader = async ({ }: LoaderFunctionArgs) => {
         }
       }))
     },
-    form: {
-      title: "You will be a better leadership",
-      description: "Improve your skill today",
+    contactForm: {
+      title: {
+        ...contactForm.title
+      },
+      fields: contactForm.fields,
+      submit: {
+        ...contactForm.submit
+      }
     },
     faq: {
-      title: "Frequently Asked Questions",
-      description: "Common community questions"
+      title: homePage.FAQTitle.title,
+      subtitle: homePage.FAQTitle.subtitle
     }
   };
 };
 
 export default function Route() {
-  const { hero, trustedBy, trainingPrograms, services, ceoBackground, testimonies, form, faq } = useLoaderData<typeof loader>();
+  const { hero, trustedBy, trainingPrograms, services, ceoBackground, testimonies, contactForm, faq, locale } = useLoaderData<typeof loader>();
 
+  const navigate = useNavigate();
 
   return (
     <>
 
       <HeroSection title={hero.title} buttonTitle={hero.button.title} imageUrl={hero.image.url} />
 
-      <section>
-        <h1 className="bold text-2xl">Hello</h1>
-      </section>
-
-      <section className="trusted-by">
-        <h2>{trustedBy.title}</h2>
-        <ul className="companies">
+      <section className="flex w-full px-12 py-4 border-box justify-between items-center border-solid border-b border-dark-500">
+        <h2 className="font-light">{trustedBy.title}</h2>
+        <ul className="flex flex-wrap gap-4">
           {trustedBy.companies.map((company) => {
             return (
               <li><Link to={company.site} target="_blank">
-                <img src={company.logo.url} />
+                <img className="w-32" src={company.logo.url} />
               </Link></li>
             );
           })}
         </ul>
       </section>
 
-      <Section headline={{ title: "Training Programs", description: "You should choose one of the following" }}>
+      <Section headline={{ title: trainingPrograms.title, subtitle: trainingPrograms.subtitle }}>
 
-        <ul className="categories">
+        <ul className="flex flex-col gap-32">
           {trainingPrograms.categories.map((category, categoryIndex) => {
             const isOdd = categoryIndex % 2 !== 0;
-            return <li key={categoryIndex} className="category"  >
+            return <li key={categoryIndex} className="flex flex-col gap-8"  >
               <div
+                className="flex flex-col gap-2"
                 style={{ textAlign: isOdd ? "right" : "left" }}
               >
-                <h3>{category.title}</h3>
-                <p>{category.description}</p>
+                <h3 className="font-bold text-2xl">{category.title}</h3>
+                <p className="text-md font-light">{category.description}</p>
               </div>
 
-              <Progams programs={category.programs} isOdd={isOdd} />
+              <Progams onClick={(id) => {
+                const url = `/${locale}/training-program/${id}`;
+                navigate(url);
+              }} className="flex gap-12" programs={category.programs} isOdd={isOdd} />
 
             </li>;
           })}
@@ -185,11 +247,11 @@ export default function Route() {
 
       <CeoBackground ceoBackground={ceoBackground} />
 
-      <Contact contact={form} />
+      <Contact submit={contactForm.submit} title={contactForm.title} fields={contactForm.fields} />
 
       <Testimonies testimonies={testimonies} />
 
-      <Section headline={{ title: faq.title, description: faq.description }}>
+      <Section className="w-full" headline={{ title: faq.title, subtitle: faq.subtitle }}>
         <span>Not implemented yet!</span>
       </Section>
 

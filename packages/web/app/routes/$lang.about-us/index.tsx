@@ -7,10 +7,11 @@ import { strapiGet, strapiResourceUrl } from "~/services/strapi";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const locale = params.lang;
-  const ClientChallengesRes = await strapiGet(`/api/client-challenges`, {populate: "*"});
-  const ClientChallenges = await ClientChallengesRes.json();
+  const clientChallengesRes = await strapiGet(`/api/client-challenges`, { populate: '*', locale });
+  const clientChallengesJson = await clientChallengesRes.json();
+  console.log(clientChallengesJson);
 
-  const clientChallenges = !ClientChallenges.data ? [] : ClientChallenges.data.map((clientChallenge) => {
+  const clientChallenges = !clientChallengesJson.data ? [] : clientChallengesJson.data.map((clientChallenge) => {
     return {
       id: clientChallenge.id,
       title: clientChallenge.attributes.title,
@@ -21,10 +22,12 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   });
 
 
-  const CoreValuesRes = await strapiGet(`/api/core-values`, {populate: "*", locale});
-  const CoreValues = await CoreValuesRes.json();
+  const coreValuesRes = await strapiGet(`/api/our-values`, { populate: "*", locale });
+  const coreValuesJson = await coreValuesRes.json();
 
-  const coreValues = !CoreValues.data ? [] : CoreValues.data.map((coreValue) => {
+  console.log(coreValuesJson);
+
+  const coreValues = !coreValuesJson.data ? [] : coreValuesJson.data.map((coreValue) => {
     return {
       id: coreValue.id,
       title: coreValue.attributes.title,
@@ -35,55 +38,71 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   });
 
 
-  const VisionRes = await strapiGet(`/api/vision`, {populate: '*', locale});
-  const Vision = await VisionRes.json();
-
-  const vision = !Vision.data ? null :
-    {
-      title: Vision.data.attributes.title,
-      description: Vision.data.attributes.description,
-      image: {
-        url: strapiResourceUrl(Vision.data.attributes.image.data.attributes.url)
+  const aboutUsPageRes = await strapiGet('/api/about-us-page', {
+    populate: {
+      heroSection: {
+        populate: {
+          image: {
+            fields: ['url']
+          }
+        }
+      },
+      mission: {
+        populate: {
+          image: {
+            fields: ['url']
+          }
+        }
+      },
+      vision: {
+        populate: {
+          image: {
+            fields: ['url']
+          }
+        }
       }
-    };
+    }, locale
+  });
+  
+  const aboutUsPageJson = await aboutUsPageRes.json();
+  const heroSection = aboutUsPageJson.data.attributes.heroSection;
 
-  const MissionRes = await strapiGet(`/api/mission`, {populate: '*', locale});
-  const Mission = await MissionRes.json();
-
-  console.log(Mission);
-
-  const mission = !Mission.data ? null :
-    {
-      title: Mission.data.attributes.title,
-      description: Mission.data.attributes.description,
-      image: {
-        url: strapiResourceUrl(Mission.data.attributes.image.data.attributes.url)
-      }
-    };
-
-
-
+  const mission = aboutUsPageJson.data.attributes.mission;
+  const vision = aboutUsPageJson.data.attributes.vision;
+  
   return {
     hero: {
-      title: "Who we are?",
-      description: "A private company that offers innovate solutions for the our client challenges related with",
+      title: heroSection.title,
+      description: heroSection.description,
       button: {
         title: "EXPLORE OUR TRAINING PROGRAMS",
         link: "",
       },
       image: {
-        url: "https://df6f8e1b9b.clvaw-cdnwnd.com/c733a0c8b7e4b610c4296892ad379276/200000084-c2850c2851/WhatsApp%20Image%202022-05-17%20at%209.36.53%20PM.webp?ph=df6f8e1b9b"
+        url: strapiResourceUrl(heroSection.image.data.attributes.url)
       }
     },
     clientChallenges,
     coreValues,
-    vision,
-    mission
+    mission:  {
+      title: mission.title,
+      description: mission.description,
+      image: {
+        url: strapiResourceUrl(mission.image.data.attributes.url)
+      }
+    },
+    vision: {
+      title: vision.title,
+      description: vision.description,
+      image: {
+        url: strapiResourceUrl(vision.image.data.attributes.url)
+      }
+    }
   };
 }
 
 export default function Route() {
-  const { hero, clientChallenges, coreValues, vision, mission} = useLoaderData<typeof loader>();
+  const { hero, clientChallenges, coreValues, vision, mission } = useLoaderData<typeof loader>();
 
   return (
     <div className="about-us">
@@ -104,9 +123,9 @@ export default function Route() {
       </section>
 
 
-      <VisualDetails title={mission?.title} description={mission?.description} imageUrl={mission?.image.url!}/>
+      <VisualDetails title={mission?.title} description={mission?.description} imageUrl={mission?.image.url!} />
 
-      <VisualDetails title={vision?.title} description={vision?.description} imageUrl={vision?.image.url!} style={{flexDirection: "row-reverse"}}/>
+      <VisualDetails title={vision?.title} description={vision?.description} imageUrl={vision?.image.url!} style={{ flexDirection: "row-reverse" }} />
 
     </div>
   );

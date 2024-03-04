@@ -15,6 +15,7 @@ export default {
         "primary-800": "#AB7C38",
         "primary-900": "#875E24",
         "dark-500": "#19160E",
+        "dark-300": "#2F2F2F",
         "light-500": "#EEEEEE",
         "success-500": "#9CF8BB",
         "warn-500": "#F8F49C",

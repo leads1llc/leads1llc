@@ -40,6 +40,9 @@ const NavLinks = forwardRef<HTMLUListElement, NavLinksProps>((props, ref) => {
 
   const handleLangSelect = (langSelected: string) => {
     const path = location.pathname.replace(lang, langSelected) + location.hash;
+    if(path.includes('/home')){
+      navigate(`/${lang}`);
+    }
     navigate(path);
   };
 

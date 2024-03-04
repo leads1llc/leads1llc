@@ -6,7 +6,7 @@ export type BodyProps = {
 
 export function Body({ children }: BodyProps) {
   return (
-    <section className="body">
+    <section className="flex flex-col items-center z-10">
       {children}
     </section>
   );
