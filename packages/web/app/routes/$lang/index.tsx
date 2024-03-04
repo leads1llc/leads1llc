@@ -25,9 +25,6 @@ export const loader = ({ context, request, params }: LoaderFunctionArgs) => {
     to: "/services"
   },
   {
-    title: "Experience",
-    to: "/experience"
-  }, {
     title: "About us",
     to: "/about-us"
   }
@@ -45,8 +42,8 @@ export const loader = ({ context, request, params }: LoaderFunctionArgs) => {
   if (!lang || !languagesCodes.includes(lang)) {
     return redirect('/404');
   }
-''
-  return { lang, supportedLanguages, contact, links};
+  ''
+  return { lang, supportedLanguages, contact, links };
 };
 
 export default function Route() {
@@ -54,9 +51,9 @@ export default function Route() {
 
   return (
     <>
-      <Nav lang={data.lang} supportedLanguages={data.supportedLanguages} contact={data.contact} links={data.links}/>
+      <Nav lang={data.lang} supportedLanguages={data.supportedLanguages} contact={data.contact} links={data.links} />
       <Body>
-        <Outlet/>
+        <Outlet />
       </Body>
       <Footer />
     </>
