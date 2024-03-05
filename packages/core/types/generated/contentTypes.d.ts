@@ -1406,6 +1406,7 @@ export interface ApiTrainingProgramTrainingProgram
         };
       }>;
     cover: Attribute.Media &
+      Attribute.Required &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: false;

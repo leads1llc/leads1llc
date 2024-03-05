@@ -2,14 +2,13 @@ import { LoaderFunctionArgs } from "@remix-run/node";
 import { HeroSection } from "../../components/HeroSection";
 import { useLoaderData } from "@remix-run/react";
 import { TextIcon } from "./components/TextIcon";
-import { VisualDetails } from "../../components/VisualDetails";
+import { SideImage } from "../../components/SideImage";
 import { strapiGet, strapiResourceUrl } from "~/services/strapi";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const locale = params.lang;
   const clientChallengesRes = await strapiGet(`/api/client-challenges`, { populate: '*', locale });
   const clientChallengesJson = await clientChallengesRes.json();
-  console.log(clientChallengesJson);
 
   const clientChallenges = !clientChallengesJson.data ? [] : clientChallengesJson.data.map((clientChallenge) => {
     return {
@@ -25,7 +24,6 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   const coreValuesRes = await strapiGet(`/api/our-values`, { populate: "*", locale });
   const coreValuesJson = await coreValuesRes.json();
 
-  console.log(coreValuesJson);
 
   const coreValues = !coreValuesJson.data ? [] : coreValuesJson.data.map((coreValue) => {
     return {
@@ -89,14 +87,16 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
       description: mission.description,
       image: {
         url: strapiResourceUrl(mission.image.data.attributes.url)
-      }
+      },
+      side: mission.side
     },
     vision: {
       title: vision.title,
       description: vision.description,
       image: {
         url: strapiResourceUrl(vision.image.data.attributes.url)
-      }
+      },
+      side: vision.side
     }
   };
 }
@@ -123,9 +123,9 @@ export default function Route() {
       </section>
 
 
-      <VisualDetails title={mission?.title} description={mission?.description} imageUrl={mission?.image.url!} />
+      <SideImage title={mission?.title} description={mission?.description} imageUrl={mission?.image.url!} side={mission.side} />
 
-      <VisualDetails title={vision?.title} description={vision?.description} imageUrl={vision?.image.url!} style={{ flexDirection: "row-reverse" }} />
+      <SideImage title={vision?.title} description={vision?.description} imageUrl={vision?.image.url!} side={vision.side} />
 
     </div>
   );

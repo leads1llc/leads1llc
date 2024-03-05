@@ -1,4 +1,5 @@
-import rootStylesHref from "./root.css";
+import resetsStylesHref from "./styles/resets.css";
+import tailwindStylesHref from "./styles/tailwind.css"
 import type { LinksFunction } from "@remix-run/node";
 import {
   Links,
@@ -10,7 +11,7 @@ import {
 } from "@remix-run/react";
 
 export const links: LinksFunction = () => [
-  ...(rootStylesHref ? [{ rel: "stylesheet", href: rootStylesHref }] : []),
+  ...(resetsStylesHref ? [{ rel: "stylesheet", href: resetsStylesHref }, {rel: "stylesheet", href: tailwindStylesHref}] : []),
 ];
 
 export default function App() {
