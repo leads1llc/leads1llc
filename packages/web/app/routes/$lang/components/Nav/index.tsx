@@ -106,10 +106,10 @@ export function Nav({ lang, supportedLanguages, links, contact }: NavProps) {
   }, [toggle]);
 
   return (
-    <nav>
-      <div className="relative border-4 p-4 flex w-screen justify-between items-center bg-dark-500 z-50">
+    <nav className="border-solid border-b border-primary-300">
+      <div className="relative border-4 px-8 py-4 flex w-screen justify-between items-center bg-dark-500 z-50">
         <NavLink to={`/${lang}/home`}>
-          <Leads1LLCLogoMark size={70} foregroundColor="#BDBDBD" backgroundColor="#1F1F1F" />
+          <Leads1LLCLogoMark size={60} foregroundColor="#BDBDBD" backgroundColor="#1F1F1F" />
         </NavLink>
 
         {!toggle ?
