@@ -53,7 +53,7 @@ export default function Route() {
     <>
       <Nav lang={data.lang} supportedLanguages={data.supportedLanguages} contact={data.contact} links={data.links} />
       <Body>
-        <Outlet />
+        <Outlet/>
       </Body>
       <Footer />
     </>

@@ -1,4 +1,4 @@
-import { Link, NavLink, useNavigate } from "@remix-run/react";
+import { Link, NavLink, useLocation, useNavigate } from "@remix-run/react";
 import { LegacyRef, forwardRef, useEffect, useRef, useState } from "react";
 import { Leads1LLCLogoMark } from "~/components/Leads1LLCLogoMark";
 import { FiAlignJustify } from 'react-icons/fi'
@@ -40,23 +40,30 @@ const NavLinks = forwardRef<HTMLUListElement, NavLinksProps>((props, ref) => {
 
   const handleLangSelect = (langSelected: string) => {
     const path = location.pathname.replace(lang, langSelected) + location.hash;
-    if(path.includes('/home')){
+    if (path.includes('/home')) {
       navigate(`/${lang}`);
     }
     navigate(path);
   };
 
 
-  const commonClassName = "w-full flex items-center justify-center";
-  const commonHoverClassName = "hover:bg-primary-500 hover:text-dark-500";
+  const commonClassName = "flex items-center justify-center";
+  const commonHoverClassName = "hover:border-primary-500 hover:text-primary-500 hover:font-bold hover:border-solid hover:border-b hover:text-dark-500";
+  const commonActiveClassName = commonHoverClassName.replaceAll('hover:', '');
 
   return (
     <ul ref={ref} className={className}>
       {links.map((link, index) => {
         const linkTo = `/${lang}${link.to}`;
         return (
-          <NavLink onClick={onClick} className={concatClassNames("p-2 w-full text-center", commonClassName, commonHoverClassName)} key={index} to={linkTo}>
-            <li> {link.title}</li>
+          <NavLink onClick={onClick} className={({ isActive }) => {
+            if (isActive) {
+              console.log(commonActiveClassName);
+              return commonActiveClassName;
+            }
+            return concatClassNames("text-center", commonClassName, commonHoverClassName);
+          }} key={index} to={linkTo}>
+            <li className="flex w-full"><div> {link.title}</div></li>
           </NavLink>
         );
       })}
@@ -78,9 +85,9 @@ const NavLinks = forwardRef<HTMLUListElement, NavLinksProps>((props, ref) => {
         onClick={onClick}
         className={
           concatClassNames(
-            "hidden sm:flex p-2 w-full text-center bg-primary-100 text-dark-500",
+            "hidden sm:flex p-2 w-full text-center bg-primary-500 text-dark-500 font-bold ease duration-300",
+            "hover:border-solid hover:border hover:border-light-500 hover:bg-dark-300 hover:text-primary-500",
             commonClassName,
-            commonHoverClassName
           )
 
         }>
@@ -106,8 +113,8 @@ export function Nav({ lang, supportedLanguages, links, contact }: NavProps) {
   }, [toggle]);
 
   return (
-    <nav className="border-solid border-b border-primary-300">
-      <div className="relative border-4 px-8 py-4 flex w-screen justify-between items-center bg-dark-500 z-50">
+    <nav className="w-full border-solid border-b border-primary-500">
+      <div className="w-full relative border-4 px-8 py-4 flex w-screen justify-between items-center bg-dark-500 z-50">
         <NavLink to={`/${lang}/home`}>
           <Leads1LLCLogoMark size={60} foregroundColor="#BDBDBD" backgroundColor="#1F1F1F" />
         </NavLink>
@@ -118,15 +125,15 @@ export function Nav({ lang, supportedLanguages, links, contact }: NavProps) {
         }
 
         <div className="hidden duration-200 ease-in md:flex">
-          <NavLinks className="flex items-center text-primary-100 gap-2" lang={lang} links={links} supportedLanguages={supportedLanguages} contact={contact} />
+          <NavLinks className="whitespace-nowrap gap-2 flex items-center text-light-500 font-thin" lang={lang} links={links} supportedLanguages={supportedLanguages} contact={contact} />
         </div>
       </div>
 
-      <Link className="md:hidden flex items-center justify-center p-4 bg-primary-500 text-dark-500" to={contact.to}>{contact.title}</Link>
-      
+      <Link className="w-full md:hidden flex items-center justify-center p-4 bg-primary-500 text-dark-500 font-bold" to={contact.to}>{contact.title}</Link>
+
       <NavLinks onClick={() => {
         setToggle(false);
-      }} ref={menuBarRef} className="absolute scale-y-0 origin-top overflow-hidden flex flex-col items-center bg-dark-500 left-0 w-full text-primary-100 duration-200 delay-100 ease-in" lang={lang} contact={contact} links={links} supportedLanguages={supportedLanguages}></NavLinks>
+      }} ref={menuBarRef} className="w-full absolute scale-y-0 origin-top overflow-hidden flex flex-col items-center bg-dark-500 left-0 text-primary-500 duration-200 delay-100 ease-in pb-4 border-solid border-b" lang={lang} contact={contact} links={links} supportedLanguages={supportedLanguages}></NavLinks>
 
     </nav>
 
