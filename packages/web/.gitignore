@@ -1,6 +1,3 @@
-# Exclude css files
-*.css
-
 # global
 node_modules
 
