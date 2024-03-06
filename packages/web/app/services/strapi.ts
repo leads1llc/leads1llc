@@ -13,7 +13,7 @@ export async function strapiGet(path: string, params?: {}) {
 }
 
 export function strapiResourceUrl(path: string): string {
-  return `http://localhost:1337${path}`;
+  return `${API_URL}${path}`;
 }
 
 export async function strapiPost(path: string,) {
