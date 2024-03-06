@@ -19,9 +19,6 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     const trainingProgramData = trainingProgramJson.data;
     const trainingProgram = trainingProgramData.attributes;
 
-    console.log(trainingProgram)
-
-
     return  {
         id: trainingProgramData.id,
         title: trainingProgram.title,

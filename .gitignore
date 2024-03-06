@@ -1,6 +1,9 @@
 # certboot keys
 config/ssl/*
 
+# ignore letscripts
+config/letsencrypt/*
+
 # Logs
 .yarn
 logs

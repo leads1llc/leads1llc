@@ -8,12 +8,11 @@ export async function strapiGet(path: string, params?: {}) {
     url += `?${qs.stringify(params)}`;
 
   }
-  console.log(url);
   return await fetch(url);
 }
 
 export function strapiResourceUrl(path: string): string {
-  return `${API_URL}${path}`;
+  return `localhost:1337${path}`;
 }
 
 export async function strapiPost(path: string,) {

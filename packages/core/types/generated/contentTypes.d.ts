@@ -1215,6 +1215,7 @@ export interface ApiOurValueOurValue extends Schema.CollectionType {
     singularName: 'our-value';
     pluralName: 'our-values';
     displayName: 'OurValue';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -1236,7 +1237,7 @@ export interface ApiOurValueOurValue extends Schema.CollectionType {
       Attribute.Required &
       Attribute.SetPluginOptions<{
         i18n: {
-          localized: true;
+          localized: false;
         };
       }>;
     createdAt: Attribute.DateTime;

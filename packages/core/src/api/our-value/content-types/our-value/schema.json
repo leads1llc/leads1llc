@@ -4,7 +4,8 @@
   "info": {
     "singularName": "our-value",
     "pluralName": "our-values",
-    "displayName": "OurValue"
+    "displayName": "OurValue",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -25,17 +26,17 @@
       "required": true
     },
     "icon": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
       "allowedTypes": [
         "images"
       ],
-      "type": "media",
-      "multiple": false,
       "pluginOptions": {
         "i18n": {
-          "localized": true
+          "localized": false
         }
-      },
-      "required": true
+      }
     }
   }
 }

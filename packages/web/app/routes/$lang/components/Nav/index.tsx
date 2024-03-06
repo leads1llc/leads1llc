@@ -58,7 +58,6 @@ const NavLinks = forwardRef<HTMLUListElement, NavLinksProps>((props, ref) => {
         return (
           <NavLink onClick={onClick} className={({ isActive }) => {
             if (isActive) {
-              console.log(commonActiveClassName);
               return commonActiveClassName;
             }
             return concatClassNames("text-center", commonClassName, commonHoverClassName);
@@ -102,7 +101,6 @@ export function Nav({ lang, supportedLanguages, links, contact }: NavProps) {
   const menuBarRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
-    console.log(toggle, menuBarRef);
     if (toggle) {
       menuBarRef.current?.classList.toggle('scale-y-0');
       menuBarRef.current?.classList.toggle('scale-y-100');

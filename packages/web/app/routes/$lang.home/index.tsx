@@ -74,7 +74,6 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   const trainingProgramsData = await trainingProgramsRes.json();
   const trainingPrograms = trainingProgramsData.data.map((trainingProgram) => {
     const programType = trainingProgram.attributes.type;
-    console.log(trainingProgram);
     return {
       id: trainingProgram.id,
       title: trainingProgram.attributes.title,

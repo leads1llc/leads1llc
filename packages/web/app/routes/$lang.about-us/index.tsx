@@ -61,13 +61,13 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
       }
     }, locale
   });
-  
+
   const aboutUsPageJson = await aboutUsPageRes.json();
   const heroSection = aboutUsPageJson.data.attributes.heroSection;
 
   const mission = aboutUsPageJson.data.attributes.mission;
   const vision = aboutUsPageJson.data.attributes.vision;
-  
+
   return {
     hero: {
       title: heroSection.title,
@@ -82,7 +82,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     },
     clientChallenges,
     coreValues,
-    mission:  {
+    mission: {
       title: mission.title,
       description: mission.description,
       image: {
@@ -105,7 +105,7 @@ export default function Route() {
   const { hero, clientChallenges, coreValues, vision, mission } = useLoaderData<typeof loader>();
 
   return (
-    <div className="about-us">
+    <div className="w-full">
       <HeroSection title={hero.title} description={hero.description} imageUrl={hero.image.url}>
         {clientChallenges.map((challenge) => {
           return (
@@ -114,10 +114,12 @@ export default function Route() {
         })}
       </HeroSection>
 
-      <section className="core-values">
+      <section className="flex w-full">
         {coreValues.map((coreValue) => {
           return (
-            <TextIcon title={coreValue.title} iconUrl={coreValue.icon.url} />
+          <div className="flex flex-wrap w-full border-solid border-r bg-dark-500 border-primary-300">
+            <TextIcon className="border-solid border-l border-b w-full border-t border-primary-300 justify-center" title={coreValue.title} iconUrl={coreValue.icon.url} />
+          </div>
           );
         })}
       </section>
