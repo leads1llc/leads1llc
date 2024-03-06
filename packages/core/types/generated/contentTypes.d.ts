@@ -746,6 +746,69 @@ export interface ApiAboutUsPageAboutUsPage extends Schema.SingleType {
   };
 }
 
+export interface ApiCeoBackgroundCeoBackground extends Schema.SingleType {
+  collectionName: 'ceo_backgrounds';
+  info: {
+    singularName: 'ceo-background';
+    pluralName: 'ceo-backgrounds';
+    displayName: 'CeoBackground';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    title: Attribute.Component<'section.title'> &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    picture: Attribute.Media &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    info: Attribute.DynamicZone<
+      ['section.person-info-icon-text', 'section.person-info']
+    > &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::ceo-background.ceo-background',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::ceo-background.ceo-background',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::ceo-background.ceo-background',
+      'oneToMany',
+      'api::ceo-background.ceo-background'
+    >;
+    locale: Attribute.String;
+  };
+}
+
 export interface ApiClientChallengeClientChallenge
   extends Schema.CollectionType {
   collectionName: 'client_challenges';
@@ -1095,13 +1158,6 @@ export interface ApiHomePageHomePage extends Schema.SingleType {
         };
       }>;
     title: Attribute.String &
-      Attribute.Required &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    ceoBackground: Attribute.Component<'section.person-background'> &
       Attribute.Required &
       Attribute.SetPluginOptions<{
         i18n: {
@@ -1663,6 +1719,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::about-us-page.about-us-page': ApiAboutUsPageAboutUsPage;
+      'api::ceo-background.ceo-background': ApiCeoBackgroundCeoBackground;
       'api::client-challenge.client-challenge': ApiClientChallengeClientChallenge;
       'api::contact-form.contact-form': ApiContactFormContactForm;
       'api::faq.faq': ApiFaqFaq;

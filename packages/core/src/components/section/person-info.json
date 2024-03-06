@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_section_person_infos",
+  "info": {
+    "displayName": "PersonInfoPairText",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "pairText": {
+      "displayName": "PairText",
+      "type": "component",
+      "repeatable": true,
+      "component": "section.pair-text"
+    }
+  }
+}

@@ -67,17 +67,6 @@
       "type": "string",
       "required": true
     },
-    "ceoBackground": {
-      "type": "component",
-      "repeatable": false,
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
-      "component": "section.person-background",
-      "required": true
-    },
     "testimonialTitle": {
       "type": "component",
       "repeatable": false,

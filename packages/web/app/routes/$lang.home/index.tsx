@@ -26,18 +26,6 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
           }
         }
       },
-      ceoBackground: {
-        populate: {
-          title: '*',
-          experience: {
-            populate: {
-              icon: {
-                fields: ['url']
-              }
-            }
-          }
-        }
-      },
       trustedBy: '*',
       services: '*',
       testimonialTitle: '*',
@@ -107,8 +95,6 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
       description: trainingProgram.attributes.description,
       image: { url: strapiResourceUrl(trainingProgram.attributes.cover.data.attributes.url) }
     });
-
-
   }
 
 
@@ -132,9 +118,33 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     }
   });
 
+  const ceoBackgroundRes = await strapiGet('/api/ceo-background', {populate: {
+    title: '*',
+    picture: {
+      fields: ['url']
+    },
+    info: {
+      populate: {
+        pairText: '*',
+        iconText: {
+          populate: {
+            icon: {
+              fields: ['url']
+            }
+          }
+        }
+      }
+    }
+  }, locale});
+  const ceoBackgroundJson = await ceoBackgroundRes.json();
+  const ceoBackground = ceoBackgroundJson.data.attributes;
+
+  console.log(ceoBackground.info);
+
   const contactFormRes = await strapiGet('/api/contact-form', { populate: '*', locale });
   const contactFormJson = await contactFormRes.json();
   const contactForm = contactFormJson.data.attributes;
+
 
   return {
     locale: locale,
@@ -163,12 +173,36 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
       services: services
     },
     ceoBackground: {
-      title: homePage.ceoBackground.title.title,
-      subtitle: homePage.ceoBackground.title.subtitle,
+      title: {
+        title: ceoBackground.title.title,
+        subtitle: ceoBackground.title.subtitle,
+      },
+      image: {
+        url: strapiResourceUrl(ceoBackground.picture.data.attributes.url)
+      },
+      info: [
+        {
+          title: "Personal data",
+          pairTexts: [
+            { leftText: "Fullname: ", rightText: "Eduar Michaels" },
+            { leftText: "Range: ", rightText: "Official" },
+            { leftText: "Deparment: ", rightText: "Marine" }
+          ]
+        },
+        {
+          title: "Honor medals",
+          pairTexts: [
+            {leftText: "🇺🇸 ", rightText: "Navy and Marine Corps commendation Medal vector" },
+            {leftText: "🇨🇴 ", rightText: "Herido en Acción"},
+            {leftText: "🇨🇴 ", rightText: "Servicios Distinguidos a la Infanteria de Marina"}
+          ]
+        },
+      ],
+      info: ceoBackground.info
     },
     testimonies: {
-      title: homePage.testimonialTitle.title,
-      subtitle: homePage.testimonialTitle.subtitle,
+        title: homePage.testimonialTitle.title,
+        subtitle: homePage.testimonialTitle.subtitle,
       testimonies: [...Array(3).keys()].map(() => ({
         company: {
           site: "",
@@ -237,7 +271,7 @@ export default function Route() {
 
       <Services services={services} />
 
-      <CeoBackground ceoBackground={ceoBackground} />
+      <CeoBackground title={ceoBackground.title} info={ceoBackground.info} image={ceoBackground.image}/>
 
       <Contact submit={contactForm.submit} title={contactForm.title} fields={contactForm.fields} />
 

@@ -95,6 +95,17 @@ export interface PageLink extends Schema.Component {
   };
 }
 
+export interface SectionPairText extends Schema.Component {
+  collectionName: 'components_section_pair_texts';
+  info: {
+    displayName: 'PairText';
+  };
+  attributes: {
+    left: Attribute.String & Attribute.Required;
+    right: Attribute.String & Attribute.Required;
+  };
+}
+
 export interface SectionPersonBackground extends Schema.Component {
   collectionName: 'components_section_person_backgrounds';
   info: {
@@ -103,10 +114,31 @@ export interface SectionPersonBackground extends Schema.Component {
   };
   attributes: {
     title: Attribute.Component<'section.title'> & Attribute.Required;
-    profesionalDataTitle: Attribute.String & Attribute.Required;
-    experienceTitle: Attribute.String & Attribute.Required;
-    experience: Attribute.Component<'page.icon-text', true> &
-      Attribute.Required;
+    picture: Attribute.Media & Attribute.Required;
+  };
+}
+
+export interface SectionPersonInfoIconText extends Schema.Component {
+  collectionName: 'components_section_person_info_icon_texts';
+  info: {
+    displayName: 'PersonInfoIconText';
+    description: '';
+  };
+  attributes: {
+    title: Attribute.String & Attribute.Required;
+    iconText: Attribute.Component<'page.icon-text', true>;
+  };
+}
+
+export interface SectionPersonInfo extends Schema.Component {
+  collectionName: 'components_section_person_infos';
+  info: {
+    displayName: 'PersonInfoPairText';
+    description: '';
+  };
+  attributes: {
+    title: Attribute.String & Attribute.Required;
+    pairText: Attribute.Component<'section.pair-text', true>;
   };
 }
 
@@ -145,7 +177,10 @@ declare module '@strapi/types' {
       'page.icon-text': PageIconText;
       'page.link-category': PageLinkCategory;
       'page.link': PageLink;
+      'section.pair-text': SectionPairText;
       'section.person-background': SectionPersonBackground;
+      'section.person-info-icon-text': SectionPersonInfoIconText;
+      'section.person-info': SectionPersonInfo;
       'section.side-image': SectionSideImage;
       'section.title': SectionTitle;
     }

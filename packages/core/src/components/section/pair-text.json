@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_section_pair_texts",
+  "info": {
+    "displayName": "PairText"
+  },
+  "options": {},
+  "attributes": {
+    "left": {
+      "type": "string",
+      "required": true
+    },
+    "right": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

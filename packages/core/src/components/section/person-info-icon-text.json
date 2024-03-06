@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_section_person_info_icon_texts",
+  "info": {
+    "displayName": "PersonInfoIconText",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "iconText": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.icon-text"
+    }
+  }
+}

@@ -1,68 +1,82 @@
 import { Section } from "~/components/Section";
+import { strapiResourceUrl } from "~/services/strapi";
 
 export type CeoBackgroundProps = {
-  ceoBackground: any;
+  title: {
+    title: string;
+    subtitle: string;
+  };
+  info: [
+    {
+      title: string;
+      pairText?: [PairTextProps],
+      iconText?: [IconTextProps]
+    }
+  ];
+  image: {
+    url: string;
+  }
 };
 
+export type IconTextProps = {
+  title: string;
+  icon: {url: string},
+};
 
 export type PairTextProps = {
-  leftText: string;
-  rightText: string;
+  left: string;
+  right: string;
 }
 
-export function PairText({ leftText, rightText }: PairTextProps) {
+export function PairText(props: PairTextProps) {
   return (
-    <div className="pair-text">
-      <span className="left">{leftText}</span>
-      <span className="right">{rightText}</span>
+    <div className="flex gap-2">
+      <span className="left text-xl font-thin">{props.left}</span>
+      <span className="right text-2xl font-bold">{props.right}</span>
     </div>
   );
 }
 
-export function CeoBackground({ ceoBackground }: CeoBackgroundProps) {
-
-  const honorMedals = [
-    "🇺🇸 Navy and Marine Corps commendation Medal vector",
-    "🇨🇴 Herido en Acción",
-    "🇨🇴 Servicios Distinguidos a la Infanteria de Marina"
-  ];
-
-  const personalData = [
-    { leftText: "Fullname: ", rightText: "Eduar Michaels" },
-    { leftText: "Range: ", rightText: "Official" },
-    { leftText: "Deparment: ", rightText: "Marine" }
-  ];
-
+export function CeoBackground(props: CeoBackgroundProps) {
   const dataItemClass = "flex flex-col gap-4";
-  const dataItemListClass = "flex flex-col gap-2"
+  const dataItemListClass = "flex flex-col gap-4"
 
   return (
-    <Section className="flex flex-col sm:flex-row gap-8" headline={{ title: ceoBackground.title, subtitle: ceoBackground.subtitle }}>
+    <Section className="w-full flex flex-col sm:flex-row gap-8 bg-primary-300" headline={props.title}>
       <div className="flex w-full h-full border-solid border border-dark-500">
-        <img className="w-full h-full" src="https://df6f8e1b9b.clvaw-cdnwnd.com/c733a0c8b7e4b610c4296892ad379276/200000125-70cab70cad/_NPB0764.webp?ph=df6f8e1b9b" />
+        <img className="w-full h-full" src={props.image.url} />
       </div>
+
       <div className="flex w-full flex-col gap-12">
-        <div className={dataItemClass}>
-          <h3 className="font-bold text-xl">Personal Data</h3>
-          <ul className={dataItemListClass}>
-            {personalData.map((personalData) => <li>
-              <PairText
-                leftText={personalData.leftText}
-                rightText={personalData.rightText} />
-            </li>)}
-          </ul>
-        </div>
-        <div className={dataItemClass}>
-          <h3 className="font-bold text-xl ">Honor medals</h3>
-          <ul className={dataItemListClass}>
-            {honorMedals.map((honorMedal) => {
-              return <li>
-                <span>{honorMedal}</span>
-              </li>
-            })}
-          </ul>
-        </div>
+        {props.info?.map((info, infoKey) => {
+          return (
+            <div key={infoKey} className={dataItemClass}>
+              <h3 className="font-bold text-2xl text-dark-100">{info.title}</h3>
+              <ul className={dataItemListClass}>
+                {info?.pairText?.map((pairText, pairTextkey) => {
+                  return (
+                    <li key={pairTextkey}>
+                      <PairText
+                        left={pairText.left}
+                        right={pairText.right} />
+                    </li>
+                  );
+                })}
+
+                {info?.iconText?.map((iconText, iconTextKey) => {
+                  return(
+                    <li className="flex gap-2">
+                      <img className="w-8 h-6 object-content" src={ strapiResourceUrl(iconText.icon.data.attributes.url)}/>
+                      <span>{iconText.title}</span>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          );
+        })}
       </div>
+
     </Section>
   );
 }

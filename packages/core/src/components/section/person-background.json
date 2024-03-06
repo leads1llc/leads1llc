@@ -12,19 +12,13 @@
       "component": "section.title",
       "required": true
     },
-    "profesionalDataTitle": {
-      "type": "string",
-      "required": true
-    },
-    "experienceTitle": {
-      "type": "string",
-      "required": true
-    },
-    "experience": {
-      "type": "component",
-      "repeatable": true,
-      "component": "page.icon-text",
-      "required": true
+    "picture": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
     }
   }
 }
