@@ -242,12 +242,12 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
       fields: contactForm.fields,
       productCategories: [
         {
-          id: 2,
+          id: 1,
           title: homePage.trainingPrograms.title,
           products: trainingPrograms
         },
         {
-          id: 1,
+          id: 2,
           title: homePage.services.title,
           products: services
         },

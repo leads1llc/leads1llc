@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { Checkbox } from "~/components/Core/Checkbox";
 import { Section } from "~/components/Section";
 
 export type ContactProps = {
@@ -20,7 +21,7 @@ export type ContactProps = {
     type?: string;
   }],
   productCategories: [{
-    id: string;
+    id: number;
     title: string;
     products: [{
       id: number;
@@ -33,7 +34,7 @@ export function Contact(props: ContactProps) {
   const [productOptionIndex, setProductOptionIndex] = useState<number>(0);
 
 
-  const formItemClassName = 'flex w-full flex-col gap-8';
+  const formItemClassName = 'flex w-full flex-col gap-4';
 
   return (
     <Section className="flex flex-col gap-4 w-full bg-dark-500 text-primary-300 " headlineClassName="border-primary-300" headline={props.title}>
@@ -41,44 +42,33 @@ export function Contact(props: ContactProps) {
       <span>{props.description}</span>
 
       <div className="flex gap-4">
-        {props.productCategories.map((product, index) => {
-          const isSelected = product.id === props.productCategories[productOptionIndex].id;
-          return (<div 
-          className="flex gap-2 justify-center items-center"
-          onClick={() => {
-            setProductOptionIndex(index);
-          }}
-          >
-            <div className={`flex justify-center items-center group w-6 h-6 border-solid border border-primary-300 ${ isSelected ? 'bg-primary-300': ''}`}>
-              {
-                isSelected && <div className="w-3 h-3 bg-dark-300"></div>
-              }
-            </div>
-
-            <span>{product.title}</span>
-          </div>)
+        {props.productCategories.map((product, productIndex) => {
+          return (
+            <Checkbox isSelected={product.id === props.productCategories[productOptionIndex].id} title={product.title} onClick={() => {
+              setProductOptionIndex(productIndex);
+            }} />
+          )
         })}
       </div>
 
       <div className="flex flex-col gap-2">
         <span>{props.productCategories[productOptionIndex]?.title}</span>
-        <select className="p-2 bg-transparent border-solid border borde-primary-300 bg-primary-300">
+        <select className="p-2 border-solid border borde-primary-300 bg-primary-300 text-dark-500">
           {props.productCategories[productOptionIndex]?.products.map((option) => (<option>{option.title}</option>))}
         </select>
       </div>
 
 
-      <form className="flex flex-col gap-12 border-box">
+      <form className="flex flex-col gap-8 border-box">
 
         {props.fields.map((field) => {
-
           if (field.__component === "input.text-input") {
             if (field.type === "phone") {
               return (
                 <div className="flex flex-col gap-4">
                   <label>{field.title}</label>
                   <div className="flex gap-4">
-                    
+
                     <select className=" p-2 text-primary-300 bg-transparent border-solid border">
                       <option value="+57">🇨🇴 +57 </option>
                     </select>
@@ -99,10 +89,10 @@ export function Contact(props: ContactProps) {
           }
 
           if (field.__component === "input.checkbox") {
+
             return (
-              <div className="flex gap-4">
-                <input required={field.required} type="checkbox" className="p-2 border-none bg-dark-300 bg-primary-300" placeholder={field.placeholder} />
-                <label className="">{field.message}</label>
+              <div className="flex w-full gap-4">
+                <Checkbox required={field.required} title={field.message} />
               </div>
             );
           }
