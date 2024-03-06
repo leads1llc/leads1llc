@@ -71,29 +71,45 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     locale
   });
 
-  const trainingPrograms = await trainingProgramsRes.json();
+  const trainingProgramsData = await trainingProgramsRes.json();
+  const trainingPrograms = trainingProgramsData.data.map((trainingProgram) => {
+    const programType = trainingProgram.attributes.type;
+    console.log(trainingProgram);
+    return {
+      id: trainingProgram.id,
+      title: trainingProgram.attributes.title,
+      description: trainingProgram.attributes.description,
+      type: {
+        id: programType.data.id,
+        title: programType.data.attributes.title
+      },
+      cover: {
+        url: trainingProgram.attributes.cover.data.attributes.url
+      }
+    }
+  });
 
   const trainingProgramsCategory: any = {};
 
-  for (const trainingProgram of trainingPrograms.data) {
-    const programType = trainingProgram.attributes.type;
-    const programTitle = programType.data.attributes.title;
-    const programId = programType.data.id;
+  for (const trainingProgram of trainingPrograms) {
+    const programType = trainingProgram.type;
+    const programTitle = programType.title;
+    const programId = programType.id;
 
     if (!trainingProgramsCategory[programId]) {
       trainingProgramsCategory[programId] = {
         id: programId,
         title: programTitle,
-        description: programType.data.attributes.description,
+        description: programType.description,
         programs: [],
       };
     }
 
     trainingProgramsCategory[programId].programs.push({
       id: trainingProgram.id,
-      title: trainingProgram.attributes.title,
-      description: trainingProgram.attributes.description,
-      image: { url: strapiResourceUrl(trainingProgram.attributes.cover.data.attributes.url) }
+      title: trainingProgram.title,
+      description: trainingProgram.description,
+      image: { url: strapiResourceUrl(trainingProgram.cover.url) }
     });
   }
 
@@ -118,28 +134,29 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     }
   });
 
-  const ceoBackgroundRes = await strapiGet('/api/ceo-background', {populate: {
-    title: '*',
-    picture: {
-      fields: ['url']
-    },
-    info: {
-      populate: {
-        pairText: '*',
-        iconText: {
-          populate: {
-            icon: {
-              fields: ['url']
+  const ceoBackgroundRes = await strapiGet('/api/ceo-background', {
+    populate: {
+      title: '*',
+      description: '*',
+      picture: {
+        fields: ['url']
+      },
+      info: {
+        populate: {
+          pairText: '*',
+          iconText: {
+            populate: {
+              icon: {
+                fields: ['url']
+              }
             }
           }
         }
       }
-    }
-  }, locale});
+    }, locale
+  });
   const ceoBackgroundJson = await ceoBackgroundRes.json();
   const ceoBackground = ceoBackgroundJson.data.attributes;
-
-  console.log(ceoBackground.info);
 
   const contactFormRes = await strapiGet('/api/contact-form', { populate: '*', locale });
   const contactFormJson = await contactFormRes.json();
@@ -192,17 +209,17 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
         {
           title: "Honor medals",
           pairTexts: [
-            {leftText: "🇺🇸 ", rightText: "Navy and Marine Corps commendation Medal vector" },
-            {leftText: "🇨🇴 ", rightText: "Herido en Acción"},
-            {leftText: "🇨🇴 ", rightText: "Servicios Distinguidos a la Infanteria de Marina"}
+            { leftText: "🇺🇸 ", rightText: "Navy and Marine Corps commendation Medal vector" },
+            { leftText: "🇨🇴 ", rightText: "Herido en Acción" },
+            { leftText: "🇨🇴 ", rightText: "Servicios Distinguidos a la Infanteria de Marina" }
           ]
         },
       ],
-      info: ceoBackground.info
+      info: ceoBackground.info,
     },
     testimonies: {
-        title: homePage.testimonialTitle.title,
-        subtitle: homePage.testimonialTitle.subtitle,
+      title: homePage.testimonialTitle.title,
+      subtitle: homePage.testimonialTitle.subtitle,
       testimonies: [...Array(3).keys()].map(() => ({
         company: {
           site: "",
@@ -221,7 +238,21 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
       title: {
         ...contactForm.title
       },
+      description: contactForm.description,
       fields: contactForm.fields,
+      productCategories: [
+        {
+          id: 2,
+          title: homePage.trainingPrograms.title,
+          products: trainingPrograms
+        },
+        {
+          id: 1,
+          title: homePage.services.title,
+          products: services
+        },
+
+      ],
       submit: {
         ...contactForm.submit
       }
@@ -271,9 +302,9 @@ export default function Route() {
 
       <Services services={services} />
 
-      <CeoBackground title={ceoBackground.title} info={ceoBackground.info} image={ceoBackground.image}/>
+      <CeoBackground title={ceoBackground.title} info={ceoBackground.info} image={ceoBackground.image} />
 
-      <Contact submit={contactForm.submit} title={contactForm.title} fields={contactForm.fields} />
+      <Contact submit={contactForm.submit} title={contactForm.title} productCategories={contactForm.productCategories} fields={contactForm.fields} description={contactForm.description} />
 
       <Testimonies testimonies={testimonies} />
 

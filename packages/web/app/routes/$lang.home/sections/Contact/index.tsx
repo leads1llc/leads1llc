@@ -6,72 +6,71 @@ export type ContactProps = {
     title: string;
     subtitle: string;
   },
+  description: string,
   submit: {
     title: string;
     url: string;
   },
-  products?: any;
-  productOptions?: any;
   fields: [{
     __component: string;
     title?: string;
-    placeholder?: string;
     message?: string;
-    type?: string;
     required: boolean;
-  }];
+    placeholder: string;
+    type?: string;
+  }],
+  productCategories: [{
+    id: string;
+    title: string;
+    products: [{
+      id: number;
+      title: string;
+    }]
+  }],
 };
 
-export function Contact({ title, fields, submit }: ContactProps) {
+export function Contact(props: ContactProps) {
   const [productOptionIndex, setProductOptionIndex] = useState<number>(0);
-  const products = [
-    {
-      title: "Training programs",
-      slug: "training_programs"
-    },
-    {
-      title: "Services",
-      slug: "services"
-    }
-  ];
 
-  const productOptions = [
-    {
-      title: "Staff Functions Training for Decision Making",
-      slug: "services"
-    }
-  ];
 
-  const formParentClassName = 'flex gap-8 w-full';
   const formItemClassName = 'flex w-full flex-col gap-8';
 
   return (
-    <Section className="flex flex-col gap-4 w-full bg-dark-500 text-primary-300 " headlineClassName="border-primary-300" headline={{ title: title.title, subtitle: title.description }}>
+    <Section className="flex flex-col gap-4 w-full bg-dark-500 text-primary-300 " headlineClassName="border-primary-300" headline={props.title}>
 
-      <span>Complete the following form</span>
+      <span>{props.description}</span>
 
       <div className="flex gap-4">
-        {products.map((product, index) => {
-          return (<div className="flex gap-2 justify-center items-center">
-            <div className={`flex justify-center items-center group w-4 h-4 border-solid border border-primary-300 `}>
-              <div className={`active:w-8 active:h-8 ${index == 0 ? 'active' : ''}`}></div>
+        {props.productCategories.map((product, index) => {
+          const isSelected = product.id === props.productCategories[productOptionIndex].id;
+          return (<div 
+          className="flex gap-2 justify-center items-center"
+          onClick={() => {
+            setProductOptionIndex(index);
+          }}
+          >
+            <div className={`flex justify-center items-center group w-6 h-6 border-solid border border-primary-300 ${ isSelected ? 'bg-primary-300': ''}`}>
+              {
+                isSelected && <div className="w-3 h-3 bg-dark-300"></div>
+              }
             </div>
+
             <span>{product.title}</span>
           </div>)
         })}
       </div>
 
-      <div className="product-options">
-        <span>{products[productOptionIndex].title}</span>
-        <select>
-          {productOptions.map((option) => (<option>{option.title}</option>))}
+      <div className="flex flex-col gap-2">
+        <span>{props.productCategories[productOptionIndex]?.title}</span>
+        <select className="p-2 bg-transparent border-solid border borde-primary-300 bg-primary-300">
+          {props.productCategories[productOptionIndex]?.products.map((option) => (<option>{option.title}</option>))}
         </select>
       </div>
 
 
       <form className="flex flex-col gap-12 border-box">
 
-        {fields.map((field) => {
+        {props.fields.map((field) => {
 
           if (field.__component === "input.text-input") {
             if (field.type === "phone") {
@@ -110,7 +109,7 @@ export function Contact({ title, fields, submit }: ContactProps) {
         })}
 
         <div className="w-full">
-          <input className="w-full text-dark-500 bg-primary-300 p-4 border-none" type="submit" value={submit.title} />
+          <input className="w-full text-dark-500 bg-primary-300 p-4 border-none" type="submit" value={props.submit.title} />
         </div>
 
       </form>

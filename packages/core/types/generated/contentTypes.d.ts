@@ -902,6 +902,13 @@ export interface ApiContactFormContactForm extends Schema.SingleType {
           localized: true;
         };
       }>;
+    description: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
