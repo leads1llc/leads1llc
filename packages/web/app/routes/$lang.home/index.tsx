@@ -8,6 +8,9 @@ import { Testimonies } from "./sections/Testimonies";
 import { Contact } from "./sections/Contact";
 import { HeroSection } from "../../components/HeroSection";
 import { strapiGet, strapiResourceUrl } from "~/services/strapi";
+import { BiDownArrow } from "react-icons/bi";
+import { FaArrowDown, FaArrowsUpDown } from "react-icons/fa6";
+import { TrustedCompaniesSection } from "./sections/TrustedCompanies";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const locale = params.lang;
@@ -206,18 +209,7 @@ export default function Route() {
 
       <HeroSection title={hero.title} buttonTitle={hero.button.title} imageUrl={hero.image.url} />
 
-      <section className="flex w-full px-12 py-4 border-box justify-between items-center border-solid border-b border-dark-500">
-        <h2 className="font-light">{trustedBy.title}</h2>
-        <ul className="flex flex-wrap gap-4">
-          {trustedBy.companies.map((company) => {
-            return (
-              <li><Link to={company.site} target="_blank">
-                <img className="w-32" src={company.logo.url} />
-              </Link></li>
-            );
-          })}
-        </ul>
-      </section>
+      <TrustedCompaniesSection companies={trustedBy.companies} title={trustedBy.title}></TrustedCompaniesSection>
 
       <Section headline={{ title: trainingPrograms.title, subtitle: trainingPrograms.subtitle }}>
 

@@ -47,7 +47,7 @@ const NavLinks = forwardRef<HTMLUListElement, NavLinksProps>((props, ref) => {
   };
 
 
-  const commonClassName = "flex items-center justify-center";
+  const commonClassName = "flex items-center justify-center duration-300 ease-in-out";
   const commonHoverClassName = "hover:border-primary-500 hover:text-primary-500 hover:font-bold hover:border-solid hover:border-b hover:text-dark-500";
   const commonActiveClassName = commonHoverClassName.replaceAll('hover:', '');
 
@@ -133,7 +133,7 @@ export function Nav({ lang, supportedLanguages, links, contact }: NavProps) {
 
       <NavLinks onClick={() => {
         setToggle(false);
-      }} ref={menuBarRef} className="w-full absolute scale-y-0 origin-top overflow-hidden flex flex-col items-center bg-dark-500 left-0 text-primary-500 duration-200 delay-100 ease-in pb-4 border-solid border-b" lang={lang} contact={contact} links={links} supportedLanguages={supportedLanguages}></NavLinks>
+      }} ref={menuBarRef} className="w-full absolute gap-2 scale-y-0 origin-top overflow-hidden flex flex-col items-center bg-dark-500 left-0 text-primary-500 duration-200 delay-100 ease-in pb-4 border-solid border-b" lang={lang} contact={contact} links={links} supportedLanguages={supportedLanguages}></NavLinks>
 
     </nav>
 
