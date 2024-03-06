@@ -6,7 +6,7 @@ export type VisualDetailsProps = {
   imageUrl: string;
   style?: CSSProperties;
   side: "left" | "right";
-  className: string;
+  className?: string;
 };
 
 export function SideImage(props: VisualDetailsProps) {

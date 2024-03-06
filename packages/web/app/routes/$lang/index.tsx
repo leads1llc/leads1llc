@@ -16,14 +16,14 @@ export const loader = ({ context, request, params }: LoaderFunctionArgs) => {
     title: "Home",
     to: "/home"
   },
-  {
-    title: "Traning Programs",
-    to: "/training-programs"
-  },
-  {
-    title: "Services",
-    to: "/services"
-  },
+  // {
+  //   title: "Traning Programs",
+  //   to: "/training-programs"
+  // },
+  // {
+  //   title: "Services",
+  //   to: "/services"
+  // },
   {
     title: "About us",
     to: "/about-us"

@@ -305,11 +305,14 @@ export default function Route() {
 
       <Contact submit={contactForm.submit} title={contactForm.title} productCategories={contactForm.productCategories} fields={contactForm.fields} description={contactForm.description} />
 
-      <Testimonies testimonies={testimonies} />
+      {/*
+ <Testimonies testimonies={testimonies} />
 
-      <Section className="w-full" headline={{ title: faq.title, subtitle: faq.subtitle }}>
-        <span>Not implemented yet!</span>
-      </Section>
+ <Section className="w-full" headline={{ title: faq.title, subtitle: faq.subtitle }}>
+   <span>Not implemented yet!</span>
+ </Section>
+        */ }
+
 
     </>
   );
