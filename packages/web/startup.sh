@@ -10,6 +10,7 @@ yarn install
 
 if [ $ENV = "prod" ]; then
   echo "------------ PRODUCTION MODE ------------"
+  yarn build
   yarn start
 else
   echo "------------ DEVELOPMENT MODE ------------"
