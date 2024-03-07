@@ -1,7 +1,8 @@
 {
   "collectionName": "components_input_text_inputs",
   "info": {
-    "displayName": "TextInput"
+    "displayName": "TextInput",
+    "description": ""
   },
   "options": {},
   "attributes": {
@@ -17,7 +18,8 @@
       "enum": [
         "text",
         "phone",
-        "number"
+        "number",
+        "mail"
       ],
       "required": true
     },

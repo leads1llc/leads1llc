@@ -15,11 +15,12 @@ export interface InputTextInput extends Schema.Component {
   collectionName: 'components_input_text_inputs';
   info: {
     displayName: 'TextInput';
+    description: '';
   };
   attributes: {
     title: Attribute.String & Attribute.Required;
     placeholder: Attribute.String;
-    type: Attribute.Enumeration<['text', 'phone', 'number']> &
+    type: Attribute.Enumeration<['text', 'phone', 'number', 'mail']> &
       Attribute.Required;
     required: Attribute.Boolean & Attribute.Required;
   };

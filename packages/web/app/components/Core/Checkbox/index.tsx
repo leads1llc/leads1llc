@@ -9,17 +9,11 @@ export type CheckboxProps = {
 
 export function Checkbox(props: CheckboxProps) {
     const inputRef = useRef<HTMLInputElement>(null);
-    const [isSelected, setIsSelected] = useState<boolean>(props.isSelected ?? false);
+    const isSelected = props.isSelected;
     return (
         <div
             className="flex gap-4 justify-center items-center"
             onClick={() => {
-
-                if (props.isSelected) {
-                    setIsSelected(props.isSelected);
-                } else {
-                    setIsSelected(!isSelected);
-                }
 
                 if (inputRef.current) {
                     inputRef.current.checked = !isSelected;
