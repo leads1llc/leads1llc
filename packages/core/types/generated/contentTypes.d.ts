@@ -1381,9 +1381,25 @@ export interface ApiTestimonySectionTestimonySection extends Schema.SingleType {
   options: {
     draftAndPublish: true;
   };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
   attributes: {
-    title: Attribute.Component<'section.title'> & Attribute.Required;
-    testimonies: Attribute.Component<'section.testimony', true>;
+    title: Attribute.Component<'section.title'> &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    testimonies: Attribute.Component<'section.testimony', true> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1399,6 +1415,12 @@ export interface ApiTestimonySectionTestimonySection extends Schema.SingleType {
       'admin::user'
     > &
       Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::testimony-section.testimony-section',
+      'oneToMany',
+      'api::testimony-section.testimony-section'
+    >;
+    locale: Attribute.String;
   };
 }
 
