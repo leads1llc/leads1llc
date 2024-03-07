@@ -28,7 +28,7 @@ export function Testimonies(props: TestimoniesProps) {
 
         {props.testimonies.map((testimony, index) => {
           return (
-            <div key={index} className="flex flex-col gap-4 border-solid border p-4">
+            <div key={index} className="flex flex-col gap-4 w-72 border-solid border p-4">
               <div className="flex  flex-start items-center gap-8">
                 <img className="w-20 h-20 rounded-full object-cover border-solid border border-dark-500" src={testimony.company.logo.url} />
                 <h4 className="font-light">{testimony.company.name}</h4>

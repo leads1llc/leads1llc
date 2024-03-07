@@ -57,15 +57,14 @@ const NavLinks = forwardRef<HTMLUListElement, NavLinksProps>((props, ref) => {
         const linkTo = `/${lang}${link.to}`;
         return (
           <div key={index}>
-
-          <NavLink onClick={onClick} className={({ isActive }) => {
-            if (isActive) {
-              return commonActiveClassName;
-            }
-            return concatClassNames("text-center", commonClassName, commonHoverClassName);
-          }} key={index} to={linkTo}>
-            <li className="flex w-full"><div> {link.title}</div></li>
-          </NavLink>
+            <NavLink onClick={onClick} className={({ isActive }) => {
+              if (isActive) {
+                return commonActiveClassName;
+              }
+              return concatClassNames("text-center", commonClassName, commonHoverClassName);
+            }} key={index} to={linkTo}>
+              <li className="flex w-full"><div> {link.title}</div></li>
+            </NavLink>
           </div>
 
         );
