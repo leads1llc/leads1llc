@@ -1,18 +1,15 @@
 version: "3.8"
 services:
-  nginx:
-    image: nginx
-    restart: always
+  proxy-manager:
+    image: 'docker.io/jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
     ports:
-      - "80:80"
+      - '80:80'
+      - '81:81'
+      - '443:443'
     volumes:
-      - ./config/nginx/docker/:/config
-      - ./config/nginx/conf.d:/etc/nginx/conf.d/
-      - ./config/letsencrypt:/etc/letsencrypt/
-    #command: [sh, '/config/startup.sh']
-    networks:
-      app:
-        ipv4_address: 10.6.0.2
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
 
   mysql:
     image: mysql
