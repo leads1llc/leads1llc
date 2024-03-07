@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_section_testimonies",
+  "info": {
+    "displayName": "Testimony"
+  },
+  "options": {},
+  "attributes": {
+    "quote": {
+      "type": "richtext"
+    },
+    "author": {
+      "displayName": "Author",
+      "type": "component",
+      "repeatable": false,
+      "component": "section.author",
+      "required": true
+    },
+    "company": {
+      "displayName": "Company",
+      "type": "component",
+      "repeatable": false,
+      "component": "section.company",
+      "required": true
+    }
+  }
+}

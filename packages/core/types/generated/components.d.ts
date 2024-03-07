@@ -95,6 +95,31 @@ export interface PageLink extends Schema.Component {
   };
 }
 
+export interface SectionAuthor extends Schema.Component {
+  collectionName: 'components_section_authors';
+  info: {
+    displayName: 'Author';
+    icon: '';
+    description: '';
+  };
+  attributes: {
+    name: Attribute.String & Attribute.Required;
+    photo: Attribute.Media & Attribute.Required;
+    socialMedia: Attribute.String & Attribute.Required;
+  };
+}
+
+export interface SectionCompany extends Schema.Component {
+  collectionName: 'components_section_companies';
+  info: {
+    displayName: 'Company';
+  };
+  attributes: {
+    name: Attribute.String & Attribute.Required;
+    logo: Attribute.Media & Attribute.Required;
+  };
+}
+
 export interface SectionPairText extends Schema.Component {
   collectionName: 'components_section_pair_texts';
   info: {
@@ -155,6 +180,18 @@ export interface SectionSideImage extends Schema.Component {
   };
 }
 
+export interface SectionTestimony extends Schema.Component {
+  collectionName: 'components_section_testimonies';
+  info: {
+    displayName: 'Testimony';
+  };
+  attributes: {
+    quote: Attribute.RichText;
+    author: Attribute.Component<'section.author'> & Attribute.Required;
+    company: Attribute.Component<'section.company'> & Attribute.Required;
+  };
+}
+
 export interface SectionTitle extends Schema.Component {
   collectionName: 'components_section_titles';
   info: {
@@ -177,11 +214,14 @@ declare module '@strapi/types' {
       'page.icon-text': PageIconText;
       'page.link-category': PageLinkCategory;
       'page.link': PageLink;
+      'section.author': SectionAuthor;
+      'section.company': SectionCompany;
       'section.pair-text': SectionPairText;
       'section.person-background': SectionPersonBackground;
       'section.person-info-icon-text': SectionPersonInfoIconText;
       'section.person-info': SectionPersonInfo;
       'section.side-image': SectionSideImage;
+      'section.testimony': SectionTestimony;
       'section.title': SectionTitle;
     }
   }

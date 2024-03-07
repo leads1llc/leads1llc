@@ -1171,13 +1171,6 @@ export interface ApiHomePageHomePage extends Schema.SingleType {
           localized: true;
         };
       }>;
-    testimonialTitle: Attribute.Component<'section.title'> &
-      Attribute.Required &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
     FAQTitle: Attribute.Component<'section.title'> &
       Attribute.Required &
       Attribute.SetPluginOptions<{
@@ -1374,6 +1367,38 @@ export interface ApiServiceTypeServiceType extends Schema.CollectionType {
       'api::service-type.service-type'
     >;
     locale: Attribute.String;
+  };
+}
+
+export interface ApiTestimonySectionTestimonySection extends Schema.SingleType {
+  collectionName: 'testimony_sections';
+  info: {
+    singularName: 'testimony-section';
+    pluralName: 'testimony-sections';
+    displayName: 'TestimonySection';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.Component<'section.title'> & Attribute.Required;
+    testimonies: Attribute.Component<'section.testimony', true>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::testimony-section.testimony-section',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::testimony-section.testimony-section',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
   };
 }
 
@@ -1737,6 +1762,7 @@ declare module '@strapi/types' {
       'api::our-value.our-value': ApiOurValueOurValue;
       'api::service.service': ApiServiceService;
       'api::service-type.service-type': ApiServiceTypeServiceType;
+      'api::testimony-section.testimony-section': ApiTestimonySectionTestimonySection;
       'api::training-guide.training-guide': ApiTrainingGuideTrainingGuide;
       'api::training-program.training-program': ApiTrainingProgramTrainingProgram;
       'api::training-program-material.training-program-material': ApiTrainingProgramMaterialTrainingProgramMaterial;

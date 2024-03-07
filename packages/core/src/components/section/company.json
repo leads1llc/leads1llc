@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_section_companies",
+  "info": {
+    "displayName": "Company"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "logo": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false,
+      "required": true
+    }
+  }
+}

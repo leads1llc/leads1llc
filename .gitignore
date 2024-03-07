@@ -1,3 +1,6 @@
+# storage
+docker-volume
+
 # certboot keys
 config/ssl/*
 

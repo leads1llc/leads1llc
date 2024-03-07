@@ -161,6 +161,45 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   const contactFormJson = await contactFormRes.json();
   const contactForm = contactFormJson.data.attributes;
 
+  const testimoniesRes = await strapiGet('/api/testimony-section', {
+    populate: {
+      title: '*',
+      testimonies: {
+        populate: {
+          author: {
+            populate: {
+              photo: { fields: ['url'] }
+            }
+          },
+          company: {
+            populate: {
+              logo: {fields: ['url']}
+            }
+          },
+        }
+      }
+
+    }, locale
+  });
+  const testimoniesJson = await testimoniesRes.json();
+  const testimoniesData  = testimoniesJson.data.attributes;
+
+  const testimonies = testimoniesData.testimonies.map((testimony) => {
+    return {
+      quote: testimony.quote,
+      author: {
+        name: testimony.author.name,
+        photo: {url: strapiResourceUrl(testimony.author.photo.data.attributes.url)},
+        socialMedia: testimony.author.socialMedia
+      },
+      company: {
+        name: testimony.company.name,
+        logo: {url: strapiResourceUrl(testimony.company.logo.data.attributes.url)}
+      }
+    };
+    
+  });
+
 
   return {
     locale: locale,
@@ -217,13 +256,12 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
       info: ceoBackground.info,
     },
     testimonies: {
-      title: homePage.testimonialTitle.title,
-      subtitle: homePage.testimonialTitle.subtitle,
+      title: testimoniesData.title,
       testimonies: [...Array(3).keys()].map(() => ({
         company: {
           site: "",
           name: "Armada de colombia",
-          logo: { url: "http://localhost:1337/uploads/armada_colombia_b7f756733f.png" }
+          logo: { url: "https://www.georgetown.edu/wp-content/uploads/2022/02/Jkramerheadshot-scaled-e1645036825432-1050x1050-c-default.jpg" }
         },
         quote: "The best company in the world",
         author: {
@@ -231,7 +269,8 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
           name: "Mark Antony",
           socialMedia: "Facebook"
         }
-      }))
+      })),
+      testimonies: testimonies
     },
     contactForm: {
       title: {
@@ -305,8 +344,9 @@ export default function Route() {
 
       <Contact submit={contactForm.submit} title={contactForm.title} productCategories={contactForm.productCategories} fields={contactForm.fields} description={contactForm.description} />
 
+      <Testimonies testimonies={testimonies.testimonies} title={testimonies.title} />
       {/*
- <Testimonies testimonies={testimonies} />
+ 
 
  <Section className="w-full" headline={{ title: faq.title, subtitle: faq.subtitle }}>
    <span>Not implemented yet!</span>

@@ -1,0 +1,27 @@
+{
+  "kind": "singleType",
+  "collectionName": "testimony_sections",
+  "info": {
+    "singularName": "testimony-section",
+    "pluralName": "testimony-sections",
+    "displayName": "TestimonySection",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "component",
+      "repeatable": false,
+      "component": "section.title",
+      "required": true
+    },
+    "testimonies": {
+      "type": "component",
+      "repeatable": true,
+      "component": "section.testimony"
+    }
+  }
+}

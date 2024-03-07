@@ -67,17 +67,6 @@
       "type": "string",
       "required": true
     },
-    "testimonialTitle": {
-      "type": "component",
-      "repeatable": false,
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
-      "component": "section.title",
-      "required": true
-    },
     "FAQTitle": {
       "type": "component",
       "repeatable": false,
