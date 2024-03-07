@@ -44,7 +44,7 @@ export function Contact(props: ContactProps) {
       <div className="flex gap-4">
         {props.productCategories.map((product, productIndex) => {
           return (
-            <Checkbox isSelected={product.id === props.productCategories[productOptionIndex].id} title={product.title} onClick={() => {
+            <Checkbox key={productIndex} isSelected={product.id === props.productCategories[productOptionIndex].id} title={product.title} onClick={() => {
               setProductOptionIndex(productIndex);
             }} />
           )
@@ -61,11 +61,11 @@ export function Contact(props: ContactProps) {
 
       <form className="flex flex-col gap-8 border-box">
 
-        {props.fields.map((field) => {
+        {props.fields.map((field, key) => {
           if (field.__component === "input.text-input") {
             if (field.type === "phone") {
               return (
-                <div className="flex flex-col gap-4">
+                <div key={key} className="flex flex-col gap-4">
                   <label>{field.title}</label>
                   <div className="flex gap-4">
 
@@ -82,7 +82,7 @@ export function Contact(props: ContactProps) {
             }
 
             return (
-              <div className={formItemClassName}>
+              <div key={key} className={formItemClassName}>
                 <label className="">{field.title}</label>
                 <input required={field.required} className="p-2 border-none text-primary-300 bg-dark-300" placeholder={field.placeholder} />
               </div>);
@@ -91,7 +91,7 @@ export function Contact(props: ContactProps) {
           if (field.__component === "input.checkbox") {
 
             return (
-              <div className="flex w-full gap-4">
+              <div key={key} className="flex w-full gap-4">
                 <Checkbox required={field.required} title={field.message} />
               </div>
             );

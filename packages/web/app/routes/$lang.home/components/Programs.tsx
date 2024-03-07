@@ -25,7 +25,7 @@ export function Progams({ programs, isOdd, className, onClick }: ProgramsProps) 
           const isActive = programIdSelected === program.id;
           const spring = useSpring({ from: { rotate: isActive ? -90 : 0 }, to: { rotate: isActive ? 0 : -90 } });
 
-          return <li>
+          return <li key={programKey}>
             {isActive ?
               <img className="flex w-full border-solid border border-dark-500 sm:hidden" src={program.image.url} /> : <></>
             }

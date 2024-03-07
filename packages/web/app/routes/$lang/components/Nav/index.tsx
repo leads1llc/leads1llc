@@ -56,6 +56,8 @@ const NavLinks = forwardRef<HTMLUListElement, NavLinksProps>((props, ref) => {
       {links.map((link, index) => {
         const linkTo = `/${lang}${link.to}`;
         return (
+          <div key={index}>
+
           <NavLink onClick={onClick} className={({ isActive }) => {
             if (isActive) {
               return commonActiveClassName;
@@ -64,6 +66,8 @@ const NavLinks = forwardRef<HTMLUListElement, NavLinksProps>((props, ref) => {
           }} key={index} to={linkTo}>
             <li className="flex w-full"><div> {link.title}</div></li>
           </NavLink>
+          </div>
+
         );
       })}
 
@@ -76,7 +80,7 @@ const NavLinks = forwardRef<HTMLUListElement, NavLinksProps>((props, ref) => {
             if (onClick) onClick();
           }}
           name="lang" id="">
-          {supportedLanguages.map((language) => (<option selected={language.code === lang} value={language.code}>{language.flag} {language.code}</option>))}
+          {supportedLanguages.map((language, key) => (<option key={key} selected={language.code === lang} value={language.code}>{language.flag} {language.code}</option>))}
         </select>
       </li>
 

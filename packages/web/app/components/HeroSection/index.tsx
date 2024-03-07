@@ -14,11 +14,11 @@ export function HeroSection(props: HeroSectionProps) {
 
       <div className="w-full sm:w-2/5 flex flex-col gap-12 p-4 flex-start justify-center sm:p-12">
         <h1 className="sm:text-4xl text-2xl font-light flex flex-wrap gap-2 text-light-500">{
-          props.title.split(' ').map((word) => {
+          props.title.split(' ').map((word, key) => {
             if(word.includes('**')){
-              return <span className="font-bold">{word.replaceAll('**', '')} </span>
+              return <span key={key} className="font-bold">{word.replaceAll('**', '')} </span>
             }
-            return <span>{word} </span>
+            return <span key={key}>{word} </span>
           }
           )}</h1>
         {props.description && <h2 className="text-light-500">{props.description}</h2>}

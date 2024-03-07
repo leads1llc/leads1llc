@@ -7,8 +7,8 @@ export type ServiceProps = {
 export function Services({ services }: ServiceProps) {
   return (
     <Section className="w-full" headline={{ title: services.title, subtitle: services.subtitle }}>
-      {services.services.map((service) => {
-        return <div className="w-48 group flex flex-col border-solid border border-dark-500" onClick={() => {
+      {services.services.map((service,key) => {
+        return <div key={key} className="w-48 group flex flex-col border-solid border border-dark-500" onClick={() => {
           // TODO: Implement send to service page.
         }}>
           <img className="w-48 h-56 object-cover" src={service.image.url} />

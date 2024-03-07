@@ -26,9 +26,9 @@ export function Testimonies(props: TestimoniesProps) {
     <Section className="w-full bg-light-500 overflow-hidden" headline={props.title}>
       <div className="flex flex-col sm:flex-row gap-8">
 
-        {props.testimonies.map((testimony) => {
+        {props.testimonies.map((testimony, index) => {
           return (
-            <div className="flex flex-col gap-4 border-solid border p-4">
+            <div key={index} className="flex flex-col gap-4 border-solid border p-4">
               <div className="flex  flex-start items-center gap-8">
                 <img className="w-20 h-20 rounded-full object-cover border-solid border border-dark-500" src={testimony.company.logo.url} />
                 <h4 className="font-light">{testimony.company.name}</h4>

@@ -18,9 +18,9 @@ export function TrustedCompaniesSection(props: TrustedCompaniesProps) {
                 <FaArrowDown></FaArrowDown>
             </div>
             <ul className="flex flex-wrap w-full gap-4 justify-start items-start sm:justify-end">
-                {props.companies.map((company) => {
+                {props.companies.map((company, key) => {
                     return (
-                        <li><Link to={company.site} target="_blank">
+                        <li key={key}><Link to={company.site} target="_blank">
                             <img className="w-32" src={company.logo.url} />
                         </Link></li>
                     );
