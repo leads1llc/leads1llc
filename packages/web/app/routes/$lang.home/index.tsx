@@ -316,10 +316,10 @@ export default function Route() {
 
       <Section headline={{ title: trainingPrograms.title, subtitle: trainingPrograms.subtitle }}>
 
-        <ul className="flex flex-col gap-32">
+        <ul className="flex flex-col w-full gap-32">
           {trainingPrograms.categories.map((category, categoryIndex) => {
             const isOdd = categoryIndex % 2 !== 0;
-            return <li key={categoryIndex} className="flex flex-col gap-8"  >
+            return <li key={categoryIndex} className="flex overflow-hidden w-full flex-col gap-8"  >
               <div
                 className="flex flex-col gap-2"
                 style={{ textAlign: isOdd ? "right" : "left" }}

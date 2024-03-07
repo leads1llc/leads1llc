@@ -18,9 +18,9 @@ export function Progams({ programs, isOdd, className, onClick }: ProgramsProps) 
     <div className={className}
       style={{ flexDirection: isOdd ? "row-reverse" : "row" }}
     >
-      <img className="hidden sm:block border-solid border border-dark-500" src={program.image.url} />
+      <img className="sm:w-1/2 h-full  hidden sm:block border-solid border border-dark-500" src={program.image.url} />
 
-      <ul className="flex flex-col">
+      <ul className="sm:w-1/2 flex flex-col">
         {programs.map((program, programKey) => {
           const isActive = programIdSelected === program.id;
           const spring = useSpring({ from: { rotate: isActive ? -90 : 0 }, to: { rotate: isActive ? 0 : -90 } });
