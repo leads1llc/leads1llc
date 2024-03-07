@@ -10,6 +10,9 @@ services:
     volumes:
       - ./data:/data
       - ./letsencrypt:/etc/letsencrypt
+    networks:
+      app:
+        ipv4_address: 10.6.0.2
 
   mysql:
     image: mysql
