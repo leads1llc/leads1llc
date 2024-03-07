@@ -67,6 +67,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 
   const mission = aboutUsPageJson.data.attributes.mission;
   const vision = aboutUsPageJson.data.attributes.vision;
+  console.log(heroSection.image);
 
   return {
     hero: {
@@ -114,10 +115,10 @@ export default function Route() {
         })}
       </HeroSection>
 
-      <section className="flex w-full">
+      <section className="flex w-full sm:flex-row flex-col">
         {coreValues.map((coreValue) => {
           return (
-          <div className="flex flex-wrap w-full border-solid border-r bg-dark-500 border-primary-300">
+          <div className="flex flex-wrap  w-full border-solid border-r bg-dark-500 border-primary-300">
             <TextIcon className="border-solid border-l border-b w-full border-t border-primary-300 justify-center" title={coreValue.title} iconUrl={coreValue.icon.url} />
           </div>
           );
