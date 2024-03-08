@@ -1,5 +1,7 @@
 # storage
 docker-volume
+data
+letscript
 
 # certboot keys
 config/ssl/*
