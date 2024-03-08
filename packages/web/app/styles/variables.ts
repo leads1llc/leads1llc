@@ -12,4 +12,7 @@ export const COLORS = {
 
   // Dark color
   'dark-500': '#19160E',
+
+  // Light color
+  'light-500': '#EEEEEE'
 }
