@@ -66,7 +66,7 @@ export function CeoBackground(props: CeoBackgroundProps) {
                 {info?.iconText?.map((iconText, iconTextKey) => {
                   return(
                     <li className="flex gap-2">
-                      <img className="w-8 h-6 object-content" src={ strapiResourceUrl(iconText.icon.data.attributes.url)}/>
+                      <img className="w-8 h-6 object-content" src={ strapiResourceUrl(iconText?.icon?.data?.attributes.url)}/>
                       <span>{iconText.title}</span>
                     </li>
                   );

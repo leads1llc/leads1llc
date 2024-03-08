@@ -79,7 +79,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
       id: trustedBy.id,
       title: trustedBy.attributes.title,
       logo: {
-        url: strapiResourceUrl(trustedBy.attributes.logo.data.attributes.url)
+        url: strapiResourceUrl(trustedBy?.attributes?.logo?.data?.attributes?.url)
       }
     }
   });
@@ -112,7 +112,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
         description: programType.data.attributes.description
       },
       cover: {
-        url: trainingProgram.attributes.cover.data.attributes.url
+        url: trainingProgram?.attributes?.cover?.data?.attributes?.url
       }
     }
   });
@@ -123,9 +123,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     const programType = trainingProgram.type;
     const programTitle = programType.title;
     const programId = programType.id;
-
-    console.log(programType);
-
+    
     if (!trainingProgramsCategory[programId]) {
       trainingProgramsCategory[programId] = {
         id: programId,
@@ -160,7 +158,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
       id: service.id,
       title: service.attributes.title,
       description: service.attributes.description,
-      image: { url: strapiResourceUrl(service.attributes.cover.data.attributes.url) }
+      image: { url: strapiResourceUrl(service?.attributes?.cover?.data?.attributes?.url) }
     }
   });
 
@@ -220,12 +218,12 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
       quote: testimony.quote,
       author: {
         name: testimony.author.name,
-        photo: { url: strapiResourceUrl(testimony.author.photo.data.attributes.url) },
+        photo: { url: strapiResourceUrl(testimony?.author?.photo?.data?.attributes?.url) },
         socialMedia: testimony.author.socialMedia
       },
       company: {
         name: testimony.company.name,
-        logo: { url: strapiResourceUrl(testimony.company.logo.data.attributes.url) }
+        logo: { url: strapiResourceUrl(testimony?.company?.logo?.data?.attributes?.url) }
       }
     };
 
@@ -243,7 +241,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
         url: homePage.heroSection.button[0].url,
       },
       image: {
-        url: strapiResourceUrl(homePage.heroSection.image.data.attributes.url)
+        url: strapiResourceUrl(homePage?.heroSection?.image?.data?.attributes?.url)
       }
     },
     trustedBy: {
@@ -266,7 +264,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
         subtitle: ceoBackground.title.subtitle,
       },
       image: {
-        url: strapiResourceUrl(ceoBackground.picture.data.attributes.url)
+        url: strapiResourceUrl(ceoBackground?.picture?.data?.attributes?.url)
       },
       info: ceoBackground.info,
     },

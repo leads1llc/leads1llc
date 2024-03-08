@@ -17,7 +17,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
       id: clientChallenge.id,
       title: clientChallenge.attributes.title,
       icon: {
-        url: strapiResourceUrl(clientChallenge.attributes.icon.data.attributes.url)
+        url: strapiResourceUrl(clientChallenge?.attributes?.icon?.data?.attributes?.url)
       }
     }
   });
@@ -32,7 +32,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
       id: coreValue.id,
       title: coreValue.attributes.title,
       icon: {
-        url: strapiResourceUrl(coreValue.attributes.icon.data.attributes.url)
+        url: strapiResourceUrl(coreValue?.attributes?.icon?.data?.attributes?.url)
       }
     }
   });
@@ -120,7 +120,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
         title: programType.data.attributes.title
       },
       cover: {
-        url: trainingProgram.attributes.cover.data.attributes.url
+        url: trainingProgram?.attributes?.cover?.data?.attributes?.url
       }
     }
   });
@@ -166,7 +166,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
       id: service.id,
       title: service.attributes.title,
       description: service.attributes.description,
-      image: { url: strapiResourceUrl(service.attributes.cover.data.attributes.url) }
+      image: { url: strapiResourceUrl(service?.attributes?.cover?.data?.attributes?.url) }
     }
   });
 
@@ -186,7 +186,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
         url: "",
       },
       image: {
-        url: strapiResourceUrl(heroSection.image.data.attributes.url)
+        url: strapiResourceUrl(heroSection?.image?.data?.attributes?.url)
       }
     },
     clientChallenges,

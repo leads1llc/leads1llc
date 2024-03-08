@@ -23,7 +23,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
         id: trainingProgramData.id,
         title: trainingProgram.title,
         description: trainingProgram.description,
-        image: { url: strapiResourceUrl(trainingProgram.cover.data.attributes.url) }
+        image: { url: strapiResourceUrl(trainingProgram?.cover?.data?.attributes?.url) }
     };
 
 }
