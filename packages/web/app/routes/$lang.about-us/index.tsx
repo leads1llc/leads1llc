@@ -253,7 +253,7 @@ export default function Route() {
         {coreValues.map((coreValue) => {
           return (
           <div className="flex flex-wrap  w-full border-solid border-r bg-dark-500 border-primary-300">
-            <TextIcon className="border-solid border-l border-b w-full border-t border-primary-300 justify-center" title={coreValue.title} iconUrl={coreValue.icon.url} />
+            <TextIcon className="py-2 border-solid border-l border-b w-full border-t border-primary-300 justify-center" title={coreValue.title} iconUrl={coreValue.icon.url} />
           </div>
           );
         })}

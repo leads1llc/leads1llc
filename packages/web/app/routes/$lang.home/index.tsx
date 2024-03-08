@@ -78,6 +78,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     return {
       id: trustedBy.id,
       title: trustedBy.attributes.title,
+      pageUrl: trustedBy.attributes.pageUrl,
       logo: {
         url: strapiResourceUrl(trustedBy?.attributes?.logo?.data?.attributes?.url)
       }

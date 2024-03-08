@@ -1,10 +1,9 @@
 import { Link } from "@remix-run/react";
-import { FaArrowDown } from "react-icons/fa6";
 
 export type TrustedCompaniesProps = {
     title: string;
     companies: [{
-        site: string;
+        pageUrl: string;
         logo: { url: string }
     }];
 };
@@ -17,11 +16,11 @@ export function TrustedCompaniesSection(props: TrustedCompaniesProps) {
                 <div>See below</div>
                 <FaArrowDown></FaArrowDown>
             </div> */}
-            <ul className="flex flex-wrap w-full gap-4 justify-start items-start sm:justify-end">
+            <ul className="flex flex-wrap w-full gap-4 justify-start items-center sm:justify-end">
                 {props.companies.map((company, key) => {
                     return (
-                        <li key={key}><Link to={company.site} target="_blank">
-                            <img className="w-32" src={company.logo.url} />
+                        <li key={key}><Link to={company.pageUrl} target="_blank">
+                            <img className="w-16" src={company.logo.url} />
                         </Link></li>
                     );
                 })}
