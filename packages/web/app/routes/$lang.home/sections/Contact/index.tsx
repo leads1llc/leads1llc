@@ -32,7 +32,8 @@ export type ContactProps = {
     products: [{
       id: number;
       title: string;
-    }]
+    }],
+    slug: string;
   }],
 };
 
@@ -61,9 +62,8 @@ export function Contact(props: ContactProps) {
             <div className="flex gap-4">
               {props.productCategories.map((product, productIndex) => {
                 const isSelected = productIndex === productOptionIndex;
-
                 return (
-                  <Checkbox name='product' value={props.productCategories[productOptionIndex].title} key={productIndex} isSelected={isSelected} title={product.title}
+                  <Checkbox name='product' value={props.productCategories[productOptionIndex].slug} key={productIndex} isSelected={isSelected} title={product.title}
                     onClick={() => {
                       setProductOptionIndex(productIndex);
                     }} />

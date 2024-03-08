@@ -1,4 +1,5 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { GiConsoleController } from "react-icons/gi";
 
 export type CheckboxProps = {
     required?: boolean;
@@ -12,6 +13,11 @@ export type CheckboxProps = {
 export function Checkbox(props: CheckboxProps) {
     const inputRef = useRef<HTMLInputElement>(null);
     const isSelected = props.isSelected;
+
+    useEffect(()=> {
+        if(inputRef.current) inputRef.current.checked = true;
+    }, [])
+
     return (
         <div
             className="flex gap-4 justify-center items-center"

@@ -31,8 +31,13 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 
   try {
-    await strapiPost('/api/clients', Object.fromEntries(formData));
-    data.success = true;
+    const res = await strapiPost('/api/clients', Object.fromEntries(formData));
+    const resData = await res.json();
+    if(resData.error){
+      data.error = true;
+    }else{
+      data.success = true;
+    }
     return json(data);
   } catch (e) {
     data.error = true;
@@ -285,12 +290,14 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
         {
           id: 1,
           title: homePage.trainingPrograms.title,
-          products: trainingPrograms
+          products: trainingPrograms,
+          slug: 'Training Programs'
         },
         {
           id: 2,
           title: homePage.services.title,
-          products: services
+          products: services,
+          slug: 'Services'
         },
 
       ],
