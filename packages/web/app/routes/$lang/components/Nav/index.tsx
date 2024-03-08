@@ -13,7 +13,7 @@ export type ISupportedLanguages = {
 
 export type ILink = {
   title: string;
-  to: string;
+  url: string;
 }
 
 export type NavProps = {
@@ -52,9 +52,9 @@ const NavLinks = forwardRef<HTMLUListElement, NavLinksProps>((props, ref) => {
   const commonActiveClassName = commonHoverClassName.replaceAll('hover:', '');
 
   return (
-    <ul ref={ref} className={className}>
+    <ul id="nav" ref={ref} className={className}>
       {links.map((link, index) => {
-        const linkTo = `/${lang}${link.to}`;
+        const linkTo = `/${lang}${link.url}`;
         return (
           <div key={index}>
             <NavLink onClick={onClick} className={({ isActive }) => {
@@ -93,7 +93,7 @@ const NavLinks = forwardRef<HTMLUListElement, NavLinksProps>((props, ref) => {
           )
 
         }>
-        <Link to={contact.to}>{contact.title}</Link>
+        <Link to={contact.url}>{contact.title}</Link>
       </li>
     </ul>
   );
@@ -130,7 +130,7 @@ export function Nav({ lang, supportedLanguages, links, contact }: NavProps) {
         </div>
       </div>
 
-      <Link className="w-full md:hidden flex items-center justify-center p-4 bg-primary-500 text-dark-500 font-bold" to={contact.to}>{contact.title}</Link>
+      <Link className="w-full md:hidden flex items-center justify-center p-4 bg-primary-500 text-dark-500 font-bold" to={contact.url}>{contact.title}</Link>
 
       <NavLinks onClick={() => {
         setToggle(false);

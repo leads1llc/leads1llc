@@ -1,4 +1,4 @@
-import { useActionData, useFetcher } from "@remix-run/react";
+import { useActionData, useFetcher, useNavigate } from "@remix-run/react";
 import { useState } from "react";
 import { Checkbox } from "~/components/Core/Checkbox";
 import { Section } from "~/components/Section";
@@ -41,6 +41,7 @@ export type ContactProps = {
 export function Contact(props: ContactProps) {
   const [productOptionIndex, setProductOptionIndex] = useState<number>(0);
   const [agree, setAgree] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const fetcher = useFetcher();
   const isSent = fetcher?.data?.success;
@@ -48,7 +49,7 @@ export function Contact(props: ContactProps) {
   const formItemClassName = 'flex w-full flex-col gap-4';
 
   return (
-    <Section className="flex flex-col gap-4 w-full bg-dark-500 text-primary-300 " headlineClassName="border-primary-300" headline={props.title}>
+    <Section id="train-with-us" className="flex flex-col gap-4 w-full bg-dark-500 text-primary-300 " headlineClassName="border-primary-300" headline={props.title}>
       <fetcher.Form method="POST" className="flex flex-col gap-8 border-box">
         {isSent || isError ?
           isSent && <span>{props.successMessage}</span> ||

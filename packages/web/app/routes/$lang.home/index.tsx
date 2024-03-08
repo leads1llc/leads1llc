@@ -26,8 +26,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     data.errors.email = true;
   }
 
-  console.log(data);
-
   if (Object.keys(data.errors).length > 0) {
     return json(data);
   }
@@ -110,7 +108,8 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
       description: trainingProgram.attributes.description,
       type: {
         id: programType.data.id,
-        title: programType.data.attributes.title
+        title: programType.data.attributes.title,
+        description: programType.data.attributes.description
       },
       cover: {
         url: trainingProgram.attributes.cover.data.attributes.url
@@ -124,6 +123,8 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     const programType = trainingProgram.type;
     const programTitle = programType.title;
     const programId = programType.id;
+
+    console.log(programType);
 
     if (!trainingProgramsCategory[programId]) {
       trainingProgramsCategory[programId] = {
@@ -212,9 +213,9 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     }, locale
   });
   const testimoniesJson = await testimoniesRes.json();
-  const testimoniesData = testimoniesJson.data.attributes;
+  const testimoniesData = testimoniesJson?.data?.attributes;
 
-  const testimonies = testimoniesData.testimonies.map((testimony) => {
+  const testimonies = testimoniesData?.testimonies?.map((testimony) => {
     return {
       quote: testimony.quote,
       author: {
@@ -232,7 +233,6 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 
   const countries = await callingCodesWithFlags();
 
-
   return {
     countries: countries,
     locale: locale,
@@ -240,7 +240,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
       title: homePage.heroSection.description,
       button: {
         title: homePage.heroSection.button[0].title,
-        link: homePage.heroSection.button[0].url,
+        url: homePage.heroSection.button[0].url,
       },
       image: {
         url: strapiResourceUrl(homePage.heroSection.image.data.attributes.url)
@@ -268,41 +268,10 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
       image: {
         url: strapiResourceUrl(ceoBackground.picture.data.attributes.url)
       },
-      info: [
-        {
-          title: "Personal data",
-          pairTexts: [
-            { leftText: "Fullname: ", rightText: "Eduar Michaels" },
-            { leftText: "Range: ", rightText: "Official" },
-            { leftText: "Deparment: ", rightText: "Marine" }
-          ]
-        },
-        {
-          title: "Honor medals",
-          pairTexts: [
-            { leftText: "🇺🇸 ", rightText: "Navy and Marine Corps commendation Medal vector" },
-            { leftText: "🇨🇴 ", rightText: "Herido en Acción" },
-            { leftText: "🇨🇴 ", rightText: "Servicios Distinguidos a la Infanteria de Marina" }
-          ]
-        },
-      ],
       info: ceoBackground.info,
     },
     testimonies: {
-      title: testimoniesData.title,
-      testimonies: [...Array(3).keys()].map(() => ({
-        company: {
-          site: "",
-          name: "Armada de colombia",
-          logo: { url: "https://www.georgetown.edu/wp-content/uploads/2022/02/Jkramerheadshot-scaled-e1645036825432-1050x1050-c-default.jpg" }
-        },
-        quote: "The best company in the world",
-        author: {
-          photo: { url: "https://www.georgetown.edu/wp-content/uploads/2022/02/Jkramerheadshot-scaled-e1645036825432-1050x1050-c-default.jpg" },
-          name: "Mark Antony",
-          socialMedia: "Facebook"
-        }
-      })),
+      title: testimoniesData?.title,
       testimonies: testimonies
     },
     contactForm: {
@@ -338,17 +307,17 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 };
 
 export default function Route() {
-  const { hero, trustedBy, trainingPrograms, services, ceoBackground, testimonies, contactForm, faq, locale, countries} = useLoaderData<typeof loader>();
+  const { hero, trustedBy, trainingPrograms, services, ceoBackground, testimonies, contactForm, faq, locale, countries } = useLoaderData<typeof loader>();
   const navigate = useNavigate();
 
   return (
     <>
 
-      <HeroSection title={hero.title} buttonTitle={hero.button.title} imageUrl={hero.image.url} />
+      <HeroSection title={hero.title} button={hero.button} imageUrl={hero.image.url} />
 
       <TrustedCompaniesSection companies={trustedBy.companies} title={trustedBy.title}></TrustedCompaniesSection>
 
-      <Section headline={{ title: trainingPrograms.title, subtitle: trainingPrograms.subtitle }}>
+      <Section id="training-programs" headline={{ title: trainingPrograms.title, subtitle: trainingPrograms.subtitle }}>
 
         <ul className="flex flex-col w-full gap-32">
           {trainingPrograms.categories.map((category, categoryIndex) => {
@@ -387,7 +356,9 @@ export default function Route() {
         successMessage={contactForm.successMessage}
       />
 
-      <Testimonies testimonies={testimonies.testimonies} title={testimonies.title} />
+      {testimonies?.testimonies?.length > 0 && 
+        <Testimonies testimonies={testimonies.testimonies} title={testimonies.title} />
+      }
       {/*
  
 

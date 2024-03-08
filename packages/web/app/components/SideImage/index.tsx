@@ -11,7 +11,7 @@ export type VisualDetailsProps = {
 
 export function SideImage(props: VisualDetailsProps) {
   return (
-    <section className={`flex flex-col sm:flex-row w-full ${props.side === 'right' ? 'flex-row-reverse': '' }`} style={props.style}>
+    <section className={`flex flex-col w-full ${props.side === 'right' ? 'sm:flex-row-reverse': 'sm:flex-row' }`} style={props.style}>
       <div className="w-full sm:w-1/2 h-full border-box">
         <img className="w-full h-full" src={props?.imageUrl} />
       </div>

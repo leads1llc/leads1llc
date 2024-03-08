@@ -1118,21 +1118,7 @@ export interface ApiGlobalGlobal extends Schema.SingleType {
           localized: true;
         };
       }>;
-    logo: Attribute.Media &
-      Attribute.Required &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }>;
-    favicon: Attribute.Media &
-      Attribute.Required &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }>;
-    nav: Attribute.DynamicZone<['page.link', 'page.button']> &
+    nav: Attribute.DynamicZone<['page.link']> &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
@@ -1145,6 +1131,13 @@ export interface ApiGlobalGlobal extends Schema.SingleType {
         };
       }>;
     footer: Attribute.DynamicZone<['page.link-category']> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    contact: Attribute.Component<'page.button'> &
+      Attribute.Required &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;

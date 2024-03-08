@@ -21,12 +21,11 @@ export type TestimoniesProps = {
 
 export function Testimonies(props: TestimoniesProps) {
 
-
   return (
     <Section className="w-full bg-light-500 overflow-hidden" headline={props.title}>
       <div className="flex flex-col sm:flex-row gap-8">
 
-        {props.testimonies.map((testimony, index) => {
+        {props.testimonies?.map((testimony, index) => {
           return (
             <div key={index} className="flex flex-col gap-4 w-72 border-solid border p-4">
               <div className="flex  flex-start items-center gap-8">
