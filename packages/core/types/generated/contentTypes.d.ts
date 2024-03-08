@@ -809,6 +809,47 @@ export interface ApiCeoBackgroundCeoBackground extends Schema.SingleType {
   };
 }
 
+export interface ApiClientClient extends Schema.CollectionType {
+  collectionName: 'clients';
+  info: {
+    singularName: 'client';
+    pluralName: 'clients';
+    displayName: 'Client';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    product: Attribute.Enumeration<['Services', 'Training Programs']> &
+      Attribute.Required;
+    productId: Attribute.BigInteger & Attribute.Required;
+    company: Attribute.String & Attribute.Required;
+    givenName: Attribute.String & Attribute.Required;
+    surname: Attribute.String & Attribute.Required;
+    countryCode: Attribute.String & Attribute.Required;
+    phoneNumber: Attribute.String & Attribute.Required;
+    email: Attribute.String & Attribute.Required;
+    termsAndConditions: Attribute.Boolean &
+      Attribute.Required &
+      Attribute.DefaultTo<false>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::client.client',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::client.client',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiClientChallengeClientChallenge
   extends Schema.CollectionType {
   collectionName: 'client_challenges';
@@ -903,6 +944,20 @@ export interface ApiContactFormContactForm extends Schema.SingleType {
         };
       }>;
     description: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    errorMessage: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    successMessage: Attribute.String &
       Attribute.Required &
       Attribute.SetPluginOptions<{
         i18n: {
@@ -1775,6 +1830,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::about-us-page.about-us-page': ApiAboutUsPageAboutUsPage;
       'api::ceo-background.ceo-background': ApiCeoBackgroundCeoBackground;
+      'api::client.client': ApiClientClient;
       'api::client-challenge.client-challenge': ApiClientChallengeClientChallenge;
       'api::contact-form.contact-form': ApiContactFormContactForm;
       'api::faq.faq': ApiFaqFaq;

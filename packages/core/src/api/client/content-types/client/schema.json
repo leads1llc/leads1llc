@@ -1,0 +1,56 @@
+{
+  "kind": "collectionType",
+  "collectionName": "clients",
+  "info": {
+    "singularName": "client",
+    "pluralName": "clients",
+    "displayName": "Client"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "product": {
+      "type": "enumeration",
+      "enum": [
+        "Services",
+        "Training Programs"
+      ],
+      "required": true
+    },
+    "productId": {
+      "type": "biginteger",
+      "required": true
+    },
+    "company": {
+      "type": "string",
+      "required": true
+    },
+    "givenName": {
+      "type": "string",
+      "required": true
+    },
+    "surname": {
+      "type": "string",
+      "required": true
+    },
+    "countryCode": {
+      "type": "string",
+      "required": true
+    },
+    "phoneNumber": {
+      "type": "string",
+      "required": true
+    },
+    "email": {
+      "type": "string",
+      "required": true
+    },
+    "termsAndConditions": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    }
+  }
+}

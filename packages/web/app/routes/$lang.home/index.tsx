@@ -1,5 +1,5 @@
-import { LoaderFunctionArgs, json } from "@remix-run/node";
-import { Link, useLoaderData, useNavigate } from "@remix-run/react";
+import { ActionFunctionArgs, LoaderFunctionArgs, json } from "@remix-run/node";
+import { Link, useActionData, useLoaderData, useNavigate } from "@remix-run/react";
 import { Progams } from "./components/Programs";
 import { Section } from "../../components/Section";
 import { Services } from "./sections/Services";
@@ -7,10 +7,40 @@ import { CeoBackground } from "./sections/CeoBackground";
 import { Testimonies } from "./sections/Testimonies";
 import { Contact } from "./sections/Contact";
 import { HeroSection } from "../../components/HeroSection";
-import { strapiGet, strapiResourceUrl } from "~/services/strapi";
-import { BiDownArrow } from "react-icons/bi";
-import { FaArrowDown, FaArrowsUpDown } from "react-icons/fa6";
+import { strapiGet, strapiPost, strapiResourceUrl } from "~/services/strapi";
+import { callingCodesWithFlags } from "~/utils/countries";
 import { TrustedCompaniesSection } from "./sections/TrustedCompanies";
+
+const mailRegex = /^(?!.*[Ã±Ã‘ñ])(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+export const action = async ({ request }: ActionFunctionArgs) => {
+  const formData = await request.formData();
+
+  const email = String(formData.get('email'));
+
+  const data: any = {
+    errors: {}
+  };
+
+  if (!email.match(mailRegex)) {
+    data.errors.email = true;
+  }
+
+  console.log(data);
+
+  if (Object.keys(data.errors).length > 0) {
+    return json(data);
+  }
+
+  try {
+    await strapiPost('/api/clients', Object.fromEntries(formData));
+    data.success = true;
+    return json(data);
+  } catch (e) {
+    data.error = true;
+    return json(data);
+  }
+}
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const locale = params.lang;
@@ -173,7 +203,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
           },
           company: {
             populate: {
-              logo: {fields: ['url']}
+              logo: { fields: ['url'] }
             }
           },
         }
@@ -182,26 +212,29 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     }, locale
   });
   const testimoniesJson = await testimoniesRes.json();
-  const testimoniesData  = testimoniesJson.data.attributes;
+  const testimoniesData = testimoniesJson.data.attributes;
 
   const testimonies = testimoniesData.testimonies.map((testimony) => {
     return {
       quote: testimony.quote,
       author: {
         name: testimony.author.name,
-        photo: {url: strapiResourceUrl(testimony.author.photo.data.attributes.url)},
+        photo: { url: strapiResourceUrl(testimony.author.photo.data.attributes.url) },
         socialMedia: testimony.author.socialMedia
       },
       company: {
         name: testimony.company.name,
-        logo: {url: strapiResourceUrl(testimony.company.logo.data.attributes.url)}
+        logo: { url: strapiResourceUrl(testimony.company.logo.data.attributes.url) }
       }
     };
-    
+
   });
+
+  const countries = await callingCodesWithFlags();
 
 
   return {
+    countries: countries,
     locale: locale,
     hero: {
       title: homePage.heroSection.description,
@@ -278,6 +311,8 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
       },
       description: contactForm.description,
       fields: contactForm.fields,
+      errorMessage: contactForm.errorMessage,
+      successMessage: contactForm.successMessage,
       productCategories: [
         {
           id: 1,
@@ -303,8 +338,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 };
 
 export default function Route() {
-  const { hero, trustedBy, trainingPrograms, services, ceoBackground, testimonies, contactForm, faq, locale } = useLoaderData<typeof loader>();
-
+  const { hero, trustedBy, trainingPrograms, services, ceoBackground, testimonies, contactForm, faq, locale, countries} = useLoaderData<typeof loader>();
   const navigate = useNavigate();
 
   return (
@@ -342,7 +376,16 @@ export default function Route() {
 
       <CeoBackground title={ceoBackground.title} info={ceoBackground.info} image={ceoBackground.image} />
 
-      <Contact submit={contactForm.submit} title={contactForm.title} productCategories={contactForm.productCategories} fields={contactForm.fields} description={contactForm.description} />
+      <Contact
+        submit={contactForm.submit}
+        title={contactForm.title}
+        productCategories={contactForm.productCategories}
+        fields={contactForm.fields}
+        description={contactForm.description}
+        countries={countries}
+        errorMessage={contactForm.errorMessage}
+        successMessage={contactForm.successMessage}
+      />
 
       <Testimonies testimonies={testimonies.testimonies} title={testimonies.title} />
       {/*
@@ -352,8 +395,6 @@ export default function Route() {
    <span>Not implemented yet!</span>
  </Section>
         */ }
-
-
     </>
   );
 }

@@ -4,7 +4,7 @@ import qs from "qs";
 
 export async function strapiGet(path: string, params?: {}) {
   let url = `${API_URL}${path}`;
-  if(params){
+  if (params) {
     url += `?${qs.stringify(params)}`;
 
   }
@@ -15,6 +15,12 @@ export function strapiResourceUrl(path: string): string {
   return `localhost:1337${path}`;
 }
 
-export async function strapiPost(path: string,) {
-
+export async function strapiPost(path: string, params?: {}) {
+  return await fetch(`${API_URL}${path}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ data: params })
+  });
 }

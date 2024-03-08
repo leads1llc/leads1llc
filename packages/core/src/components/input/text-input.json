@@ -26,6 +26,15 @@
     "required": {
       "type": "boolean",
       "required": true
+    },
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": false
+    },
+    "errorMessage": {
+      "type": "string",
+      "required": true
     }
   }
 }

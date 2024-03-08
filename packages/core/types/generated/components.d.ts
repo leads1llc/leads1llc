@@ -4,10 +4,12 @@ export interface InputCheckbox extends Schema.Component {
   collectionName: 'components_input_checkboxes';
   info: {
     displayName: 'Checkbox';
+    description: '';
   };
   attributes: {
     message: Attribute.RichText & Attribute.Required;
     required: Attribute.Boolean & Attribute.Required;
+    name: Attribute.String & Attribute.Required;
   };
 }
 
@@ -23,6 +25,8 @@ export interface InputTextInput extends Schema.Component {
     type: Attribute.Enumeration<['text', 'phone', 'number', 'mail']> &
       Attribute.Required;
     required: Attribute.Boolean & Attribute.Required;
+    name: Attribute.String & Attribute.Required;
+    errorMessage: Attribute.String & Attribute.Required;
   };
 }
 

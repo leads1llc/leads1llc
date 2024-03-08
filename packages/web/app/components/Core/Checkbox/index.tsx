@@ -5,6 +5,8 @@ export type CheckboxProps = {
     title?: string;
     isSelected?: boolean;
     onClick?: () => void;
+    name?: string;
+    value?: string;
 };
 
 export function Checkbox(props: CheckboxProps) {
@@ -24,7 +26,7 @@ export function Checkbox(props: CheckboxProps) {
         >
 
             <div className={`flex justify-center items-center group min-w-6 min-h-6 border-solid border border-primary-300 ${isSelected ? 'bg-primary-300' : ''}`}>
-                <input ref={inputRef} required={props.required} type="checkbox" className="pointer-events-none bg-dark-500 color-dark-500 appearance-none absolute border-none " />
+                <input name={props.name} value={props.value || String(isSelected)} ref={inputRef} required={props.required} type="checkbox" className="pointer-events-none bg-dark-500 color-dark-500 appearance-none absolute border-none " />
 
                 {
                     isSelected && <div className="w-3 h-3 bg-dark-300"></div>
