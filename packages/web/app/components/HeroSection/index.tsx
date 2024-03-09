@@ -4,7 +4,7 @@ import React, { Children } from "react";
 export type HeroSectionProps = {
   title?: string;
   description?: string;
-  button: {
+  button?: {
     title: string;
     url: string;
   };
