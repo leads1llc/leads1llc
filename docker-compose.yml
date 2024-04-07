@@ -12,7 +12,7 @@ services:
       - ./letsencrypt:/etc/letsencrypt
     networks:
       app:
-        ipv4_address: 10.6.0.2
+        ipv4_address: 10.11.0.2
 
   mysql:
     image: mysql
@@ -30,10 +30,10 @@ services:
       timeout: 5s
     restart: always
     volumes:
-      - database:/var/lib/mysql
+      - ./.docker-volume/database:/var/lib/mysql
     networks:
       app:
-        ipv4_address: 10.6.0.3
+        ipv4_address: 10.11.0.3
 
   web:
     build: ./packages/web
@@ -46,7 +46,7 @@ services:
       - 3000:3000
     networks:
       app:
-        ipv4_address: 10.6.0.4
+        ipv4_address: 10.11.0.4
 
   core:
     build: ./packages/core
@@ -56,7 +56,7 @@ services:
         condition: service_healthy
         restart: true
     volumes:
-      - uploads:/app/public
+      - ./.docker-volume/public:/app/public
       - ./packages/core:/app
     env_file:
       - .env
@@ -65,15 +65,15 @@ services:
       - 1337:1337
     networks:
       app:
-        ipv4_address: 10.6.0.5
+        ipv4_address: 10.11.0.5
 
 networks:
   app:
     driver: bridge
     ipam:
       config:
-        - subnet: 10.6.0.0/16
-          gateway: 10.6.0.1
+        - subnet: 10.11.0.0/16
+          gateway: 10.11.0.1
 
 volumes:
   database:

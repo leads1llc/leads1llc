@@ -988,6 +988,190 @@ export interface ApiContactFormContactForm extends Schema.SingleType {
   };
 }
 
+export interface ApiCountryCountry extends Schema.CollectionType {
+  collectionName: 'countries';
+  info: {
+    singularName: 'country';
+    pluralName: 'countries';
+    displayName: 'Country';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    flag: Attribute.Media &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::country.country',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::country.country',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::country.country',
+      'oneToMany',
+      'api::country.country'
+    >;
+    locale: Attribute.String;
+  };
+}
+
+export interface ApiExperienceExperience extends Schema.CollectionType {
+  collectionName: 'experiences';
+  info: {
+    singularName: 'experience';
+    pluralName: 'experiences';
+    displayName: 'Experience';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    title: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    location: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    date: Attribute.Date &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    pictures: Attribute.Media &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    country: Attribute.Relation<
+      'api::experience.experience',
+      'oneToOne',
+      'api::country.country'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::experience.experience',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::experience.experience',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::experience.experience',
+      'oneToMany',
+      'api::experience.experience'
+    >;
+    locale: Attribute.String;
+  };
+}
+
+export interface ApiExperiencePageExperiencePage extends Schema.SingleType {
+  collectionName: 'experience_pages';
+  info: {
+    singularName: 'experience-page';
+    pluralName: 'experience-pages';
+    displayName: 'ExperiencePage';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    title: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    description: Attribute.Text &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::experience-page.experience-page',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::experience-page.experience-page',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::experience-page.experience-page',
+      'oneToMany',
+      'api::experience-page.experience-page'
+    >;
+    locale: Attribute.String;
+  };
+}
+
 export interface ApiFaqFaq extends Schema.CollectionType {
   collectionName: 'faqs';
   info: {
@@ -1826,6 +2010,9 @@ declare module '@strapi/types' {
       'api::client.client': ApiClientClient;
       'api::client-challenge.client-challenge': ApiClientChallengeClientChallenge;
       'api::contact-form.contact-form': ApiContactFormContactForm;
+      'api::country.country': ApiCountryCountry;
+      'api::experience.experience': ApiExperienceExperience;
+      'api::experience-page.experience-page': ApiExperiencePageExperiencePage;
       'api::faq.faq': ApiFaqFaq;
       'api::faq-type.faq-type': ApiFaqTypeFaqType;
       'api::global.global': ApiGlobalGlobal;

@@ -1,0 +1,38 @@
+{
+  "kind": "singleType",
+  "collectionName": "experience_pages",
+  "info": {
+    "singularName": "experience-page",
+    "pluralName": "experience-pages",
+    "displayName": "ExperiencePage",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "required": true
+    }
+  }
+}
