@@ -1,9 +1,43 @@
-import { LoaderFunctionArgs } from "@remix-run/node";
+import { ActionFunctionArgs, LoaderFunctionArgs, json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Contact } from "../$lang.home/sections/Contact";
-import { strapiGet, strapiResourceUrl } from "~/services/strapi";
+import { strapiGet, strapiPost, strapiResourceUrl } from "~/services/strapi";
 import { callingCodesWithFlags } from "~/utils/countries";
 import { capitalizeFirstLetter } from "~/utils/utils";
+
+const mailRegex = /^(?!.*[Ã±Ã‘ñ])(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+export const action = async ({ request }: ActionFunctionArgs) => {
+  const formData = await request.formData();
+
+  const email = String(formData.get('email'));
+
+  const data: any = {
+    errors: {}
+  };
+
+  if (!email.match(mailRegex)) {
+    data.errors.email = true;
+  }
+
+  if (Object.keys(data.errors).length > 0) {
+    return json(data);
+  }
+
+  try {
+    const res = await strapiPost('/api/clients', Object.fromEntries(formData));
+    const resData = await res.json();
+    if(resData.error){
+      data.error = true;
+    }else{
+      data.success = true;
+    }
+    return json(data);
+  } catch (e) {
+    data.error = true;
+    return json(data);
+  }
+}
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
     const locale = params.lang;
