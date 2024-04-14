@@ -42,6 +42,18 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 export const loader = async ({ params }: LoaderFunctionArgs) => {
     const locale = params.lang;
 
+    const experiencePageRes = await strapiGet('/api/experience-page', {
+        populate: '*',
+        locale
+    });
+
+    const experiencePageJson = await experiencePageRes.json();
+    const experiencePageData = experiencePageJson.data;
+    const experience = {
+        title: experiencePageData?.attributes?.title,
+        description: experiencePageData?.attributes?.description
+    };
+
     const experiencesRes = await strapiGet('/api/experiences', {
         populate: {
             location: "*",
@@ -200,8 +212,8 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 
     return {
         locale,
-        title: "Experience",
-        description: "Description",
+        title: experience.title,
+        description: experience.description,
         experiences,
         contactForm: {
             title: {
