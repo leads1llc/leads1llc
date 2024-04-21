@@ -6,6 +6,7 @@
     ]
   },
   "dependencies": {
+    "react-google-recaptcha": "^3.1.0",
     "string-width": "^7.1.0"
   },
   "name": "leads1llc",

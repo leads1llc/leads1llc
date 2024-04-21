@@ -4,6 +4,7 @@ import { Checkbox } from "~/components/Core/Checkbox";
 import { Section } from "~/components/Section";
 import Select from "react-select"
 import { COLORS } from "~/styles/variables";
+import { GoogleReCaptchaProvider, GoogleReCaptchaCheckbox } from 'react-google-recaptcha-ultimate';
 
 export type ContactProps = {
   countries: [{ flag: string, callingCode: string }];
@@ -109,116 +110,121 @@ export function Contact(props: ContactProps) {
 
 
   return (
-    <Section id="train-with-us" className="flex flex-col gap-4 w-full bg-dark-500 text-primary-300 " headlineClassName="border-primary-300" headline={props.title}>
-      <fetcher.Form method="POST" className="flex flex-col gap-8 border-box">
-        {isSent || isError ?
-          isSent && <span>{props.successMessage}</span> ||
-          isError && <span>{props.errorMessage}</span>
-          :
-          <>
-            <span>{props.description}</span>
+    <GoogleReCaptchaProvider
+      type="v3"
+      siteKey="6LcricIpAAAAAIGtowzfjXe4g7dw-XG76JYlYKf6">
+      <Section id="train-with-us" className="flex flex-col gap-4 w-full bg-dark-500 text-primary-300 " headlineClassName="border-primary-300" headline={props.title}>
+        <fetcher.Form method="POST" className="flex flex-col gap-8 border-box">
+          {isSent || isError ?
+            isSent && <span>{props.successMessage}</span> ||
+            isError && <span>{props.errorMessage}</span>
+            :
+            <>
+              <span>{props.description}</span>
 
-            <div className="flex gap-4">
-              {props.productCategories.map((product, productIndex) => {
-                const isSelected = productIndex === productOptionIndex;
-                return (
-                  <Checkbox name='product' value={props.productCategories[productOptionIndex].slug} key={productIndex} isSelected={isSelected} title={product.title}
-                    onClick={() => {
-                      setProductOptionIndex(productIndex);
-                    }} />
-                )
-              })}
-            </div>
-
-
-            <div className="flex flex-col gap-2 w-full">
-              <span>{props.productCategories[productOptionIndex]?.title}</span>
-
-              <Select
-                styles={selectStyles}
-                name="productId" options={productsSelectOptions}
-              />
-            </div>
-
-            {props.fields.map((field, key) => {
-              if (field.__component === "input.text-input") {
-                if (field.type === "phone") {
+              <div className="flex gap-4">
+                {props.productCategories.map((product, productIndex) => {
+                  const isSelected = productIndex === productOptionIndex;
                   return (
-                    <div key={key} className="flex flex-col gap-4">
-                      <label>{field.title}</label>
-                      <div className="flex  gap-4 w-full">
-                        <Select
-                          styles={selectStyles}
-                          className="w-64 sm:w-32"
-                          name="countryCode"
-                          options={callingCodeOptions}
-                          formatOptionLabel={country => (
-                            <div className="flex gap-2">
-                              <img width={20} src={country.image} alt="country-image" />
-                              <span>{country.label}</span>
-                            </div>
-                          )}
-                        />
+                    <Checkbox name='product' value={props.productCategories[productOptionIndex].slug} key={productIndex} isSelected={isSelected} title={product.title}
+                      onClick={() => {
+                        setProductOptionIndex(productIndex);
+                      }} />
+                  )
+                })}
+              </div>
 
+
+              <div className="flex flex-col gap-2 w-full">
+                <span>{props.productCategories[productOptionIndex]?.title}</span>
+
+                <Select
+                  styles={selectStyles}
+                  name="productId" options={productsSelectOptions}
+                />
+              </div>
+
+              {props.fields.map((field, key) => {
+                if (field.__component === "input.text-input") {
+                  if (field.type === "phone") {
+                    return (
+                      <div key={key} className="flex flex-col gap-4">
+                        <label>{field.title}</label>
+                        <div className="flex  gap-4 w-full">
+                          <Select
+                            styles={selectStyles}
+                            className="w-64 sm:w-32"
+                            name="countryCode"
+                            options={callingCodeOptions}
+                            formatOptionLabel={country => (
+                              <div className="flex gap-2">
+                                <img width={20} src={country.image} alt="country-image" />
+                                <span>{country.label}</span>
+                              </div>
+                            )}
+                          />
+
+                          <input
+                            onKeyDown={(e) => {
+                              !e.key.match(/[0-9]+|Backspace|Enter|Tab|[.]/) && e.preventDefault()
+                            }}
+                            name={field.name}
+                            required={field.required}
+                            className="flex p-2 border-none w-full bg-dark-300 text-primary-300"
+                            placeholder={field.placeholder}
+                          />
+                        </div>
+
+                      </div>
+                    );
+                  }
+
+                  if (field.type === "mail") {
+                    return (
+                      <div key={key} className={formItemClassName}>
+                        <label className="">{field.title}</label>
                         <input
-                          onKeyDown={(e) => {
-                            !e.key.match(/[0-9]+|Backspace|Enter|Tab|[.]/) && e.preventDefault()
-                          }}
                           name={field.name}
                           required={field.required}
-                          className="flex p-2 border-none w-full bg-dark-300 text-primary-300"
-                          placeholder={field.placeholder}
-                        />
-                      </div>
+                          className="p-2 border-none text-primary-300 bg-dark-300"
+                          placeholder={field.placeholder} />
+                        {fetcher.data?.errors?.email && <span className="text-primary-300">{field.errorMessage}</span>}
+                      </div>);
+                  }
 
-                    </div>
-                  );
-                }
-
-                if (field.type === "mail") {
                   return (
                     <div key={key} className={formItemClassName}>
                       <label className="">{field.title}</label>
-                      <input
-                        name={field.name}
-                        required={field.required}
-                        className="p-2 border-none text-primary-300 bg-dark-300"
-                        placeholder={field.placeholder} />
-                      {fetcher.data?.errors?.email && <span className="text-primary-300">{field.errorMessage}</span>}
+                      <input name={field.name} required={field.required} className="p-2 border-none text-primary-300 bg-dark-300" placeholder={field.placeholder} />
                     </div>);
                 }
 
-                return (
-                  <div key={key} className={formItemClassName}>
-                    <label className="">{field.title}</label>
-                    <input name={field.name} required={field.required} className="p-2 border-none text-primary-300 bg-dark-300" placeholder={field.placeholder} />
-                  </div>);
-              }
+                if (field.__component === "input.checkbox") {
+                  return (
+                    <div key={key} className="flex w-full gap-4">
+                      <Checkbox name={field.name} isSelected={agree} title={field.message}
+                        onClick={() => {
+                          setAgree(!agree);
+                        }} />
+                    </div>
+                  );
+                }
+              })}
 
-              if (field.__component === "input.checkbox") {
-                return (
-                  <div key={key} className="flex w-full gap-4">
-                    <Checkbox name={field.name} isSelected={agree} title={field.message}
-                      onClick={() => {
-                        setAgree(!agree);
-                      }} />
-                  </div>
-                );
-              }
-            })}
+              <GoogleReCaptchaCheckbox />
 
-            <div className="w-full">
-              <input
-                type="submit"
-                className='w-full flex cursor-pointer text-center text-dark-500 bg-primary-300 duration-300 ease hover:bg-primary-500 p-4 border-none'
-                value={props.submit.title}
-              />
-            </div>
+              <div className="w-full">
+                <input
+                  type="submit"
+                  className='w-full flex cursor-pointer text-center text-dark-500 bg-primary-300 duration-300 ease hover:bg-primary-500 p-4 border-none'
+                  value={props.submit.title}
+                />
+              </div>
 
-          </>
-        }
-      </fetcher.Form>
-
-    </Section>
+            </>
+          }
+        </fetcher.Form>
+      </Section>
+    </GoogleReCaptchaProvider>
   );
 }
