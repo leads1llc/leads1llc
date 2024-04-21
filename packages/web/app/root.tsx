@@ -55,7 +55,7 @@ export default function App() {
       <body>
         <GoogleReCaptchaProvider
           type="v2-checkbox"
-          siteKey="6Lczm8IpAAAAAHpfThwr4cL6ea85VXH2Cru38NeI">
+          siteKey="6Ld5ncIpAAAAANAyyaGmHxdbQBrGRFPvRFBqfMmq">
           <Outlet />
           <ScrollRestoration />
           <Scripts />

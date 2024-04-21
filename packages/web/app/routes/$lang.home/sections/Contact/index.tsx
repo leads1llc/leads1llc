@@ -1,10 +1,11 @@
 import { useActionData, useFetcher, useNavigate } from "@remix-run/react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Checkbox } from "~/components/Core/Checkbox";
 import { Section } from "~/components/Section";
 import Select from "react-select"
 import { COLORS } from "~/styles/variables";
 import { GoogleReCaptchaCheckbox } from '@google-recaptcha/react';
+import { concatClassNames } from "~/utils/utils";
 
 export type ContactProps = {
   countries: [{ flag: string, callingCode: string }];
@@ -43,12 +44,14 @@ export type ContactProps = {
 export function Contact(props: ContactProps) {
   const [productOptionIndex, setProductOptionIndex] = useState<number>(0);
   const [agree, setAgree] = useState<boolean>(false);
+  const [isSubmitEnable, setIsSubmitEnable] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const fetcher = useFetcher();
   const isSent = fetcher?.data?.success;
   const isError = fetcher?.data?.error;
   const formItemClassName = 'flex w-full flex-col gap-4';
+  const recapchaRef = useRef(null);
 
   const selectStyles: any = {
     menuList(base, props) {
@@ -208,12 +211,22 @@ export function Contact(props: ContactProps) {
               }
             })}
 
-            <GoogleReCaptchaCheckbox />
+            <GoogleReCaptchaCheckbox
+              ref={recapchaRef}
+              callback={(token) => {
+                console.log(token);
+                setIsSubmitEnable(true);
+              }}
+            />
 
             <div className="w-full">
               <input
                 type="submit"
-                className='w-full flex cursor-pointer text-center text-dark-500 bg-primary-300 duration-300 ease hover:bg-primary-500 p-4 border-none'
+                disabled={!isSubmitEnable}
+                className={concatClassNames(
+                  'w-full flex cursor-pointer text-center text-dark-500 bg-primary-300 duration-300 ease p-4 border-none',
+                  isSubmitEnable ? "bg-primary-300 hover:bg-primary-500": "bg-gray-100"
+                )}
                 value={props.submit.title}
               />
             </div>
