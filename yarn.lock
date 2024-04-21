@@ -1863,6 +1863,7 @@ __metadata:
     eslint-plugin-jsx-a11y: ^6.7.1
     eslint-plugin-react: ^7.33.2
     eslint-plugin-react-hooks: ^4.6.0
+    flag-icons: ^7.2.1
     isbot: ^3.6.8
     qs: ^6.11.2
     react: ^18.2.0
@@ -9102,6 +9103,13 @@ __metadata:
     object.pick: ^1.2.0
     parse-filepath: ^1.0.1
   checksum: 9c76fb17e9f7e3f21e65b563cf49aed944c6b257a46b04306cef8883d60e295e904f57514443e60c64874914d13557b2f464071181d8d80a37cd9d8565075b7f
+  languageName: node
+  linkType: hard
+
+"flag-icons@npm:^7.2.1":
+  version: 7.2.1
+  resolution: "flag-icons@npm:7.2.1"
+  checksum: c24a71a1e830860625b60f4a0d16dff51dcc5e6849aeacb93e44bb0cd1553f5ba7d07fdfbb35ea3e297ddb300ca4bdb6a8499c396e25882c8ed38a942dc922cc
   languageName: node
   linkType: hard
 

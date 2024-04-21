@@ -1,5 +1,5 @@
-// TODO: Change for environment variable
-const API_URL = `http://10.6.0.5:1337`;
+//const API_URL = process.env.STRAPI_URL;
+const API_URL = "http://localhost:1337"
 import qs from "qs";
 
 export async function strapiGet(path: string, params?: {}) {
@@ -12,7 +12,7 @@ export async function strapiGet(path: string, params?: {}) {
 }
 
 export function strapiResourceUrl(path: string): string {
-  return `localhost:1337${path}`;
+  return `${API_URL}${path}`;
 }
 
 export async function strapiPost(path: string, params?: {}) {

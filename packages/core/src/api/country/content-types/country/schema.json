@@ -40,6 +40,16 @@
           "localized": false
         }
       }
+    },
+    "code": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "string",
+      "required": true,
+      "maxLength": 2
     }
   }
 }
