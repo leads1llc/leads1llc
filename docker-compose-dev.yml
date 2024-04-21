@@ -1,19 +1,5 @@
 version: "3.8"
 services:
-  proxy-manager:
-    image: 'docker.io/jc21/nginx-proxy-manager:latest'
-    restart: unless-stopped
-    ports:
-      - '80:80'
-      - '81:81'
-      - '443:443'
-    volumes:
-      - proxy:/data
-      - letsencrypt:/etc/letsencrypt
-    networks:
-      app:
-        ipv4_address: 10.11.0.2
-
   mysql:
     image: mysql
     environment:
@@ -56,7 +42,7 @@ services:
         condition: service_healthy
         restart: true
     volumes:
-      - uploads:/app/public
+      - strapi:/app/public
       - ./packages/core:/app
     env_file:
       - .env
@@ -76,27 +62,15 @@ networks:
           gateway: 10.11.0.1
 
 volumes:
-  letsencrypt:
-    driver: local
-    driver_opts:
-      type: none
-      device: ./.docker-volume/letsencrypt
-      o: bind
-  proxy:
-    driver: local
-    driver_opts:
-      type: none
-      device: ./.docker-volume/proxy
-      o: bind
   database:
     driver: local
     driver_opts:
       type: none
       device: ./.docker-volume/database
       o: bind
-  uploads:
+  strapi:
     driver: local
     driver_opts:
       type: none
-      device: ./.docker-volume/uploads
+      device: ./.docker-volume/strapi
       o: bind
