@@ -56,7 +56,7 @@ services:
         condition: service_healthy
         restart: true
     volumes:
-      - uploads:/app/public
+      - strapi:/app/public
       - ./packages/core:/app
     env_file:
       - .env
@@ -94,9 +94,9 @@ volumes:
       type: none
       device: ./.docker-volume/database
       o: bind
-  uploads:
+  strapi:
     driver: local
     driver_opts:
       type: none
-      device: ./.docker-volume/uploads
+      device: ./.docker-volume/strapi
       o: bind
