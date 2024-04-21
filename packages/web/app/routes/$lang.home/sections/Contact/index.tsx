@@ -112,7 +112,7 @@ export function Contact(props: ContactProps) {
   return (
     <GoogleReCaptchaProvider
       type="v3"
-      siteKey="6LcricIpAAAAAIGtowzfjXe4g7dw-XG76JYlYKf6">
+      siteKey={process.env.GOOGLE_RECAPTCHA_V3 as string}>
       <Section id="train-with-us" className="flex flex-col gap-4 w-full bg-dark-500 text-primary-300 " headlineClassName="border-primary-300" headline={props.title}>
         <fetcher.Form method="POST" className="flex flex-col gap-8 border-box">
           {isSent || isError ?
