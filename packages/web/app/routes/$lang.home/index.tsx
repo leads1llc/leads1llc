@@ -8,12 +8,42 @@ import { Testimonies } from "./sections/Testimonies";
 import { Contact } from "./sections/Contact";
 import { HeroSection } from "../../components/HeroSection";
 import { strapiGet, strapiPost, strapiResourceUrl } from "~/services/strapi";
-import { callingCodesWithFlags } from "~/utils/countries";
 import { TrustedCompaniesSection } from "./sections/TrustedCompanies";
 
 const mailRegex = /^(?!.*[Ã±Ã‘ñ])(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-export const action = async ({ request }: ActionFunctionArgs) => {
+export async function getContactForm(locale) {
+  const contactFormRes = await strapiGet('/api/contact-form', {
+    populate: {
+      fields: {
+        populate: '*'
+      },
+      countries: {
+        populate: {
+          languagesCode: '*',
+          flag: {
+            fields: ['url']
+          }
+        }
+      }
+    }, locale
+  });
+  const contactFormJson = await contactFormRes.json();
+  const contactForm = contactFormJson.data.attributes;
+  const countries = contactForm?.countries?.data?.map((country) => {
+    return {
+      callingCode: country.attributes.callingCode,
+      flag: strapiResourceUrl(country.attributes.flag.data.attributes.url)
+    }
+  });
+
+  return {
+    ...contactForm,
+    countries
+  }
+}
+
+export async function contactFormAction(request: Request) {
   const formData = await request.formData();
 
   const email = String(formData.get('email'));
@@ -30,12 +60,21 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return json(data);
   }
 
+  const product = formData.get('product');
+  console.log(product);
+  const productId: string = formData.get('productId') as string;
+  if (product === "Training Programs") {
+    formData.append('trainingProgram', productId);
+  } else if(product === "Services") {
+    formData.append('service', productId);
+  }
+
   try {
     const res = await strapiPost('/api/clients', Object.fromEntries(formData));
     const resData = await res.json();
-    if(resData.error){
+    if (resData.error) {
       data.error = true;
-    }else{
+    } else {
       data.success = true;
     }
     return json(data);
@@ -43,6 +82,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     data.error = true;
     return json(data);
   }
+}
+
+export const action = async ({ request }: ActionFunctionArgs) => {
+  return contactFormAction(request);
 }
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
@@ -130,7 +173,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     const programType = trainingProgram.type;
     const programTitle = programType.title;
     const programId = programType.id;
-    
+
     if (!trainingProgramsCategory[programId]) {
       trainingProgramsCategory[programId] = {
         id: programId,
@@ -193,9 +236,6 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   const ceoBackgroundJson = await ceoBackgroundRes.json();
   const ceoBackground = ceoBackgroundJson.data.attributes;
 
-  const contactFormRes = await strapiGet('/api/contact-form', { populate: '*', locale });
-  const contactFormJson = await contactFormRes.json();
-  const contactForm = contactFormJson.data.attributes;
 
   const testimoniesRes = await strapiGet('/api/testimony-section', {
     populate: {
@@ -213,8 +253,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
             }
           },
         }
-      }
-
+      },
     }, locale
   });
   const testimoniesJson = await testimoniesRes.json();
@@ -236,10 +275,10 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 
   });
 
-  const countries = await callingCodesWithFlags();
+  const contactForm = await getContactForm(locale);
 
   return {
-    countries: countries,
+    countries: contactForm.countries,
     locale: locale,
     hero: {
       title: homePage.heroSection.description,
@@ -363,7 +402,7 @@ export default function Route() {
         successMessage={contactForm.successMessage}
       />
 
-      {testimonies?.testimonies?.length > 0 && 
+      {testimonies?.testimonies?.length > 0 &&
         <Testimonies testimonies={testimonies.testimonies} title={testimonies.title} />
       }
       {/*

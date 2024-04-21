@@ -4,7 +4,8 @@
   "info": {
     "singularName": "client",
     "pluralName": "clients",
-    "displayName": "Client"
+    "displayName": "Client",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -51,6 +52,16 @@
       "type": "boolean",
       "default": false,
       "required": true
+    },
+    "trainingProgram": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::training-program.training-program"
+    },
+    "service": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::service.service"
     }
   }
 }

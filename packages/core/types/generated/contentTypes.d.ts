@@ -815,6 +815,7 @@ export interface ApiClientClient extends Schema.CollectionType {
     singularName: 'client';
     pluralName: 'clients';
     displayName: 'Client';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -832,6 +833,16 @@ export interface ApiClientClient extends Schema.CollectionType {
     termsAndConditions: Attribute.Boolean &
       Attribute.Required &
       Attribute.DefaultTo<false>;
+    trainingProgram: Attribute.Relation<
+      'api::client.client',
+      'oneToOne',
+      'api::training-program.training-program'
+    >;
+    service: Attribute.Relation<
+      'api::client.client',
+      'oneToOne',
+      'api::service.service'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

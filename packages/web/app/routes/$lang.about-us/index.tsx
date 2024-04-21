@@ -6,41 +6,10 @@ import { SideImage } from "../../components/SideImage";
 import { strapiGet, strapiPost, strapiResourceUrl } from "~/services/strapi";
 import { Contact } from "../$lang.home/sections/Contact";
 import { callingCodesWithFlags } from "~/utils/countries";
-
-
-// TODO: Refactor this action with the home page.
-const mailRegex = /^(?!.*[Ã±Ã‘ñ])(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+import { contactFormAction, getContactForm } from "../$lang.home";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-  const formData = await request.formData();
-
-  const email = String(formData.get('email'));
-
-  const data: any = {
-    errors: {}
-  };
-
-  if (!email.match(mailRegex)) {
-    data.errors.email = true;
-  }
-
-  if (Object.keys(data.errors).length > 0) {
-    return json(data);
-  }
-
-  try {
-    const res = await strapiPost('/api/clients', Object.fromEntries(formData));
-    const resData = await res.json();
-    if (resData.error) {
-      data.error = true;
-    } else {
-      data.success = true;
-    }
-    return json(data);
-  } catch (e) {
-    data.error = true;
-    return json(data);
-  }
+  return contactFormAction(request);
 }
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
@@ -207,12 +176,8 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     }
   });
 
-  const contactFormRes = await strapiGet('/api/contact-form', { populate: '*', locale });
-  const contactFormJson = await contactFormRes.json();
-  const contactForm = contactFormJson.data.attributes;
-
-  const countries = await callingCodesWithFlags();
-
+  const contactForm = await getContactForm(locale)
+  const countries = contactForm.countries;
 
   return {
     hero: {
@@ -273,46 +238,46 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     },
     countries
   }
-  };
+};
 
-  export default function Route() {
-    const { hero, clientChallenges, coreValues, vision, mission, contactForm, countries } = useLoaderData<typeof loader>();
+export default function Route() {
+  const { hero, clientChallenges, coreValues, vision, mission, contactForm, countries } = useLoaderData<typeof loader>();
 
-    return (
-      <div className="w-full">
-        <HeroSection title={hero.title} description={hero.description} imageUrl={hero.image.url}>
-          {clientChallenges.map((challenge) => {
-            return (
-              <TextIcon title={challenge.title} iconUrl={challenge.icon.url} />
-            );
-          })}
-        </HeroSection>
+  return (
+    <div className="w-full">
+      <HeroSection title={hero.title} description={hero.description} imageUrl={hero.image.url}>
+        {clientChallenges.map((challenge) => {
+          return (
+            <TextIcon title={challenge.title} iconUrl={challenge.icon.url} />
+          );
+        })}
+      </HeroSection>
 
-        <section className="flex w-full sm:flex-row flex-col">
-          {coreValues.map((coreValue) => {
-            return (
-              <div className="flex flex-wrap  w-full border-solid border-r bg-dark-500 border-primary-300">
-                <TextIcon className="py-2 border-solid border-l border-b w-full border-t border-primary-300 justify-center" title={coreValue.title} iconUrl={coreValue.icon.url} />
-              </div>
-            );
-          })}
-        </section>
+      <section className="flex w-full sm:flex-row flex-col">
+        {coreValues.map((coreValue) => {
+          return (
+            <div className="flex flex-wrap  w-full border-solid border-r bg-dark-500 border-primary-300">
+              <TextIcon className="py-2 border-solid border-l border-b w-full border-t border-primary-300 justify-center" title={coreValue.title} iconUrl={coreValue.icon.url} />
+            </div>
+          );
+        })}
+      </section>
 
 
-        <SideImage title={mission?.title} description={mission?.description} imageUrl={mission?.image.url!} side={mission.side} />
+      <SideImage title={mission?.title} description={mission?.description} imageUrl={mission?.image.url!} side={mission.side} />
 
-        <SideImage title={vision?.title} description={vision?.description} imageUrl={vision?.image.url!} side={vision.side} />
+      <SideImage title={vision?.title} description={vision?.description} imageUrl={vision?.image.url!} side={vision.side} />
 
-        <Contact
-          submit={contactForm.submit}
-          title={contactForm.title}
-          productCategories={contactForm.productCategories}
-          fields={contactForm.fields}
-          description={contactForm.description}
-          countries={countries}
-          errorMessage={contactForm.errorMessage}
-          successMessage={contactForm.successMessage}
-        />
-      </div>
-    );
-  }
+      <Contact
+        submit={contactForm.submit}
+        title={contactForm.title}
+        productCategories={contactForm.productCategories}
+        fields={contactForm.fields}
+        description={contactForm.description}
+        countries={countries}
+        errorMessage={contactForm.errorMessage}
+        successMessage={contactForm.successMessage}
+      />
+    </div>
+  );
+}

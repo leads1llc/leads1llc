@@ -2,6 +2,8 @@ import { useActionData, useFetcher, useNavigate } from "@remix-run/react";
 import { useState } from "react";
 import { Checkbox } from "~/components/Core/Checkbox";
 import { Section } from "~/components/Section";
+import Select from "react-select"
+import { COLORS } from "~/styles/variables";
 
 export type ContactProps = {
   countries: [{ flag: string, callingCode: string }];
@@ -37,8 +39,6 @@ export type ContactProps = {
   }],
 };
 
-
-
 export function Contact(props: ContactProps) {
   const [productOptionIndex, setProductOptionIndex] = useState<number>(0);
   const [agree, setAgree] = useState<boolean>(false);
@@ -48,6 +48,65 @@ export function Contact(props: ContactProps) {
   const isSent = fetcher?.data?.success;
   const isError = fetcher?.data?.error;
   const formItemClassName = 'flex w-full flex-col gap-4';
+
+  const selectStyles: any = {
+    menuList(base, props) {
+      return {
+        ...base,
+        border: "solid",
+        borderWidth: "1.5px",
+        borderColor: COLORS["primary-300"]
+      }
+    },
+    singleValue(base, props) {
+      return {
+        ...base,
+        color: COLORS["primary-300"]
+      }
+    },
+    control(base, props) {
+      return {
+        ...base,
+        background: COLORS["dark-500"],
+        borderColor: COLORS["primary-300"],
+        color: COLORS["primary-300"],
+        ":hover": {
+          borderColor: COLORS["primary-300"]
+        }
+      }
+    },
+    option: (base, status) => {
+      return {
+        ...base,
+        color: status.isFocused ? COLORS["dark-500"] : COLORS["primary-300"],
+        background: status.isFocused ? COLORS["primary-300"] : COLORS["dark-500"],
+
+      }
+    },
+    menu: (base, status) => {
+      return {
+        ...base,
+        background: COLORS["dark-500"]
+      }
+    }
+  };
+
+  const callingCodeOptions = props.countries.map((country) => {
+    return {
+      value: country.callingCode,
+      label: `${country.callingCode.replace("+", "")}`,
+      image: country.flag
+    }
+  });
+
+  const productsSelectOptions = props.productCategories[productOptionIndex]?.products.map((option) => {
+    return {
+      value: option.id,
+      label: option.title,
+      image: ""
+    }
+  });
+
 
   return (
     <Section id="train-with-us" className="flex flex-col gap-4 w-full bg-dark-500 text-primary-300 " headlineClassName="border-primary-300" headline={props.title}>
@@ -71,11 +130,14 @@ export function Contact(props: ContactProps) {
               })}
             </div>
 
-            <div className="flex flex-col gap-2">
+
+            <div className="flex flex-col gap-2 w-full">
               <span>{props.productCategories[productOptionIndex]?.title}</span>
-              <select name="productId" className="p-2 border-solid border borde-primary-300 bg-primary-300 text-dark-500">
-                {props.productCategories[productOptionIndex]?.products.map((option) => (<option value={option.id}>{option.title}</option>))}
-              </select>
+
+              <Select
+                styles={selectStyles}
+                name="productId" options={productsSelectOptions}
+              />
             </div>
 
             {props.fields.map((field, key) => {
@@ -84,13 +146,19 @@ export function Contact(props: ContactProps) {
                   return (
                     <div key={key} className="flex flex-col gap-4">
                       <label>{field.title}</label>
-                      <div className="flex gap-4">
-
-                        <select name="countryCode" className=" p-2 text-primary-300 bg-transparent border-solid border">
-                          {props.countries.map((country) => {
-                            return (<option value={country.callingCode}>{country.flag} {country.callingCode.replace('+', '')}</option>);
-                          })}
-                        </select>
+                      <div className="flex  gap-4 w-full">
+                        <Select
+                          styles={selectStyles}
+                          className="w-64 sm:w-32"
+                          name="countryCode"
+                          options={callingCodeOptions}
+                          formatOptionLabel={country => (
+                            <div className="flex gap-2">
+                              <img width={20} src={country.image} alt="country-image" />
+                              <span>{country.label}</span>
+                            </div>
+                          )}
+                        />
 
                         <input
                           onKeyDown={(e) => {
@@ -98,7 +166,7 @@ export function Contact(props: ContactProps) {
                           }}
                           name={field.name}
                           required={field.required}
-                          className="w-full p-2 border-none bg-dark-300 text-primary-300"
+                          className="flex p-2 border-none w-full bg-dark-300 text-primary-300"
                           placeholder={field.placeholder}
                         />
                       </div>

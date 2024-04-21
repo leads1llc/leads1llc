@@ -4,39 +4,10 @@ import { Contact } from "../$lang.home/sections/Contact";
 import { strapiGet, strapiPost, strapiResourceUrl } from "~/services/strapi";
 import { callingCodesWithFlags } from "~/utils/countries";
 import { capitalizeFirstLetter } from "~/utils/utils";
-
-const mailRegex = /^(?!.*[Ã±Ã‘ñ])(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+import { contactFormAction, getContactForm } from "../$lang.home";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-  const formData = await request.formData();
-
-  const email = String(formData.get('email'));
-
-  const data: any = {
-    errors: {}
-  };
-
-  if (!email.match(mailRegex)) {
-    data.errors.email = true;
-  }
-
-  if (Object.keys(data.errors).length > 0) {
-    return json(data);
-  }
-
-  try {
-    const res = await strapiPost('/api/clients', Object.fromEntries(formData));
-    const resData = await res.json();
-    if(resData.error){
-      data.error = true;
-    }else{
-      data.success = true;
-    }
-    return json(data);
-  } catch (e) {
-    data.error = true;
-    return json(data);
-  }
+    return contactFormAction(request);
 }
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
@@ -205,11 +176,8 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
         }
     });
 
-    const contactFormRes = await strapiGet('/api/contact-form', { populate: '*', locale });
-    const contactFormJson = await contactFormRes.json();
-    const contactForm = contactFormJson.data.attributes;
-
-    const countries = await callingCodesWithFlags();
+    const contactForm = await getContactForm(locale)
+    const countries = contactForm.countries;
 
     return {
         locale,
@@ -266,7 +234,7 @@ export default function Route() {
                         return (
                             <div className="flex flex-col gap-8">
                                 <div className="flex gap-2">
-                                    <img  className="w-8 object-contain" src={experience.flag.url} />
+                                    <img className="w-8 object-contain" src={experience.flag.url} />
                                     <h2 className="text-2xl md:text-4xl font-medium">{experience.country}</h2>
                                 </div>
                                 {experience.trainingPrograms.map((trainingProgram) => {
