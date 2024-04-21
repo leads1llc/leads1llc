@@ -21,26 +21,26 @@ export const links: LinksFunction = () => [
   ] : []),
 ];
 
-// export function ErrorBoundary() {
-//   return (
-//     <html lang="en">
-//       <head>
-//         <meta charSet="utf-8" />
-//         <meta name="viewport" content="width=device-width, initial-scale=1" />
-//         <Meta />
-//         <Links />
-//       </head>
-//       <body>
-//         <div className="flex w-screen h-screen justify-center items-center bg-dark-500">
-//           <Leads1LLCLogoMark foregroundColor={COLORS["light-500"]} backgroundColor={COLORS["dark-500"]} size={200} />
-//         </div>
-//         <ScrollRestoration />
-//         <Scripts />
-//         <LiveReload />
-//       </body>
-//     </html>
-//   );
-// }
+export function ErrorBoundary() {
+  return (
+    <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <div className="flex w-screen h-screen justify-center items-center bg-dark-500">
+          <Leads1LLCLogoMark foregroundColor={COLORS["light-500"]} backgroundColor={COLORS["dark-500"]} size={200} />
+        </div>
+        <ScrollRestoration />
+        <Scripts />
+        <LiveReload />
+      </body>
+    </html>
+  );
+}
 
 export default function App() {
   return (
