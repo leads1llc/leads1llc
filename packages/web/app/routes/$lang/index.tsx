@@ -7,38 +7,54 @@ import Footer from "./components/Footer";
 import { strapiGet } from "~/services/strapi";
 import { FaArrowUp } from "react-icons/fa6";
 import { COLORS } from "~/styles/variables";
+import { getSupportedLanguages } from "../_index";
 
 export const loader = async ({ context, request, params }: LoaderFunctionArgs) => {
   const lang: string = params.lang as string;
+  const supportedLanguagesLang = await getSupportedLanguages();
+  const locale = lang.split('-')[1];
+
+  if(!supportedLanguagesLang.includes(lang)){
+    return redirect("/");
+  }
+
 
   const globalRes = await strapiGet('/api/global', {
     populate: {
       title: '*',
       description: '*',
       nav: '*',
-      contact: '*'
-    }, locale: lang
+      contact: '*',
+      countries: {
+        populate: {
+          languagesCode: '*',
+          flag: {
+            fields: ['url']
+          }
+        }
+      }
+    }, locale: locale
   });
 
 
   const globalJson = await globalRes.json();
   const globalData = globalJson?.data?.attributes;
 
-  // TODO: add language support check using api
-  const supportedLanguages = [
-    { code: "en", name: "English", flag: "🇺🇸" },
-    { code: "es", name: "Español", flag: "🇪🇸" }
-  ];
+  const supportedLanguages= globalData.countries.data.map((country => {
+    return {
+      code: country.attributes.code + "-" + country.attributes.languageCode,
+      flag: country.attributes.flag.data.attributes.url
+    }
+  }));
 
   const links = globalData?.nav;
   const contact = globalData?.contact;
 
   const languagesCodes = supportedLanguages.map((supportedLanguage) => supportedLanguage.code);
 
-  if (!lang || !languagesCodes.includes(lang)) {
-    return redirect('/404');
+  if (!languagesCodes.includes(lang)) {
+    return redirect(`${supportedLanguages[0].code}/home`);
   }
-  ''
   return { lang, supportedLanguages, contact, links };
 };
 

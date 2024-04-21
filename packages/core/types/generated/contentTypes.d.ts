@@ -964,6 +964,11 @@ export interface ApiContactFormContactForm extends Schema.SingleType {
           localized: true;
         };
       }>;
+    countries: Attribute.Relation<
+      'api::contact-form.contact-form',
+      'oneToMany',
+      'api::country.country'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1028,6 +1033,23 @@ export interface ApiCountryCountry extends Schema.CollectionType {
       }> &
       Attribute.SetMinMaxLength<{
         maxLength: 2;
+      }>;
+    languageCode: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }> &
+      Attribute.SetMinMaxLength<{
+        maxLength: 2;
+      }>;
+    callingCode: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
       }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -1337,6 +1359,11 @@ export interface ApiGlobalGlobal extends Schema.SingleType {
           localized: true;
         };
       }>;
+    countries: Attribute.Relation<
+      'api::global.global',
+      'oneToMany',
+      'api::country.country'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

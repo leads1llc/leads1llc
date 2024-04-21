@@ -77,6 +77,11 @@
       },
       "component": "page.button",
       "required": true
+    },
+    "countries": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::country.country"
     }
   }
 }

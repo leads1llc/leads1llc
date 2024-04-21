@@ -4,6 +4,9 @@ import { Leads1LLCLogoMark } from "~/components/Leads1LLCLogoMark";
 import { FiAlignJustify } from 'react-icons/fi'
 import { AiFillCloseCircle } from "react-icons/ai";
 import { concatClassNames } from "~/utils/utils";
+import { strapiResourceUrl } from "~/services/strapi";
+import Select from "react-select"
+import { COLORS } from "~/styles/variables";
 
 export type ISupportedLanguages = {
   code: string;
@@ -51,6 +54,14 @@ const NavLinks = forwardRef<HTMLUListElement, NavLinksProps>((props, ref) => {
   const commonHoverClassName = "hover:border-primary-500 hover:text-primary-500 hover:font-bold hover:border-solid hover:border-b hover:text-dark-500";
   const commonActiveClassName = commonHoverClassName.replaceAll('hover:', '');
 
+  const selectOptions = supportedLanguages.map((supportedLanguage) => {
+    return {
+      value: supportedLanguage.code,
+      label: supportedLanguage.code.split('-')[0],
+      image: strapiResourceUrl(supportedLanguage.flag)
+    }
+  });
+
   return (
     <ul id="nav" ref={ref} className={className}>
       {links.map((link, index) => {
@@ -71,16 +82,64 @@ const NavLinks = forwardRef<HTMLUListElement, NavLinksProps>((props, ref) => {
       })}
 
       <li
-        className={commonClassName}>
-        <select
-          className="p-2 bg-transparent border"
-          onChange={(e) => {
-            handleLangSelect(e.target.value);
-            if (onClick) onClick();
+        className={commonClassName}
+        style={{ width: "100%" }}>
+        <Select
+          isSearchable={false}
+          styles={{
+            menuList(base, props) {
+              return {
+                ...base,
+                border: "solid",
+                borderWidth: "1.5px",
+                borderColor: COLORS["primary-300"]
+              }
+            },
+            singleValue(base, props) {
+              return {
+                ...base,
+                color: COLORS["primary-300"]
+              }
+            },
+            control(base, props) {
+              return {
+                ...base,
+                background: COLORS["dark-500"],
+                borderColor: COLORS["primary-300"],
+                color: COLORS["primary-300"],
+                ":hover": {
+                  borderColor: COLORS["primary-300"]
+                }
+              }
+            },
+            option: (base, status) => {
+              return {
+                ...base,
+                color: status.isFocused ? COLORS["dark-500"] : COLORS["primary-300"],
+                background: status.isFocused ? COLORS["primary-300"] : COLORS["dark-500"],
+               
+              }
+            },
+            menu: (base, status) => {
+              return {
+                ...base,
+                background: COLORS["dark-500"]
+              }
+            }
+
           }}
-          name="lang" id="">
-          {supportedLanguages.map((language, key) => (<option key={key} selected={language.code === lang} value={language.code}>{language.flag} {language.code}</option>))}
-        </select>
+
+          defaultValue={selectOptions.find(option => option.value === lang)}
+          formatOptionLabel={country => (
+            <div className="flex gap-2">
+              <img width={20} src={country.image} alt="country-image" />
+              <span>{country.label}</span>
+            </div>
+          )}
+          onChange={(e) => {
+            handleLangSelect(e!.value);
+            if (onClick) onClick();
+          }} name="lang" options={selectOptions} />
       </li>
 
       <li
@@ -106,7 +165,7 @@ export function Nav({ lang, supportedLanguages, links, contact }: NavProps) {
   useEffect(() => {
     menuBarRef.current?.classList.toggle('scale-y-100');
   }, []);
-  
+
   useEffect(() => {
     if (toggle) {
       menuBarRef.current?.classList.toggle('scale-y-0');
@@ -138,7 +197,7 @@ export function Nav({ lang, supportedLanguages, links, contact }: NavProps) {
 
       <NavLinks onClick={() => {
         setToggle(false);
-      }} ref={menuBarRef} className="md:hidden w-full absolute gap-2 origin-top overflow-hidden flex flex-col items-center bg-dark-500 left-0 text-primary-500 duration-200 delay-100 ease-in pb-4 border-solid border-b" lang={lang} contact={contact} links={links} supportedLanguages={supportedLanguages}></NavLinks>
+      }} ref={menuBarRef} className="md:hidden w-full absolute gap-2 origin-top flex flex-col items-center bg-dark-500 left-0 text-primary-500 duration-200 delay-100 ease-in pb-4 border-solid border-b" lang={lang} contact={contact} links={links} supportedLanguages={supportedLanguages}></NavLinks>
 
     </nav>
 

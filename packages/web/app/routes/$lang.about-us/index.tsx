@@ -44,7 +44,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 }
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
-  const locale = params.lang;
+  const lang: string = params.lang as string;
+  const locale = lang.split('-')[1];
   const clientChallengesRes = await strapiGet(`/api/client-challenges`, { populate: '*', locale });
   const clientChallengesJson = await clientChallengesRes.json();
 

@@ -1,12 +1,35 @@
 import { redirect } from "@remix-run/node"
 import { type LoaderFunctionArgs, type MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import { strapiGet } from "~/services/strapi";
 
-export const loader = ({ params }: LoaderFunctionArgs) => {
-  // TODO: Determine the language of the user and redirect to it
-  const  lang = params.lang ?? 'en';
-  const supportedLanguages = ['en', 'es'];
-  if(supportedLanguages.includes(lang)){
+export async function getSupportedLanguages(): Promise<Array<string>>{
+  const globalRes = await strapiGet('/api/global', {
+    populate: {
+      title: '*',
+      description: '*',
+      countries: {
+        populate: {
+          languagesCode: '*',
+        }
+      }
+    }
+  });
+
+
+  const globalJson = await globalRes.json();
+  const globalData = globalJson?.data?.attributes;
+
+  return globalData.countries.data.map((country => {
+    return country.attributes.code + "-" + country.attributes.languageCode
+  }));
+}
+
+export const loader = async ({ params }: LoaderFunctionArgs) => {
+  const supportedLanguages = await getSupportedLanguages();
+  const lang = params.lang ?? supportedLanguages[0];
+
+  if (lang) {
     return redirect(`/${lang}/home`);
   }
 
@@ -21,7 +44,7 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
-  const {lang} = useLoaderData<typeof loader>();
+  const { lang } = useLoaderData<typeof loader>();
 
   return (
     <>Loading...</>

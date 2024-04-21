@@ -46,7 +46,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 }
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
-  const locale = params.lang;
+  const lang: string = params.lang as string;
+  const locale = lang.split('-')[1];
 
   const homePageRes = await strapiGet('/api/home-page', {
     populate: {

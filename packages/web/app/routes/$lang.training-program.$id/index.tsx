@@ -4,7 +4,8 @@ import { HeroSection } from "~/components/HeroSection";
 import { strapiGet, strapiResourceUrl } from "~/services/strapi";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
-    const locale = params.lang;
+    const lang: string = params.lang as string;
+    const locale = lang.split('-')[1];
     const id = params.id;
 
     const trainingProgramRes = await strapiGet(`/api/training-programs/${id}`, {

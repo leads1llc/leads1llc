@@ -50,6 +50,25 @@
       "type": "string",
       "required": true,
       "maxLength": 2
+    },
+    "languageCode": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "string",
+      "maxLength": 2,
+      "required": true
+    },
+    "callingCode": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "string",
+      "required": true
     }
   }
 }
