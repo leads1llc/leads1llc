@@ -4,7 +4,7 @@ import { Checkbox } from "~/components/Core/Checkbox";
 import { Section } from "~/components/Section";
 import Select from "react-select"
 import { COLORS } from "~/styles/variables";
-import { GoogleReCaptchaProvider, GoogleReCaptchaCheckbox } from 'react-google-recaptcha-ultimate';
+import { GoogleReCaptchaCheckbox } from '@google-recaptcha/react';
 
 export type ContactProps = {
   countries: [{ flag: string, callingCode: string }];

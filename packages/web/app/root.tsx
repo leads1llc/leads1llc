@@ -2,7 +2,7 @@ import resetsStylesHref from "./styles/resets.css";
 import tailwindStylesHref from "./styles/tailwind.css"
 import fontsStylesHref from "./styles/fonts.css";
 import type { LinksFunction } from "@remix-run/node";
-import { GoogleReCaptchaProvider } from 'react-google-recaptcha-ultimate';
+import { GoogleReCaptchaProvider } from '@google-recaptcha/react';
 import {
   Links,
   LiveReload,

@@ -11,6 +11,7 @@
     "typecheck": "tsc"
   },
   "dependencies": {
+    "@google-recaptcha/react": "^1.0.3",
     "@react-spring/web": "^9.7.3",
     "@remix-run/css-bundle": "^2.4.1",
     "@remix-run/node": "^2.4.1",
@@ -20,7 +21,6 @@
     "qs": "^6.11.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-google-recaptcha-ultimate": "^1.2.2",
     "react-icons": "^5.0.1",
     "react-select": "^5.8.0"
   },
