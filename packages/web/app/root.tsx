@@ -2,6 +2,7 @@ import resetsStylesHref from "./styles/resets.css";
 import tailwindStylesHref from "./styles/tailwind.css"
 import fontsStylesHref from "./styles/fonts.css";
 import type { LinksFunction } from "@remix-run/node";
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-ultimate';
 import {
   Links,
   LiveReload,
@@ -52,10 +53,14 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Outlet />
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
+        <GoogleReCaptchaProvider
+          type="v3"
+          siteKey={"6LcricIpAAAAAIGtowzfjXe4g7dw-XG76JYlYKf6"}>
+          <Outlet />
+          <ScrollRestoration />
+          <Scripts />
+          <LiveReload />
+        </GoogleReCaptchaProvider>
       </body>
     </html>
   );
