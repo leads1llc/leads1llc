@@ -1,4 +1,4 @@
-import { Link, NavLink, useLocation, useNavigate } from "@remix-run/react";
+import { Link, NavLink, useNavigate } from "@remix-run/react";
 import { LegacyRef, forwardRef, useEffect, useRef, useState } from "react";
 import { Leads1LLCLogoMark } from "~/components/Leads1LLCLogoMark";
 import { FiAlignJustify } from 'react-icons/fi'
@@ -178,7 +178,7 @@ export function Nav({ lang, supportedLanguages, links, contact }: NavProps) {
 
   return (
     <nav className="w-full border-solid border-b border-primary-500">
-      <div className="w-full relative border-4 px-8 py-4 flex w-screen justify-between items-center bg-dark-500 z-50">
+      <div className="w-full relative border-4 px-8 py-4 flex justify-between items-center bg-dark-500 z-50">
         <NavLink to={`/${lang}/home`}>
           <Leads1LLCLogoMark size={60} foregroundColor="#BDBDBD" backgroundColor="#1F1F1F" />
         </NavLink>

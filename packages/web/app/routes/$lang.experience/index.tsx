@@ -1,8 +1,7 @@
 import { ActionFunctionArgs, LoaderFunctionArgs, json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Contact } from "../$lang.home/sections/Contact";
-import { strapiGet, strapiPost, strapiResourceUrl } from "~/services/strapi";
-import { callingCodesWithFlags } from "~/utils/countries";
+import { strapiGet, strapiResourceUrl } from "~/services/strapi";
 import { capitalizeFirstLetter } from "~/utils/utils";
 import { contactFormAction, getContactForm } from "../$lang.home";
 
@@ -65,6 +64,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 
         experiences[country].trainingPrograms.push({
             title: experienceAttributes.title,
+            description: experienceAttributes.description,
             date: experienceAttributes.date,
             location: experienceAttributes.location,
             pictures: experienceAttributes.pictures.data.map((picture) => {
@@ -261,6 +261,8 @@ export default function Route() {
                                                     )
                                                 })}
                                             </div>
+
+                                            <p>{trainingProgram.description}</p>
                                         </div>
                                     );
                                 })}

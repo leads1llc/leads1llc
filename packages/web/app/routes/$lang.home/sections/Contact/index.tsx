@@ -214,7 +214,6 @@ export function Contact(props: ContactProps) {
             <GoogleReCaptchaCheckbox
               ref={recapchaRef}
               callback={(token) => {
-                console.log(token);
                 setIsSubmitEnable(true);
               }}
             />

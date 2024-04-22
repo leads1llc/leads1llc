@@ -18,7 +18,6 @@ async function uploadFlags() {
             const code = locale.code;
             const data = fs.readFileSync(`countries/${code}/countries.json`, 'utf8');
             const countries = JSON.parse(data);
-            console.log(countriesCreated);
 
             for (const country of countries) {
                 const alpha2 = country.alpha2;
@@ -50,8 +49,6 @@ async function uploadFlags() {
                     formData.append('data', JSON.stringify({
                         ...countryCreated.data.attributes
                     }));
-
-                    console.log(countryCreated.data.attributes);
 
                     countryResponse = await fetch(`${API_URL}/api/countries/${countriesCreated[alpha2]}/localizations`, {
                         method: 'POST',

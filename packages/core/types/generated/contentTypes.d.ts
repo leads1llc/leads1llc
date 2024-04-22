@@ -1136,6 +1136,13 @@ export interface ApiExperienceExperience extends Schema.CollectionType {
       'oneToOne',
       'api::country.country'
     >;
+    description: Attribute.Text &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

@@ -61,7 +61,6 @@ export async function contactFormAction(request: Request) {
   }
 
   const product = formData.get('product');
-  console.log(product);
   const productId: string = formData.get('productId') as string;
   if (product === "Training Programs") {
     formData.append('trainingProgram', productId);
