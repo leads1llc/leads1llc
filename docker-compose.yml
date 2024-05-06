@@ -62,18 +62,6 @@ networks:
           gateway: 10.11.0.1
 
 volumes:
-  letsencrypt:
-    driver: local
-    driver_opts:
-      type: none
-      device: ./.docker-volume/letsencrypt
-      o: bind
-  proxy:
-    driver: local
-    driver_opts:
-      type: none
-      device: ./.docker-volume/proxy
-      o: bind
   database:
     driver: local
     driver_opts:
