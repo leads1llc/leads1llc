@@ -1,19 +1,5 @@
 version: "3.8"
 services:
-  proxy-manager:
-    image: 'docker.io/jc21/nginx-proxy-manager:latest'
-    restart: unless-stopped
-    ports:
-      - '80:80'
-      - '81:81'
-      - '443:443'
-    volumes:
-      - proxy:/data
-      - letsencrypt:/etc/letsencrypt
-    networks:
-      app:
-        ipv4_address: 10.11.0.2
-
   mysql:
     image: mysql
     environment:
